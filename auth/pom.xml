@@ -6,11 +6,15 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>auth</artifactId>
-  <packaging>pom</packaging>
+  <packaging>war</packaging>
   <name>Main app - authentication layer</name>
-
-  <modules>
-  	<module>auth-model</module>
-	<module>auth-rest</module>
-  </modules>
+  
+  <dependencies>
+  	<dependency>
+  	  <groupId>com.iqu.internship.main</groupId>
+      <artifactId>auth-persistence</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+  
 </project>

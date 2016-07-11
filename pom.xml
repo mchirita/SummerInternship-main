@@ -14,11 +14,12 @@
 	</properties>
 
 	<modules>
-		<module>persistence</module>
-		<module>auth</module>
-		<module>core</module>
-		<module>config</module>
+		<module>config-services</module>
+		<module>slave-services</module>
+		<module>core-services</module>
 		<module>webapp</module>
+		<module>auth-persistence</module>
+		<module>auth</module>
 	</modules>
 
 	<dependencyManagement>
