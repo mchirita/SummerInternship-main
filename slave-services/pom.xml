@@ -5,12 +5,16 @@
     <artifactId>mainApp</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <artifactId>persistence</artifactId>
-  <packaging>pom</packaging>
+  <artifactId>slave-services</artifactId>
+  <packaging>jar</packaging>
   <name>Main App - Persistence Layer</name>
   
-  <modules>
-  	<module>persistence-users</module>	
-	<module>persistence-slave</module>
-  </modules>
+  <dependencies>
+  	<dependency>
+  	  <groupId>com.iqu.internship.main</groupId>
+      <artifactId>config-services</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+  
 </project>

@@ -2,9 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.iqu.internship.main</groupId>
-    <artifactId>auth</artifactId>
+    <artifactId>mainApp</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <artifactId>auth-model</artifactId>
-  <name>Main App - Auth - model layer</name>
+  <artifactId>auth-persistence</artifactId>
 </project>
