@@ -1,24 +1,19 @@
 package user.management;
 
-import javax.ws.rs.GET;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 /**
- * REST Service implementing user logout functionality.
+ * Invalidates a user session and logs out.
  * 
  * @ @author Cristi Badoi
  */
 @Path("/authenticate/{token}")
 public class LogoutService {
 
-  /**
-   * 
-   * @param token
-   * @return
-   */
-  @GET
+  @DELETE
   public Response doDelete(@PathParam("token") String token) {
 
     /*
@@ -26,7 +21,7 @@ public class LogoutService {
      * and return home page. If it's not, return session expired error code.
      */
 
-    return Response.status(200).entity(token).build();
+    return Response.status(200).build();
   }
 
 }
