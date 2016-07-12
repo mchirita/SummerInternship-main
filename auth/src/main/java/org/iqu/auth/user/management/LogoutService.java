@@ -8,13 +8,13 @@ import javax.ws.rs.core.Response;
 /**
  * Invalidates a user session and logs out.
  * 
- * @ @author Cristi Badoi
+ * @author Cristi Badoi
  */
 @Path("/authenticate/{token}")
 public class LogoutService {
 
   @DELETE
-  public Response doDelete(@PathParam("token") String token) {
+  public Response logout(@PathParam("token") String token) {
 
     /*
      * TODO: Check if the token is valid and active. If it is, mark it as
