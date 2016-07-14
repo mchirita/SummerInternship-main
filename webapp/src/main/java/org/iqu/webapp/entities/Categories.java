@@ -1,4 +1,4 @@
-package org.iqu.webapp.news.categories;
+package org.iqu.webapp.entities;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -54,7 +54,7 @@ public class Categories {
 		this.categories = categories;
 	}
 
-	public boolean addCateg(String name) {
+	public boolean addCategory(String name) {
 		return this.categories.add(name);
 	}
 
