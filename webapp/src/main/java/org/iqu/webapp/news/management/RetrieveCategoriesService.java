@@ -6,8 +6,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.iqu.webapp.entities.ErrorMessage;
 import org.iqu.webapp.news.categories.Categories;
-import org.iqu.webapp.news.error.ErrorMessage;
 
 /**
  * RetrieveCategoriesService - Class that implements retrieve categories

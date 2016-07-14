@@ -35,9 +35,8 @@ public class Source {
 		this.description = description;
 	}
 
-	@Override
-	public String toString() {
-		return "Source [id=" + id + ", displayName=" + displayName + ", description=" + description + "]";
-	}
-
+	/*
+	 * @Override public String toString() { return "Source [id=" + id +
+	 * ", displayName=" + displayName + ", description=" + description + "]"; }
+	 */
 }

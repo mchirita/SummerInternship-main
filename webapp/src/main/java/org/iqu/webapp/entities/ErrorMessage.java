@@ -1,4 +1,4 @@
-package org.iqu.webapp.news.error;
+package org.iqu.webapp.entities;
 
 /**
  * ErrorMessage - Class that represents the error message.
