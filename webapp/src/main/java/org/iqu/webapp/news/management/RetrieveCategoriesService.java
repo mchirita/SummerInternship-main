@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
  * @author Alex Dragomir
  *
  */
-@Path("/news/categories")
+@Path("/categories")
 public class RetrieveCategoriesService {
 
 	@GET
