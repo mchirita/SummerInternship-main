@@ -16,7 +16,6 @@
 	<modules>
 		<module>config-services</module>
 		<module>slave-services</module>
-		<module>core-services</module>
 		<module>webapp</module>
 		<module>auth-persistence</module>
 		<module>auth</module>

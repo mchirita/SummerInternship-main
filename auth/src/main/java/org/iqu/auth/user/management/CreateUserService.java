@@ -16,7 +16,7 @@ import org.iqu.auth.entities.User;
  *
  */
 @Path("/users")
-public class UserService {
+public class CreateUserService {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
