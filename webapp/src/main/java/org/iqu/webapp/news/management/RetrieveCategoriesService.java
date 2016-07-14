@@ -16,7 +16,7 @@ import org.iqu.webapp.news.error.ErrorMessage;
  * @author Alex Dragomir
  *
  */
-@Path("/news/categories")
+@Path("/categories")
 public class RetrieveCategoriesService {
 
 	@GET
