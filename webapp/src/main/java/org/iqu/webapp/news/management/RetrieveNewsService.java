@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
  * @author Cristi Badoi
  *
  */
-@Path("/news")
+@Path("/")
 public class RetrieveNewsService {
 
   @GET
