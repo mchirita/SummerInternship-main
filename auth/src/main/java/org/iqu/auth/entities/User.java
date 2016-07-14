@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 /**
  * User - Class that represents a user.
  * 
- * @author iQuest
+ * @author Alex Dragomir
  *
  */
 public class User {
