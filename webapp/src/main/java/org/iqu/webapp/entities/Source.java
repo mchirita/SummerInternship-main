@@ -4,15 +4,9 @@ public class Source {
 	private String id;
 	private String displayName;
 	private String description;
-<<<<<<< HEAD
-	
-	public Source(String id, String displayName, String description){
-		this.id=id;
-=======
 
 	public Source(String id, String displayName, String description) {
 		this.id = id;
->>>>>>> 6b4147add53bce5770592330835758606c8e4a87
 		this.displayName = displayName;
 		this.description = description;
 	}
@@ -45,10 +39,7 @@ public class Source {
 	public String toString() {
 		return "Source [id=" + id + ", displayName=" + displayName + ", description=" + description + "]";
 	}
-<<<<<<< HEAD
-	
-}
-=======
 
 }
->>>>>>> 6b4147add53bce5770592330835758606c8e4a87
+
+
