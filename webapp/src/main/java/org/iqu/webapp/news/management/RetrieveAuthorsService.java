@@ -20,7 +20,7 @@ import org.iqu.webapp.entities.Author;
  *
  */
 
-@Path("/news/authors")
+@Path("/authors")
 public class RetrieveAuthorsService {
 
 	@GET
@@ -35,7 +35,7 @@ public class RetrieveAuthorsService {
 		authors.add(new Author("Peter Parker"));
 		authors.add(new Author("Ville Valo"));
 		
-		authors.clear();
+		//authors.clear();
 		
 		String response = "";
 		int status = 0;
