@@ -15,7 +15,7 @@ import org.iqu.webapp.entities.Client;
  * This class will return a list with all the configured clients and their
  * settings, and whether they are up and running or not,
  * 
- * @author iQuest
+ * @author Razvan Rosu
  *
  */
 @Path("/healthcheck")
