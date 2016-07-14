@@ -12,7 +12,7 @@ import org.iqu.auth.entities.User;
 /**
  * UserService - Class that implements user rest service.
  * 
- * @author iQuest
+ * @author Alex Dragomir
  *
  */
 @Path("/users")
