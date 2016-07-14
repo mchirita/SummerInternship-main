@@ -6,8 +6,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.iqu.webapp.news.categories.Categories;
-import org.iqu.webapp.news.error.ErrorMessage;
+import org.iqu.webapp.entities.Categories;
+import org.iqu.webapp.entities.ErrorMessage;
 
 /**
  * RetrieveCategoriesService - Class that implements retrieve categories
@@ -16,7 +16,7 @@ import org.iqu.webapp.news.error.ErrorMessage;
  * @author Alex Dragomir
  *
  */
-@Path("/news/categories")
+@Path("/categories")
 public class RetrieveCategoriesService {
 
 	@GET
@@ -25,10 +25,10 @@ public class RetrieveCategoriesService {
 		Categories categories = new Categories();
 
 		// ToDo get categories from db.
-		categories.addCateg("music");
-		categories.addCateg("music");
-		categories.addCateg("politics");
-		categories.addCateg("IT");
+		categories.addCategory("music");
+		categories.addCategory("music");
+		categories.addCategory("politics");
+		categories.addCategory("IT");
 
 		if (categories.isEmpty()) {
 			ErrorMessage errorMessage = new ErrorMessage("Could not fetch categories, please try again later.");
