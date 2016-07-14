@@ -23,13 +23,20 @@ public class RetrieveNewsService {
       @QueryParam("sourceId") String sourceId, @QueryParam("author") String author,
       @QueryParam("location") String location) {
 
-    if (startDate == null || startDate.equals("")) {
-      return Response.status(400).build();
+    String response = "";
+    int status = 200;
+
+    try {
+      long startDateLong = Long.parseLong(startDate);
+
+      // TODO: implement actual filtering of data
+
+    } catch (NumberFormatException e) {
+      status = 400;
+      response = "{ \"error\" : \"startDate parameter missing/invalid\" }";
     }
 
-    // TODO: implement the actual filtering of the news
-
-    return Response.ok().build();
+    return Response.status(status).entity(response).build();
   }
 
 }
