@@ -1,6 +1,5 @@
 package org.iqu.webapp.news.management;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.ws.rs.GET;
@@ -9,7 +8,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.iqu.webapp.entities.Author;
+import org.iqu.webapp.factory.ServiceFactory;
+
+import orq.iqu.slaveservices.news.NewsService;
 
 /**
  * 
@@ -22,24 +23,18 @@ import org.iqu.webapp.entities.Author;
 @Path("/authors")
 public class RetrieveAuthorsService {
 
+	private NewsService newsService = ServiceFactory.getNewsServiceInstance();
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retrieveAuthors() {
 
-		// TODO connect to the database
-
-		Set<Author> authors = new HashSet<Author>();
-		authors.add(new Author("Clark Kent"));
-		authors.add(new Author("Louis Lane"));
-		authors.add(new Author("Peter Parker"));
-		authors.add(new Author("Ville Valo"));
-
-		// authors.clear();
+		Set<String> retrieveAuthors = newsService.retrieveAuthors();
 
 		String response = "";
 		int status = 0;
-		if (authors.size() > 0) {
-			response = "{\"authors\" :" + authors.toString() + "}";
+		if (retrieveAuthors.size() > 0) {
+			response = "{\"authors\" : " + "\"" + retrieveAuthors + "\"}";
 			status = 200;
 		} else {
 			response = "{\"eror\" : \"Could not fetch authors, please try again later.\"}";
