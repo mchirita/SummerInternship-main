@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.iqu.slaveservices.entities.Client;
 
-public class OtherServiceImpl implements OtherService {
+public class HealthCheckServiceSlaveImpl implements HealthCheckServiceSlave {
 
 	@Override
 	public List<Client> heathCheck() {
@@ -14,7 +14,7 @@ public class OtherServiceImpl implements OtherService {
 		Client client = new Client("capp1.iquestgroup.com", 8080, "Cluj", true);
 		Client client1 = new Client("capp2.iquestgroup.com", 8080, "Craiova", false);
 		clients.add(client);
-		clients.add(client);
+		clients.add(client1);
 
 		return clients;
 	}

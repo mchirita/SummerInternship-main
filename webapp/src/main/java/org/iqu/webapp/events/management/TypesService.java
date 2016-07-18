@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import org.iqu.slaveservices.entities.TypeService;
 import org.iqu.webapp.factory.ServiceFactory;
 
-import orq.iqu.slaveservices.events.EventsService;
+import orq.iqu.slaveservices.events.EventsServiceSlave;
 
 /**
  * This class returns all types and subtypes of events.
@@ -20,15 +20,15 @@ import orq.iqu.slaveservices.events.EventsService;
  *
  */
 @Path("/types")
-public class RetrieveTypesService {
+public class TypesService {
 
-	private EventsService eventsService = ServiceFactory.getEventsServiceInstance();
+	private EventsServiceSlave eventsServiceSlave = ServiceFactory.getEventsServiceInstance();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retriveTypes() {
 
-		Set<TypeService> retrieveSources = eventsService.retrieveTypes();
+		Set<TypeService> retrieveSources = eventsServiceSlave.retrieveTypes();
 
 		String type = "Concert";
 		return Response.ok("[{\"Type\": " + "\"" + type + "\",\n\"Subtypes\" : [\"rock\", \"classical\"]}]").build();

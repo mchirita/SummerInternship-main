@@ -1,5 +1,6 @@
 package orq.iqu.slaveservices.events;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.iqu.slaveservices.entities.Authors;
@@ -7,7 +8,7 @@ import org.iqu.slaveservices.entities.Event;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.slaveservices.entities.TypeService;
 
-public class EventsServiceImpl implements EventsService {
+public class EventsServiceSlaveImpl implements EventsServiceSlave {
 
 	@Override
 	public Set<String> retrieveAuthors() {
@@ -24,20 +25,26 @@ public class EventsServiceImpl implements EventsService {
 	@Override
 	public Set<Event> retrieveEvents(String startDate, String endDate, String type, String subType, String sourceId,
 			String author, String location) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO get events from db.
+		Set<Event> events = new HashSet<Event>();
+		events.add(new Event());
+		return events;
 	}
 
 	@Override
 	public Set<Source> retrieveSources() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO get source from db.
+		Set<Source> sources = new HashSet<Source>();
+		sources.add(new Source("id", "display name", "description"));
+		return sources;
 	}
 
 	@Override
 	public Set<TypeService> retrieveTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO get types from db.
+		Set<TypeService> types = new HashSet<TypeService>();
+		types.add(new TypeService());
+		return types;
 	}
 
 }

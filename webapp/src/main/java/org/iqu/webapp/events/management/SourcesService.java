@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.webapp.factory.ServiceFactory;
 
-import orq.iqu.slaveservices.events.EventsService;
+import orq.iqu.slaveservices.events.EventsServiceSlave;
 
 /**
  * This class returns a list of sources where we grab our content.
@@ -20,9 +20,9 @@ import orq.iqu.slaveservices.events.EventsService;
  *
  */
 @Path("/sources")
-public class RetrieveSourcesService {
+public class SourcesService {
 
-	private EventsService eventsService = ServiceFactory.getEventsServiceInstance();
+	private EventsServiceSlave eventsServiceSlave = ServiceFactory.getEventsServiceInstance();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -31,7 +31,7 @@ public class RetrieveSourcesService {
 		String response = "";
 		status = 0;
 		Source source = new Source("1", "BNR Brasov", "This is the official BNR site");
-		Set<Source> retrieveSources = eventsService.retrieveSources();
+		Set<Source> retrieveSources = eventsServiceSlave.retrieveSources();
 
 		if (source.getDisplayName().equals("BNR Brasov")) {
 			status = 200;

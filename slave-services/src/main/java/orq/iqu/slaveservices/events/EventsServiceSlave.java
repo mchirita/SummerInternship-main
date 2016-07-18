@@ -6,7 +6,7 @@ import org.iqu.slaveservices.entities.Event;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.slaveservices.entities.TypeService;
 
-public interface EventsService {
+public interface EventsServiceSlave {
 
 	public Set<String> retrieveAuthors();
 

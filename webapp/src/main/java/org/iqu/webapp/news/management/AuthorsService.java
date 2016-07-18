@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 
 import org.iqu.webapp.factory.ServiceFactory;
 
-import orq.iqu.slaveservices.news.NewsService;
+import orq.iqu.slaveservices.news.NewsServiceSlave;
 
 /**
  * 
@@ -21,15 +21,15 @@ import orq.iqu.slaveservices.news.NewsService;
  */
 
 @Path("/authors")
-public class RetrieveAuthorsService {
+public class AuthorsService {
 
-	private NewsService newsService = ServiceFactory.getNewsServiceInstance();
+	private NewsServiceSlave newsServiceSlave = ServiceFactory.getNewsServiceInstance();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retrieveAuthors() {
 
-		Set<String> retrieveAuthors = newsService.retrieveAuthors();
+		Set<String> retrieveAuthors = newsServiceSlave.retrieveAuthors();
 
 		String response = "";
 		int status = 0;

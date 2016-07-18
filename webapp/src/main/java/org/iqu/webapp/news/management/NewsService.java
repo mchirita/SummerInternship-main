@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.webapp.factory.ServiceFactory;
 
-import orq.iqu.slaveservices.news.NewsService;
+import orq.iqu.slaveservices.news.NewsServiceSlave;
 
 /**
  * Retrieves news based on filters, that are sent as query parameters.
@@ -21,9 +21,9 @@ import orq.iqu.slaveservices.news.NewsService;
  *
  */
 @Path("/")
-public class RetrieveNewsService {
+public class NewsService {
 
-	private NewsService newsService = ServiceFactory.getNewsServiceInstance();
+	private NewsServiceSlave newsServiceSlave = ServiceFactory.getNewsServiceInstance();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -32,7 +32,7 @@ public class RetrieveNewsService {
 			@QueryParam("sourceId") String sourceId, @QueryParam("author") String author,
 			@QueryParam("location") String location) {
 
-		Set<News> retrieveNews = newsService.retrieveNews(startDate, endDate, categories, about, sourceId, author,
+		Set<News> retrieveNews = newsServiceSlave.retrieveNews(startDate, endDate, categories, about, sourceId, author,
 				location);
 
 		String response = "";
