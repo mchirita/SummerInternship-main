@@ -6,16 +6,22 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.iqu.webapp.factory.ServiceFactory;
+
+import orq.iqu.slaveservices.others.RetrieveLocationService;
+
 @Path("/locations")
 public class LocationService {
 
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response getLocations() {
+	private RetrieveLocationService retrieveLocationService = ServiceFactory.getLocationServiceInstance();
 
-    // TODO: implement location retrieving
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getLocations() {
 
-    return Response.ok().build();
-  }
+		// TODO: implement location retrieving
+
+		return Response.ok().build();
+	}
 
 }

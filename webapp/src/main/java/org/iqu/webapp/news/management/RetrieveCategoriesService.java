@@ -1,13 +1,17 @@
 package org.iqu.webapp.news.management;
 
+import java.util.Set;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.iqu.webapp.entities.Categories;
-import org.iqu.webapp.entities.ErrorMessage;
+import org.iqu.slaveservices.entities.ErrorMessage;
+import org.iqu.webapp.factory.ServiceFactory;
+
+import orq.iqu.slaveservices.news.NewsService;
 
 /**
  * RetrieveCategoriesService - Class that implements retrieve categories
@@ -19,22 +23,19 @@ import org.iqu.webapp.entities.ErrorMessage;
 @Path("/categories")
 public class RetrieveCategoriesService {
 
+	private NewsService newsService = ServiceFactory.getNewsServiceInstance();
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retriveCategories() {
-		Categories categories = new Categories();
 
-		// ToDo get categories from db.
-		categories.addCategory("music");
-		categories.addCategory("music");
-		categories.addCategory("politics");
-		categories.addCategory("IT");
+		Set<String> retrieveCategories = newsService.retrieveCategories();
 
-		if (categories.isEmpty()) {
+		if (retrieveCategories.isEmpty()) {
 			ErrorMessage errorMessage = new ErrorMessage("Could not fetch categories, please try again later.");
 			return Response.ok("{\"error\" : " + "\"" + errorMessage.getMessage() + "\"}").build();
 		}
 
-		return Response.status(200).entity("{\"categories\" : " + "\"" + categories.getCategories() + "\"}").build();
+		return Response.status(200).entity("{\"categories\" : " + "\"" + retrieveCategories + "\"}").build();
 	}
 }

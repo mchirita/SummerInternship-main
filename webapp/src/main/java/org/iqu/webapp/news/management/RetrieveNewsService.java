@@ -1,11 +1,18 @@
 package org.iqu.webapp.news.management;
 
+import java.util.Set;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.iqu.slaveservices.entities.News;
+import org.iqu.webapp.factory.ServiceFactory;
+
+import orq.iqu.slaveservices.news.NewsService;
 
 /**
  * Retrieves news based on filters, that are sent as query parameters.
@@ -16,27 +23,32 @@ import javax.ws.rs.core.Response;
 @Path("/")
 public class RetrieveNewsService {
 
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response getNews(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
-      @QueryParam("categories") String categories, @QueryParam("about") String about,
-      @QueryParam("sourceId") String sourceId, @QueryParam("author") String author,
-      @QueryParam("location") String location) {
+	private NewsService newsService = ServiceFactory.getNewsServiceInstance();
 
-    String response = "";
-    int status = 200;
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getNews(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
+			@QueryParam("categories") String categories, @QueryParam("about") String about,
+			@QueryParam("sourceId") String sourceId, @QueryParam("author") String author,
+			@QueryParam("location") String location) {
 
-    try {
-      long startDateLong = Long.parseLong(startDate);
+		Set<News> retrieveNews = newsService.retrieveNews(startDate, endDate, categories, about, sourceId, author,
+				location);
 
-      // TODO: implement actual filtering of data
+		String response = "";
+		int status = 200;
 
-    } catch (NumberFormatException e) {
-      status = 400;
-      response = "{ \"error\" : \"startDate parameter missing/invalid\" }";
-    }
+		try {
+			long startDateLong = Long.parseLong(startDate);
 
-    return Response.status(status).entity(response).build();
-  }
+			// TODO: implement actual filtering of data
+
+		} catch (NumberFormatException e) {
+			status = 400;
+			response = "{ \"error\" : \"startDate parameter missing/invalid\" }";
+		}
+
+		return Response.status(status).entity(response).build();
+	}
 
 }

@@ -1,4 +1,4 @@
-package org.iqu.webapp.entities;
+package org.iqu.slaveservices.entities;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -55,7 +55,7 @@ public class Authors {
 		this.authors = authors;
 	}
 
-	public boolean addCategory(String name) {
+	public boolean addAuthor(String name) {
 		return this.authors.add(name);
 	}
 

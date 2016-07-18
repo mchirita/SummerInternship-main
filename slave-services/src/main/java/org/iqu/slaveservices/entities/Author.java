@@ -1,4 +1,4 @@
-package org.iqu.webapp.entities;
+package org.iqu.slaveservices.entities;
 
 /**
  * 

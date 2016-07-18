@@ -5,6 +5,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import org.iqu.webapp.factory.ServiceFactory;
+
+import orq.iqu.slaveservices.others.RetrieveImageServiceSlave;
+
 /**
  * 
  * @author Beniamin Savu
@@ -16,6 +20,8 @@ import javax.ws.rs.core.Response;
  */
 @Path("/images/{imageId}")
 public class RetrieveImageService {
+
+	private RetrieveImageServiceSlave retrieveImageService = ServiceFactory.getimageServiceInstance();
 
 	@GET
 	public Response retrieveImage(@PathParam("imageId") String imageId) {
