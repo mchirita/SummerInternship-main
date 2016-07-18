@@ -15,9 +15,9 @@ public class NewsServiceImpl implements NewsService {
 
 		// ToDo get authors from db.
 		authors.addAuthor("Iron Maiden");
-		authors.addAuthor("Amy Lee");
-		authors.addAuthor("Passenger");
-		authors.addAuthor("iQuest");
+		// authors.addAuthor("Amy Lee");
+		// authors.addAuthor("Passenger");
+		// authors.addAuthor("iQuest");
 		return authors.getAuthors();
 	}
 

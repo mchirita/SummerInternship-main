@@ -48,7 +48,14 @@ public class RetrieveNewsService {
 			response = "{ \"error\" : \"startDate parameter missing/invalid\" }";
 		}
 
-		return Response.status(status).entity(response).build();
+		return Response.status(200)
+				.entity("{ \"date\":1432911176,\"id\":\"012031\"," + "\"title\":\"Cookiecliker is the new hit\","
+						+ "\"subtitle\":\"A new game is out there\","
+						+ "\"description\":\"A new addicting game has been created.\"," + "\"authors\":["
+						+ "\"Peter Parker\"," + "\"Clarck Kent\"]," + "\"categories\":[" + "\"games\"," + "\"sci-fi\"],"
+						+ "\"source\":\"cnn\"," + "\"body\":\"Lorem ipsum dolor...\"," + "\"image_id\":\"012032\","
+						+ "\"thumbnail_id\":\"012033\"," + "\"external_url\":\"http://www.cnn.com/article1\"}")
+				.build();
 	}
 
 }
