@@ -1,5 +1,6 @@
 package orq.iqu.slaveservices.news;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.iqu.slaveservices.entities.Authors;
@@ -7,7 +8,7 @@ import org.iqu.slaveservices.entities.Categories;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.Source;
 
-public class NewsServiceImpl implements NewsService {
+public class NewsServiceSlaveImpl implements NewsServiceSlave {
 
 	@Override
 	public Set<String> retrieveAuthors() {
@@ -37,14 +38,18 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public Set<News> retrieveNews(String startDate, String endDate, String categories, String about, String sourceId,
 			String author, String location) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO get news from db.
+		Set<News> news = new HashSet<News>();
+		news.add(new News());
+		return news;
 	}
 
 	@Override
 	public Set<Source> retrieveSources() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO get sources from db.
+		Set<Source> sources = new HashSet<Source>();
+		sources.add(new Source("id", "display name", "description"));
+		return sources;
 	}
 
 }

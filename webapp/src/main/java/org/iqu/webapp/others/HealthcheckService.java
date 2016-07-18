@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import org.iqu.slaveservices.entities.Client;
 import org.iqu.webapp.factory.ServiceFactory;
 
-import orq.iqu.slaveservices.others.OtherService;
+import orq.iqu.slaveservices.others.HealthCheckServiceSlave;
 
 /**
  * This class will return a list with all the configured clients and their
@@ -23,7 +23,7 @@ import orq.iqu.slaveservices.others.OtherService;
 @Path("/healthcheck")
 public class HealthcheckService {
 
-	OtherService healthCheckService = ServiceFactory.getOtherServiceInstance();
+	HealthCheckServiceSlave healthCheckService = ServiceFactory.getOtherServiceInstance();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

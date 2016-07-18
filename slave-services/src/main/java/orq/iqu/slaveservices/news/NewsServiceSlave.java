@@ -5,7 +5,7 @@ import java.util.Set;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.Source;
 
-public interface NewsService {
+public interface NewsServiceSlave {
 
 	public Set<String> retrieveAuthors();
 

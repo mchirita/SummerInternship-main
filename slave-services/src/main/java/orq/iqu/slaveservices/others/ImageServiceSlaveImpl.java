@@ -1,5 +1,5 @@
 package orq.iqu.slaveservices.others;
 
-public class RetrieveImageServiceImpl implements RetrieveImageServiceSlave {
+public class ImageServiceSlaveImpl implements ImageServiceSlave {
 
 }

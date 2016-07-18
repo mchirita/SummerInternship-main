@@ -1,67 +1,92 @@
 package org.iqu.webapp.factory;
 
-import orq.iqu.slaveservices.events.EventsService;
-import orq.iqu.slaveservices.events.EventsServiceImpl;
-import orq.iqu.slaveservices.news.NewsService;
-import orq.iqu.slaveservices.news.NewsServiceImpl;
-import orq.iqu.slaveservices.others.OtherService;
-import orq.iqu.slaveservices.others.OtherServiceImpl;
-import orq.iqu.slaveservices.others.RetrieveImageServiceSlave;
-import orq.iqu.slaveservices.others.RetrieveImageServiceImpl;
-import orq.iqu.slaveservices.others.RetrieveLocationService;
-import orq.iqu.slaveservices.others.RetrieveLocationServiceImpl;
+import orq.iqu.slaveservices.events.EventsServiceSlave;
+import orq.iqu.slaveservices.events.EventsServiceSlaveImpl;
+import orq.iqu.slaveservices.news.NewsServiceSlave;
+import orq.iqu.slaveservices.news.NewsServiceSlaveImpl;
+import orq.iqu.slaveservices.others.HealthCheckServiceSlave;
+import orq.iqu.slaveservices.others.HealthCheckServiceSlaveImpl;
+import orq.iqu.slaveservices.others.ImageServiceSlave;
+import orq.iqu.slaveservices.others.ImageServiceSlaveImpl;
+import orq.iqu.slaveservices.others.LocationServiceSlave;
+import orq.iqu.slaveservices.others.LocationServiceSlaveImpl;
 
 public class ServiceFactory {
 
 	private static ServiceFactory instance = null;
-	private static EventsService eventsServiceInstance = null;
-	private static NewsService newsServiceInstance = null;
-	private static OtherService healthCheckServiceInstance = null;
-	private static RetrieveLocationService locationServiceInstance = null;
-	private static RetrieveImageServiceSlave imageServiceInstance = null;
+	private static EventsServiceSlave eventsServiceInstance = null;
+	private static NewsServiceSlave newsServiceInstance = null;
+	private static HealthCheckServiceSlave healthCheckServiceInstance = null;
+	private static LocationServiceSlave locationServiceInstance = null;
+	private static ImageServiceSlave imageServiceInstance = null;
 
 	private ServiceFactory() {
 
 	}
 
-	public static ServiceFactory getInstance() {
+	public static synchronized ServiceFactory getInstance() {
 		if (instance == null) {
-			instance = new ServiceFactory();
+			synchronized (ServiceFactory.class) {
+				if (instance == null) {
+					instance = new ServiceFactory();
+				}
+			}
 		}
 		return instance;
+
 	}
 
-	public static EventsService getEventsServiceInstance() {
+	public static synchronized EventsServiceSlave getEventsServiceInstance() {
 		if (eventsServiceInstance == null) {
-			eventsServiceInstance = new EventsServiceImpl();
+			synchronized (ServiceFactory.class) {
+				if (eventsServiceInstance == null) {
+					eventsServiceInstance = new EventsServiceSlaveImpl();
+				}
+			}
 		}
 		return eventsServiceInstance;
 	}
 
-	public static NewsService getNewsServiceInstance() {
+	public static synchronized NewsServiceSlave getNewsServiceInstance() {
 		if (newsServiceInstance == null) {
-			newsServiceInstance = new NewsServiceImpl();
+			synchronized (ServiceFactory.class) {
+				if (newsServiceInstance == null) {
+					newsServiceInstance = new NewsServiceSlaveImpl();
+				}
+			}
 		}
 		return newsServiceInstance;
 	}
 
-	public static OtherService getOtherServiceInstance() {
+	public static synchronized HealthCheckServiceSlave getOtherServiceInstance() {
 		if (healthCheckServiceInstance == null) {
-			healthCheckServiceInstance = new OtherServiceImpl();
+			synchronized (ServiceFactory.class) {
+				if (healthCheckServiceInstance == null) {
+					healthCheckServiceInstance = new HealthCheckServiceSlaveImpl();
+				}
+			}
 		}
 		return healthCheckServiceInstance;
 	}
 
-	public static RetrieveLocationService getLocationServiceInstance() {
+	public static synchronized LocationServiceSlave getLocationServiceInstance() {
 		if (locationServiceInstance == null) {
-			locationServiceInstance = new RetrieveLocationServiceImpl();
+			synchronized (ServiceFactory.class) {
+				if (locationServiceInstance == null) {
+					locationServiceInstance = new LocationServiceSlaveImpl();
+				}
+			}
 		}
 		return locationServiceInstance;
 	}
 
-	public static RetrieveImageServiceSlave getimageServiceInstance() {
+	public static synchronized ImageServiceSlave getimageServiceInstance() {
 		if (imageServiceInstance == null) {
-			imageServiceInstance = new RetrieveImageServiceImpl();
+			synchronized (ServiceFactory.class) {
+				if (imageServiceInstance == null) {
+					imageServiceInstance = new ImageServiceSlaveImpl();
+				}
+			}
 		}
 		return imageServiceInstance;
 	}

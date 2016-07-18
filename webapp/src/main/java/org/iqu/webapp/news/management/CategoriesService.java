@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import org.iqu.slaveservices.entities.ErrorMessage;
 import org.iqu.webapp.factory.ServiceFactory;
 
-import orq.iqu.slaveservices.news.NewsService;
+import orq.iqu.slaveservices.news.NewsServiceSlave;
 
 /**
  * RetrieveCategoriesService - Class that implements retrieve categories
@@ -21,15 +21,15 @@ import orq.iqu.slaveservices.news.NewsService;
  *
  */
 @Path("/categories")
-public class RetrieveCategoriesService {
+public class CategoriesService {
 
-	private NewsService newsService = ServiceFactory.getNewsServiceInstance();
+	private NewsServiceSlave newsServiceSlave = ServiceFactory.getNewsServiceInstance();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retriveCategories() {
 
-		Set<String> retrieveCategories = newsService.retrieveCategories();
+		Set<String> retrieveCategories = newsServiceSlave.retrieveCategories();
 
 		if (retrieveCategories.isEmpty()) {
 			ErrorMessage errorMessage = new ErrorMessage("Could not fetch categories, please try again later.");

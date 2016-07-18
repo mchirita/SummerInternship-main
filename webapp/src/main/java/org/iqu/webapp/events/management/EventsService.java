@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import org.iqu.slaveservices.entities.Event;
 import org.iqu.webapp.factory.ServiceFactory;
 
-import orq.iqu.slaveservices.events.EventsService;
+import orq.iqu.slaveservices.events.EventsServiceSlave;
 
 /**
  * 
@@ -21,9 +21,9 @@ import orq.iqu.slaveservices.events.EventsService;
  *         Service that retrieve events based on filters
  */
 @Path("/")
-public class RetrieveEventsService {
+public class EventsService {
 
-	private EventsService eventsService = ServiceFactory.getEventsServiceInstance();
+	private EventsServiceSlave eventsServiceSlave = ServiceFactory.getEventsServiceInstance();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -32,7 +32,7 @@ public class RetrieveEventsService {
 			@QueryParam("sourceId") String sourceId, @QueryParam("author") String author,
 			@QueryParam("location") String location) {
 
-		Set<Event> retrieveEvents = eventsService.retrieveEvents(startDate, endDate, type, subType, sourceId, author,
+		Set<Event> retrieveEvents = eventsServiceSlave.retrieveEvents(startDate, endDate, type, subType, sourceId, author,
 				location);
 		String response = "";
 		if (startDate == null) {
