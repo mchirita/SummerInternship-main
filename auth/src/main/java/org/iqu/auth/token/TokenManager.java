@@ -38,25 +38,36 @@ public class TokenManager {
 	}
 
 	public void removeToken(String token) {
-		String tokenToBeRemove="";
+		// String tokenToBeRemove="";
 		for (Map.Entry<String, String> entry : utm.entrySet()) {
 			if (entry.getValue().equals(token) == true) {
 				utm.remove(entry.getKey());
-				tokenToBeRemove = entry.getValue();
+
+				// tokenToBeRemove = entry.getValue();
+				ttm.remove(entry.getValue());
 				break;
 			}
 		}
+		/*
+		 * for (Map.Entry<String,TokenInfo > entry : ttm.entrySet()) {
+		 * if(entry.getKey().equals(tokenToBeRemove)==true){
+		 * ttm.remove(entry.getKey()); break; } }
+		 */
 	}
 
-	public void updateToken(String token) {
-
+	public void updateToken(String oldToken, String newToken) {
+		
+		for (Map.Entry<String, String> entry : utm.entrySet()) {
+			if (entry.getValue().equals(oldToken) == true) {
+				entry.setValue(newToken);
+			}
+			
+		
+		//for (Map.Entry<String, String> entry : utm.entrySet()) {
+			//if (entry.getValue().equals(token) == true) {
+				//entry.setValue(token);
+				//ttm.replace(entry.getValue(), )
+			//}
+		}
 	}
-
-	// singleton
-	// fara interfata
-	// public String getTokenForUser(User user);
-	// public void addToken(User user, Token token);
-	// public void removeToken(Token token);
-	// public void updateToken(Token token);
 }
-// package token in auth
