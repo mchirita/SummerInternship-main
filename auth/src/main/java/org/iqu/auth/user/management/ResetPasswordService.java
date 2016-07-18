@@ -2,9 +2,12 @@ package org.iqu.auth.user.management;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Properties;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -29,7 +32,46 @@ public class ResetPasswordService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response resetPassword(@QueryParam("email") String email) {
-		if (isFound(email) && isValidEmailAddress(email)) {
+		
+		final String username = "stefan.mitroi22@gmail.com";
+		final String password = "";
+
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(props,
+		  new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		  });
+
+		try {
+
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("stefan.mitroi22@gmail.com"));
+			message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse("msd_9522@yahoo.com"));
+			message.setSubject("Testing Subject");
+			message.setText("Dear Mail Crawler,"
+				+ "\n\n No spam to my email, please!");
+
+			Transport.send(message);
+
+			System.out.println("Done");
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+	
+
+		return Response.status(200).build();
+		
+		
+		/*if (isFound(email) && isValidEmailAddress(email)) {
 
 			SecureRandom random = new SecureRandom();
 			String resetCode = new BigInteger(50, random).toString(32);
@@ -38,9 +80,9 @@ public class ResetPasswordService {
 
 		}
 		return Response.status(404).entity("Email not found").build();
-	}
+	*/}
 
-	public boolean isValidEmailAddress(String email) {
+	/*public boolean isValidEmailAddress(String email) {
 		boolean result = true;
 		try {
 			InternetAddress emailAddr = new InternetAddress(email);
@@ -56,5 +98,5 @@ public class ResetPasswordService {
 		return true;
 
 	}
-
+*/
 }

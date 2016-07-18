@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import org.iqu.auth.entities.User;
 
-public class UserTokenMap {
-	private static Map<String,String> map = new HashMap<String, String>();
-	private UserTokenMap() {
+public class UserPasswordMap {
+	
+	private static Map<String, String> map = new HashMap<String, String>();
+
+	private UserPasswordMap() {
 
 	}
 

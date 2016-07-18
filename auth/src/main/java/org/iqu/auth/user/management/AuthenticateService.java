@@ -2,6 +2,7 @@ package org.iqu.auth.user.management;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -10,9 +11,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.iqu.auth.entities.User;
 import org.iqu.auth.entities.UserCredentials;
-
-
+import org.iqu.auth.maps.UserPasswordMap;
+import org.iqu.auth.token.TokenManager;
 
 /**
  * 
@@ -23,12 +25,71 @@ import org.iqu.auth.entities.UserCredentials;
 @Path("/authenticate")
 public class AuthenticateService {
 	private SecureRandom random = new SecureRandom();
-
+	 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response authenticateUser(UserCredentials userCredentials) {
+	public Response authenticateUser(User user) {
+		Map<String, String> upm = UserPasswordMap.getInstance();
 		String response="";
+		int status=1;
+		TokenManager tm = TokenManager.getInstance();
+	
+		if(upm.containsKey(user.getUserName())==false){
+			status=401;
+			System.out.println(1+user.getUserName());
+			response="{\"error\": \"Invalid Data\"}";
+		}
+		else if(upm.get(user.getUserName()).equals(user.getPassword())==false){
+			status=401;
+			System.out.println(2+upm.get(user.getUserName())+user.getPassword());
+			response="{\"error\": \"Invalid Data\"}";
+			
+		}
+		else if(tm.containToken(user)==false){
+			tm.addToken(user);
+			status=200;
+			System.out.println(3);
+			tm.printUtm();
+			response="{\"token\":" +"\"" + tm.getToken(user).getToken() + "\"}";
+		}
+		else{
+			if(tm.getToken(user).isValid()==false){
+				tm.addToken(user);
+				status=200;
+				System.out.println(4);
+				tm.printUtm();
+				response="{\"token\":" +"\"" + tm.getToken(user).getToken() + "\"}";
+			}
+			else{
+				status=200;
+				System.out.println(5);
+				tm.printUtm();
+				response="{\"token\":" +"\"" + tm.getToken(user).getToken() + "\"}";
+			}
+		}
+		return Response.status(status).entity(response).build();
+			
+		/*if(tm.containToken(user)==true){
+			if(tm.getToken(user).isValid()==true){
+				status=200;
+				response="{\"token\":" +"\"" + tm.getToken(user) + "\"}";
+			}
+			else{
+				status=200;
+				tm.addToken(user);
+				response="{\"token\":" +"\"" + tm.getToken(user) + "\"}";
+			}
+		}
+		else{
+			status=401;
+			response="{\"error\": \"Invalid Data\"}";
+		}
+		
+		return Response.status(status).entity(response).build();
+		*/
+	/*	String response="";
+
 		try{
 			//TO DO check user credentials validity
 			authenticate(userCredentials.getUsername(), userCredentials.getPassword());
@@ -50,6 +111,6 @@ public class AuthenticateService {
 	private void authenticate(String username, String password) throws Exception{
 		if(!(username.equals("johnny") && password.equals("hunter2"))){
 			throw new Exception();
-		}
+		}*/
 	}
 }

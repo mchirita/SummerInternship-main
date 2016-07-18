@@ -6,6 +6,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.iqu.auth.token.TokenManager;
 /**
  * 
  * @author Mitroi Stefan-Daniel
@@ -19,19 +21,27 @@ public class CheckSessionValidityService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response checkSessionValidity(@PathParam("token") String token){
+		
+		TokenManager tm = TokenManager.getInstance();
 		String response="";
-		String tokenFromDataBase="stn123";
-		int status;		
-		if(tokenFromDataBase.equals(token)){
-			response="{\"userName\": \"stefan\"}";
-			status=200;
+		int status;
+		//daca nu gasim token implicit nu exista user?
+		if(tm.getToken(token)==null){
+			status=404;
+			response="{\"error\" : \"user does not exist\"}";
+			
+		}
+		else if(tm.getToken(token).isValid()==false){
+			status=400;
+			response="{\"error\" : \"Session expired.\"}";
 		}
 		else{
-			response="{\"error\" : \"user does not exist\"}";
-			status=404;
+			status=200;
+			response="{\"userName\": \"stefan\"}";
 		}
+		
+	
 		return Response.status(status).entity(response).build();
-		//TO DO : checks and validate username and token from database
 		
 	}
 }
