@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.iqu.auth.entities.User;
+import org.iqu.auth.filter.CORSResponse;
 
 /**
  * UserService - Class that implements user rest service.
@@ -18,14 +19,15 @@ import org.iqu.auth.entities.User;
 @Path("/users")
 public class CreateUserService {
 
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response createUser(User user) {
+  @POST
+  @CORSResponse
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response createUser(User user) {
 
-		// ToDo save user after it is created.
-		return Response.status(200).entity("{\"userName\" : " + "\"" + user.getUserName() + "\"}").build();
+    // ToDo save user after it is created.
+    return Response.status(200).entity("{\"userName\" : " + "\"" + user.getUserName() + "\"}").build();
 
-	}
+  }
 
 }
