@@ -12,7 +12,7 @@ public class ConfigServiceProps {
 	private static final String PROPERTY_URL = "url";
 	private static final String PROPERTY_PORT = "port";
 	private static final String PROPERTY_HOSTNAME = "hostname";
-	private static final String PROPERTIES_LENGTH = "length";
+	private static final String NUMBER_OF_HOSTS = "numberOfHosts";
 	private static final String INPUT_FILE_PATH = "properties/configuration.properties";
 	private Properties prop = new Properties();
 
@@ -35,8 +35,8 @@ public class ConfigServiceProps {
 	public Set<ServiceInfo> getProperties() {
 
 		Set<ServiceInfo> appServices = new HashSet<ServiceInfo>();
-		int length = Integer.parseInt(prop.getProperty(PROPERTIES_LENGTH));
-		for (int i = 1; i <= length; i++) {
+		int numberOfHosts = Integer.parseInt(prop.getProperty(NUMBER_OF_HOSTS));
+		for (int i = 1; i <= numberOfHosts; i++) {
 			String hostname = prop.getProperty(PROPERTY_HOSTNAME + i);
 			String port = prop.getProperty(PROPERTY_PORT + i);
 			String url = prop.getProperty(PROPERTY_URL + i);
