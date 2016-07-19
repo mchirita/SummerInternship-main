@@ -9,6 +9,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.hk2.utilities.reflection.Logger;
 import org.iqu.slaveservices.entities.ErrorMessage;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.Source;
@@ -18,6 +19,7 @@ import orq.iqu.slaveservices.news.NewsServiceSlave;
 
 public class NewsEndpoint {
 
+	private Logger logger = Logger.getLogger(NewsEndpoint.class.getName());
 	private NewsServiceSlave newsService = ServiceFactory.getNewsServiceInstance();
 
 	/**
