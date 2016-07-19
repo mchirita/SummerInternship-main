@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.iqu.auth.filter.CORSResponse;
 import org.iqu.slaveservices.entities.TypeService;
 import org.iqu.webapp.factory.ServiceFactory;
 
@@ -22,17 +23,18 @@ import orq.iqu.slaveservices.events.EventsServiceSlave;
 @Path("/types")
 public class TypesService {
 
-	private EventsServiceSlave eventsServiceSlave = ServiceFactory.getEventsServiceInstance();
+  private EventsServiceSlave eventsServiceSlave = ServiceFactory.getEventsServiceInstance();
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response retriveTypes() {
+  @GET
+  @CORSResponse
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response retriveTypes() {
 
-		Set<TypeService> retrieveSources = eventsServiceSlave.retrieveTypes();
+    Set<TypeService> retrieveSources = eventsServiceSlave.retrieveTypes();
 
-		String type = "Concert";
-		return Response.ok("[{\"Type\": " + "\"" + type + "\",\n\"Subtypes\" : [\"rock\", \"classical\"]}]").build();
+    String type = "Concert";
+    return Response.ok("[{\"Type\": " + "\"" + type + "\",\n\"Subtypes\" : [\"rock\", \"classical\"]}]").build();
 
-	}
+  }
 
 }

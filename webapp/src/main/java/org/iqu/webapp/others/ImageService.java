@@ -5,6 +5,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import org.iqu.auth.filter.CORSResponse;
 import org.iqu.webapp.factory.ServiceFactory;
 
 import orq.iqu.slaveservices.others.ImageServiceSlave;
@@ -21,12 +22,13 @@ import orq.iqu.slaveservices.others.ImageServiceSlave;
 @Path("/images/{imageId}")
 public class ImageService {
 
-	private ImageServiceSlave retrieveImageService = ServiceFactory.getimageServiceInstance();
+  private ImageServiceSlave retrieveImageService = ServiceFactory.getimageServiceInstance();
 
-	@GET
-	public Response retrieveImage(@PathParam("imageId") String imageId) {
+  @GET
+  @CORSResponse
+  public Response retrieveImage(@PathParam("imageId") String imageId) {
 
-		return Response.ok().build();
-	}
+    return Response.ok().build();
+  }
 
 }

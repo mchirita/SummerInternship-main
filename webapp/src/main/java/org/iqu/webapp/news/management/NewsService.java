@@ -9,6 +9,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.iqu.auth.filter.CORSResponse;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.webapp.factory.ServiceFactory;
 
@@ -23,32 +24,33 @@ import orq.iqu.slaveservices.news.NewsServiceSlave;
 @Path("/")
 public class NewsService {
 
-	private NewsServiceSlave newsServiceSlave = ServiceFactory.getNewsServiceInstance();
+  private NewsServiceSlave newsServiceSlave = ServiceFactory.getNewsServiceInstance();
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getNews(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
-			@QueryParam("categories") String categories, @QueryParam("about") String about,
-			@QueryParam("sourceId") String sourceId, @QueryParam("author") String author,
-			@QueryParam("location") String location) {
+  @GET
+  @CORSResponse
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getNews(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
+      @QueryParam("categories") String categories, @QueryParam("about") String about,
+      @QueryParam("sourceId") String sourceId, @QueryParam("author") String author,
+      @QueryParam("location") String location) {
 
-		Set<News> retrieveNews = newsServiceSlave.retrieveNews(startDate, endDate, categories, about, sourceId, author,
-				location);
+    Set<News> retrieveNews = newsServiceSlave.retrieveNews(startDate, endDate, categories, about, sourceId, author,
+        location);
 
-		String response = "";
-		int status = 200;
+    String response = "";
+    int status = 200;
 
-		try {
-			long startDateLong = Long.parseLong(startDate);
+    try {
+      long startDateLong = Long.parseLong(startDate);
 
-			// TODO: implement actual filtering of data
+      // TODO: implement actual filtering of data
 
-		} catch (NumberFormatException e) {
-			status = 400;
-			response = "{ \"error\" : \"startDate parameter missing/invalid\" }";
-		}
+    } catch (NumberFormatException e) {
+      status = 400;
+      response = "{ \"error\" : \"startDate parameter missing/invalid\" }";
+    }
 
-		return Response.status(status).entity(response).build();
-	}
+    return Response.status(status).header("Access-Control-Allow-Origin", "*").entity(response).build();
+  }
 
 }

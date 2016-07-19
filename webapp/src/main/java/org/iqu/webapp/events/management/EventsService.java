@@ -9,6 +9,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.iqu.auth.filter.CORSResponse;
 import org.iqu.slaveservices.entities.Event;
 import org.iqu.webapp.factory.ServiceFactory;
 
@@ -23,24 +24,24 @@ import orq.iqu.slaveservices.events.EventsServiceSlave;
 @Path("/")
 public class EventsService {
 
-	private EventsServiceSlave eventsServiceSlave = ServiceFactory.getEventsServiceInstance();
+  private EventsServiceSlave eventsServiceSlave = ServiceFactory.getEventsServiceInstance();
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response retriveEvents(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
-			@QueryParam("type") String type, @QueryParam("subType") String subType,
-			@QueryParam("sourceId") String sourceId, @QueryParam("author") String author,
-			@QueryParam("location") String location) {
+  @GET
+  @CORSResponse
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response retriveEvents(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
+      @QueryParam("type") String type, @QueryParam("subType") String subType, @QueryParam("sourceId") String sourceId,
+      @QueryParam("author") String author, @QueryParam("location") String location) {
 
-		Set<Event> retrieveEvents = eventsServiceSlave.retrieveEvents(startDate, endDate, type, subType, sourceId, author,
-				location);
-		String response = "";
-		if (startDate == null) {
-			response = "{\"error\" : \"Requested location not available\"}";
-			return Response.status(400).entity(response).build();
-		} else {
-			return Response.ok().build();
-		}
-	}
-	// TO DO : implement filter of data
+    Set<Event> retrieveEvents = eventsServiceSlave.retrieveEvents(startDate, endDate, type, subType, sourceId, author,
+        location);
+    String response = "";
+    if (startDate == null) {
+      response = "{\"error\" : \"Requested location not available\"}";
+      return Response.status(400).entity(response).build();
+    } else {
+      return Response.ok().build();
+    }
+  }
+  // TO DO : implement filter of data
 }

@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.iqu.auth.filter.CORSResponse;
 import org.iqu.slaveservices.entities.ErrorMessage;
 import org.iqu.webapp.factory.ServiceFactory;
 
@@ -22,18 +23,19 @@ import orq.iqu.slaveservices.events.EventsServiceSlave;
 @Path("/authors")
 public class AuthorsService {
 
-	private EventsServiceSlave eventsServiceSlave = ServiceFactory.getEventsServiceInstance();
+  private EventsServiceSlave eventsServiceSlave = ServiceFactory.getEventsServiceInstance();
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response retriveAuthors() {
+  @GET
+  @CORSResponse
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response retriveAuthors() {
 
-		Set<String> retrieveAuthors = eventsServiceSlave.retrieveAuthors();
-		if (retrieveAuthors.isEmpty()) {
-			ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
-			return Response.ok("{\"error\" : " + "\"" + errorMessage.getMessage() + "\"}").build();
-		}
+    Set<String> retrieveAuthors = eventsServiceSlave.retrieveAuthors();
+    if (retrieveAuthors.isEmpty()) {
+      ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
+      return Response.ok("{\"error\" : " + "\"" + errorMessage.getMessage() + "\"}").build();
+    }
 
-		return Response.status(200).entity("{\"authors\" : " + "\"" + retrieveAuthors + "\"}").build();
-	}
+    return Response.status(200).entity("{\"authors\" : " + "\"" + retrieveAuthors + "\"}").build();
+  }
 }
