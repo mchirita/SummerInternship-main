@@ -8,39 +8,35 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.iqu.auth.token.TokenManager;
+
 /**
  * 
  * @author Mitroi Stefan-Daniel
  * 
- * Service that checks session validity
+ *         Service that checks session validity
  *
  */
 @Path("/authenticate/{token}")
 public class CheckSessionValidityService {
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response checkSessionValidity(@PathParam("token") String token){
-		
+	public Response checkSessionValidity(@PathParam("token") String token) {
+
 		TokenManager tm = TokenManager.getInstance();
-		String response="";
+		String response = "";
 		int status;
-		if(tm.getToken(token)==null){
-			status=404;
-			response="{\"error\" : \"user does not exist\"}";
-			
+
+		if (tm.getToken(token) == null) {
+			status = 404;
+			response = "{\"error\" : \"user does not exist\"}";
+		} else if (tm.getToken(token).isValid() == false) {
+			status = 400;
+			response = "{\"error\" : \"Session expired.\"}";
+		} else {
+			status = 200;
+			response = "{\"userName\": \"stefan\"}";
 		}
-		else if(tm.getToken(token).isValid()==false){
-			status=400;
-			response="{\"error\" : \"Session expired.\"}";
-		}
-		else{
-			status=200;
-			response="{\"userName\": \"stefan\"}";
-		}
-		
-	
 		return Response.status(status).entity(response).build();
-		
 	}
 }

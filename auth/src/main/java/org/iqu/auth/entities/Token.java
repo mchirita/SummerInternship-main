@@ -1,8 +1,15 @@
-package org.iqu.auth.token;
+package org.iqu.auth.entities;
 
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * 
+ * @author Mitroi Stefan-Daniel
+ * 
+ *         Entity for token
+ *
+ */
 public class Token {
 	private String token;
 	private Date validUntil;
@@ -16,8 +23,8 @@ public class Token {
 		boolean valid = false;
 		Calendar calendare = Calendar.getInstance();
 		Date today = calendare.getTime();
-		System.out.println(validUntil+" ---- "+today);
-		System.out.println(validUntil.getTime()+" ---- "+today.getTime());
+		System.out.println(validUntil + " ---- " + today);
+		System.out.println(validUntil.getTime() + " ---- " + today.getTime());
 		if (validUntil.getTime() > today.getTime()) {
 			valid = true;
 		} else {
@@ -29,16 +36,12 @@ public class Token {
 	public void setValidUntil(Date validUntil) {
 		this.validUntil = validUntil;
 	}
-	public String getToken(){
+
+	public String getToken() {
 		return token;
 	}
-	public void setToken(String token){
+
+	public void setToken(String token) {
 		this.token = token;
 	}
-
-	@Override
-	public String toString() {
-		return "Token [token=" + token + ", validUntil=" + validUntil + "]";
-	}
-	
 }

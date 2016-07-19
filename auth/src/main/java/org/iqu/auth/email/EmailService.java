@@ -1,11 +1,9 @@
 package org.iqu.auth.email;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
-
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -13,53 +11,66 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * 
+ * @author Mitroi Stefan-Daniel
+ * 
+ *         Send mail with reset token
+ *
+ */
 public class EmailService {
-	String messageSubject = "";
-	String messageText = "";
-	String fromEmail = "";
-	String fromPassword = "";
-	String host = "";
-	String port = "";
+	private String host = "host";
+	private String email = "email";
+	private String password = "password";
+	private String port = "port";
+	private String messageSubject = "";
+	private String messageText = "";
 
 	public void sendMail(String toEmail) {
-		Properties props = new Properties();
-		
-		File f = new File(".");
-		System.out.println(f.getAbsolutePath());
-		try (FileInputStream input = new FileInputStream("/config/email.properties")) {
-			props.load(input);
-			props.put("mail.smtp.user", props.getProperty(fromEmail));
-			props.put("mail.smtp.host", props.getProperty(host));
-			props.put("mail.smtp.port", props.getProperty(port));
-			props.put("mail.smtp.socketFactory.port", props.getProperty(port));
-			props.put("mail.smtp.starttls.enable", "true");
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.debug", "true");
-			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-			props.put("mail.smtp.socketFactory.fallback", "false");
+		Properties readProps = new Properties();
+		Properties mailProps = new Properties();
+
+		try (FileInputStream input = new FileInputStream("config/email.properties")) {
+			readProps.load(input);
+			mailProps.put("mail.smtp.user", readProps.getProperty(email));
+			mailProps.put("mail.smtp.host", readProps.getProperty(host));
+			mailProps.put("mail.smtp.port", readProps.getProperty(port));
+			mailProps.put("mail.smtp.starttls.enable", "true");
+			mailProps.put("mail.smtp.auth", "true");
+			mailProps.put("mail.smtp.debug", "true");
+			mailProps.put("mail.smtp.socketFactory.port", readProps.getProperty(port));
+			mailProps.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			mailProps.put("mail.smtp.socketFactory.fallback", "false");
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+
+		Session session = Session.getInstance(mailProps, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(fromEmail, fromPassword);
+				return new PasswordAuthentication(readProps.getProperty(email), readProps.getProperty(password));
 			}
 		});
-		messageText = fromEmail;
+		messageText = genereatNewToken();
 		messageSubject = "ResetPasswordCode";
-		// session.setDebug(true);
 		MimeMessage msg = new MimeMessage(session);
 		try {
 			msg.setText(messageText);
 			msg.setSubject(messageSubject);
-			msg.setFrom(new InternetAddress(fromEmail));
+			msg.setFrom(new InternetAddress(readProps.getProperty(email)));
 			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
 			Transport.send(msg);
 		} catch (Exception mex) {
 			mex.printStackTrace();
 		}
+	}
+
+	private String genereatNewToken() {
+		String token = "";
+		// TO DO: find user in database and creat new token
+
+		return token;
 	}
 }

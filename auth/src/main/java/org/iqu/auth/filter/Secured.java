@@ -5,7 +5,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import javax.ws.rs.NameBinding;
-
+/**
+ * 
+ * @author Mitroi Stefan-Daniel
+ *
+ * Class will be use for filters
+ *
+ */
 @NameBinding
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})

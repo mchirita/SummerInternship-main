@@ -5,17 +5,24 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.iqu.auth.entities.Token;
 import org.iqu.auth.entities.User;
-
+/**
+ * 
+ * @author Mitroi Stefan-Daniel
+ * 
+ *  Manage token operation such as: add, remove, update, get and contain
+ *
+ */
 public class TokenManager {
 
 	private static TokenManager instance = new TokenManager();
-	private Date tokenValidityPeriod; 
+	private Date tokenValidityPeriod;
 	private Map<User, Token> utm;
 	private TokenGenerator tg;
 
 	private TokenManager() {
-		tokenValidityPeriod  = getTomorowDate();
+		tokenValidityPeriod = getTomorowDate();
 		utm = new ConcurrentHashMap<User, Token>();
 		tg = new TokenGenerator(tokenValidityPeriod);
 	}
@@ -42,18 +49,12 @@ public class TokenManager {
 		}
 		return null;
 	}
-	
+
 	public Token getToken(User user) {
-		
 		return utm.get(user);
 	}
-	
-	public void removeToken(User user) {
-		utm.remove(user);
-	}
-	
-	public void removeToken(String tokenToBeRemove) {
 
+	public void removeToken(String tokenToBeRemove) {
 		for (Map.Entry<User, Token> entry : utm.entrySet()) {
 			if (entry.getValue().getToken().equals(tokenToBeRemove)) {
 				utm.remove(entry.getKey());
@@ -70,17 +71,9 @@ public class TokenManager {
 			}
 		}
 	}
-	
-	public boolean containToken(User user){
-		return utm.containsKey(user);
-	}
-	
 
-	public void printUtm() {
-		System.out.println("utm:");
-		for (Map.Entry<User, Token> entryutm : utm.entrySet()) {
-			System.out.println(entryutm.getKey().getUserName() + " " + entryutm.getValue());
-		}
+	public boolean containToken(User user) {
+		return utm.containsKey(user);
 	}
 
 	private Date getTomorowDate() {
@@ -88,28 +81,4 @@ public class TokenManager {
 		calendar.add(Calendar.DAY_OF_YEAR, 1);
 		return calendar.getTime();
 	}
-
-	/*
-	 * public String getTokenForUser(User user) { // return
-	 * utm.get(user.getUserName()); }
-	 * 
-	 * public void addToken(User user) { tg.generateToken(user); }
-	 * 
-	 * public void removeToken(String token) { for (Map.Entry<String, String>
-	 * entry : utm.entrySet()) { if (entry.getValue().equals(token) == true) {
-	 * utm.remove(entry.getKey()); ttm.remove(entry.getValue()); break; } } }
-	 * 
-	 * public void updateToken(String oldToken, String newToken) {
-	 * 
-	 * for (Map.Entry<String, String> entry : utm.entrySet()) { if
-	 * (entry.getValue().equals(oldToken) == true) { entry.setValue(newToken);
-	 * ttm.put(newToken, ttm.remove(oldToken));
-	 * //ttm.get(newToken).setToken(newToken); break; } } }
-	 * 
-	 * public void printUtmAndTtm() { for (Map.Entry<String, String> entryutm :
-	 * utm.entrySet()) { System.out.println(entryutm.getKey() + " " +
-	 * entryutm.getValue()); } for (Map.Entry<String, Token> entry :
-	 * ttm.entrySet()) { System.out.println(entry.getKey() + " " +
-	 * entry.getValue()); } }
-	 */
 }

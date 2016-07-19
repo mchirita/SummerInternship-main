@@ -8,7 +8,13 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
-
+/**
+ * 
+ * @author Mitroi Stefan-Daniel
+ * 
+ *         Authentication filter for rest end points
+ *
+ */
 @Secured
 @Provider
 @Priority(Priorities.AUTHENTICATION)

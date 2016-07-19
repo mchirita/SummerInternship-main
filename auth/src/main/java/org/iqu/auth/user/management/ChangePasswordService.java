@@ -9,24 +9,31 @@ import javax.ws.rs.core.Response;
 
 import org.iqu.auth.entities.ChangePasswordDetailes;
 
+/**
+ * 
+ * @author Mitroi Stefan-Daniel
+ *
+ *         Service that update password in database
+ *
+ */
 @Path("/users/password")
 public class ChangePasswordService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response changePassword(ChangePasswordDetailes passwordDetailes){
-		String response="";
+	public Response changePassword(ChangePasswordDetailes passwordDetailes) {
+
+		String response = "";
 		int status;
-		if(passwordDetailes.getNewPassword().equals("hunter3")&&passwordDetailes.getResetToken().equals("xKdcPoqw23qDEr")){
-			status=200;
+
+		if (passwordDetailes.getNewPassword().equals("hunter3")
+				&& passwordDetailes.getResetToken().equals("xKdcPoqw23qDEr")) {
+			status = 200;
+		} else {
+			status = 404;
+			response = "{\"error\" : \"Could not change password. Invalid session.\"}";
 		}
-		else{
-			status=404;
-			response="{\"error\" : \"Could not change password. Invalid session.\"}";
-		}
-		
-		
 		return Response.status(status).entity(response).build();
+		// TO DO : verify token and password in database
 	}
-	
 }
