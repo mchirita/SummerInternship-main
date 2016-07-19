@@ -9,7 +9,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.iqu.auth.entities.User;
+<<<<<<< HEAD
 import org.iqu.auth.maps.UserPasswordMap;
+=======
+import org.iqu.auth.filter.CORSResponse;
+>>>>>>> master
 
 /**
  * UserService - Class that implements user rest service.
@@ -20,6 +24,7 @@ import org.iqu.auth.maps.UserPasswordMap;
 @Path("/users")
 public class CreateUserService {
 
+<<<<<<< HEAD
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -31,4 +36,17 @@ public class CreateUserService {
 		return Response.status(200).entity("{\"userName\" : " + "\"" + user.getUserName() + "\"}").build();
 		// TO DO: save user in actual database and check for duplicate
 	}
+=======
+  @POST
+  @CORSResponse
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response createUser(User user) {
+
+    // ToDo save user after it is created.
+    return Response.status(200).entity("{\"userName\" : " + "\"" + user.getUserName() + "\"}").build();
+
+  }
+
+>>>>>>> master
 }

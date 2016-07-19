@@ -9,6 +9,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.iqu.auth.email.EmailService;
 
+import org.iqu.auth.filter.CORSResponse;
+
 /**
  * This class takes an email from the url and verifies if it's correctly spelled
  * and if it exists in the database and if yes, it sends and email with a reset
@@ -20,6 +22,7 @@ import org.iqu.auth.email.EmailService;
 @Path("/users/password-reset")
 public class ResetPasswordService {
 
+<<<<<<< HEAD
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -32,4 +35,39 @@ public class ResetPasswordService {
 		return Response.status(200).build();
 		// TO DO : search email in database
 	}
+=======
+  @POST
+  @CORSResponse
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response resetPassword(@QueryParam("email") String email) {
+    if (isFound(email) && isValidEmailAddress(email)) {
+
+      SecureRandom random = new SecureRandom();
+      String resetCode = new BigInteger(50, random).toString(32);
+
+      return Response.status(200).entity("{\"Email\":" + "\"" + email + " found\"}").build();
+
+    }
+    return Response.status(404).entity("Email not found").build();
+  }
+
+  public boolean isValidEmailAddress(String email) {
+    boolean result = true;
+    try {
+      InternetAddress emailAddr = new InternetAddress(email);
+      emailAddr.validate();
+    } catch (AddressException ex) {
+      result = false;
+    }
+    return result;
+  }
+
+  public boolean isFound(String email) {
+
+    return true;
+
+  }
+
+>>>>>>> master
 }
