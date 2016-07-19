@@ -9,7 +9,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.hk2.utilities.reflection.Logger;
+import org.apache.log4j.Logger;
 import org.iqu.slaveservices.entities.ErrorMessage;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.Source;
@@ -17,9 +17,10 @@ import org.iqu.webapp.factory.ServiceFactory;
 
 import orq.iqu.slaveservices.news.NewsServiceSlave;
 
+@Path("/")
 public class NewsEndpoint {
 
-	private Logger logger = Logger.getLogger(NewsEndpoint.class.getName());
+	private Logger logger = Logger.getLogger(NewsEndpoint.class);
 	private NewsServiceSlave newsService = ServiceFactory.getNewsServiceInstance();
 
 	/**
@@ -38,8 +39,9 @@ public class NewsEndpoint {
 			response = "{\"authors\" : " + "\"" + retrieveAuthors + "\"}";
 			status = 200;
 		} else {
-			response = "{\"eror\" : \"Could not fetch authors, please try again later.\"}";
+			response = "{\"error\" : \"Could not fetch authors, please try again later.\"}";
 			status = 404;
+			logger.error("Authors not found");
 		}
 
 		return Response.status(status).entity(response).build();
