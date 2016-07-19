@@ -6,12 +6,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-<<<<<<< HEAD
 import org.iqu.auth.token.TokenManager;
-=======
 import org.iqu.auth.filter.CORSResponse;
->>>>>>> master
+
 
 /**
  * 
@@ -23,8 +20,8 @@ import org.iqu.auth.filter.CORSResponse;
 @Path("/authenticate/{token}")
 public class CheckSessionValidityService {
 
-<<<<<<< HEAD
 	@GET
+  @CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response checkSessionValidity(@PathParam("token") String token) {
 
@@ -44,24 +41,4 @@ public class CheckSessionValidityService {
 		}
 		return Response.status(status).entity(response).build();
 	}
-=======
-  @GET
-  @CORSResponse
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response checkSessionValidity(@PathParam("token") String token) {
-    String response = "";
-    String tokenFromDataBase = "stn123";
-    int status;
-    if (tokenFromDataBase.equals(token)) {
-      response = "{\"userName\": \"stefan\"}";
-      status = 200;
-    } else {
-      response = "{\"error\" : \"user does not exist\"}";
-      status = 404;
-    }
-    return Response.status(status).entity(response).build();
-    // TO DO : checks and validate username and token from database
-
-  }
->>>>>>> master
 }

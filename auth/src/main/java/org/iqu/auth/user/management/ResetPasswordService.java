@@ -22,8 +22,8 @@ import org.iqu.auth.filter.CORSResponse;
 @Path("/users/password-reset")
 public class ResetPasswordService {
 
-<<<<<<< HEAD
 	@POST
+	@CORSResponse
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response resetPassword(@QueryParam("email") String toEmail) {
@@ -35,39 +35,4 @@ public class ResetPasswordService {
 		return Response.status(200).build();
 		// TO DO : search email in database
 	}
-=======
-  @POST
-  @CORSResponse
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response resetPassword(@QueryParam("email") String email) {
-    if (isFound(email) && isValidEmailAddress(email)) {
-
-      SecureRandom random = new SecureRandom();
-      String resetCode = new BigInteger(50, random).toString(32);
-
-      return Response.status(200).entity("{\"Email\":" + "\"" + email + " found\"}").build();
-
-    }
-    return Response.status(404).entity("Email not found").build();
-  }
-
-  public boolean isValidEmailAddress(String email) {
-    boolean result = true;
-    try {
-      InternetAddress emailAddr = new InternetAddress(email);
-      emailAddr.validate();
-    } catch (AddressException ex) {
-      result = false;
-    }
-    return result;
-  }
-
-  public boolean isFound(String email) {
-
-    return true;
-
-  }
-
->>>>>>> master
 }

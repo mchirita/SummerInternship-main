@@ -19,8 +19,9 @@ import org.iqu.auth.filter.CORSResponse;
  */
 @Path("/users/password")
 public class ChangePasswordService {
-<<<<<<< HEAD
+
 	@POST
+  @CORSResponse
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response changePassword(ChangePasswordDetailes passwordDetailes) {
@@ -38,24 +39,4 @@ public class ChangePasswordService {
 		return Response.status(status).entity(response).build();
 		// TO DO : verify token and password in database
 	}
-=======
-  @POST
-  @CORSResponse
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response changePassword(ChangePasswordDetailes passwordDetailes) {
-    String response = "";
-    int status;
-    if (passwordDetailes.getNewPassword().equals("hunter3")
-        && passwordDetailes.getResetToken().equals("xKdcPoqw23qDEr")) {
-      status = 200;
-    } else {
-      status = 404;
-      response = "{\"error\" : \"Could not change password. Invalid session.\"}";
-    }
-
-    return Response.status(status).entity(response).build();
-  }
-
->>>>>>> master
 }
