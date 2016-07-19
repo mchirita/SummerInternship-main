@@ -9,12 +9,17 @@ import java.util.Set;
 
 public class ConfigServiceProps {
 
+	private static final String PROPERTY_URL = "url";
+	private static final String PROPERTY_PORT = "port";
+	private static final String PROPERTY_HOSTNAME = "hostname";
+	private static final String PROPERTIES_LENGTH = "length";
+	private static final String INPUT_FILE_PATH = "properties/configuration.properties";
 	private Properties prop = new Properties();
 
 	public void loadFile() {
 		InputStream input = null;
 		try {
-			input = new FileInputStream("properties/configuration.properties");
+			input = new FileInputStream(INPUT_FILE_PATH);
 			prop.load(input);
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -30,11 +35,11 @@ public class ConfigServiceProps {
 	public Set<ServiceInfo> getProperties() {
 
 		Set<ServiceInfo> appServices = new HashSet<ServiceInfo>();
-		int length = Integer.parseInt(prop.getProperty("length"));
+		int length = Integer.parseInt(prop.getProperty(PROPERTIES_LENGTH));
 		for (int i = 1; i <= length; i++) {
-			String hostname = prop.getProperty("hostname" + i);
-			String port = prop.getProperty("port" + i);
-			String url = prop.getProperty("url" + i);
+			String hostname = prop.getProperty(PROPERTY_HOSTNAME + i);
+			String port = prop.getProperty(PROPERTY_PORT + i);
+			String url = prop.getProperty(PROPERTY_URL + i);
 			appServices.add(new ServiceInfo(hostname, port, url));
 		}
 		System.out.println(appServices);

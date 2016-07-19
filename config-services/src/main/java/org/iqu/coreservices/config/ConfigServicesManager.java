@@ -21,7 +21,8 @@ public class ConfigServicesManager {
 	public boolean removeService(String hostname, String port, String url) {
 
 		for (ServiceInfo serviceInfo : appServices) {
-			if (serviceInfo.getHostname() == hostname && serviceInfo.getPort() == port && serviceInfo.getUrl() == url) {
+			ServiceInfo serviceInfoObject = new ServiceInfo(hostname, port, url);
+			if (serviceInfo.getHostname().equals(serviceInfoObject)) {
 				return appServices.remove(serviceInfo);
 			}
 		}
