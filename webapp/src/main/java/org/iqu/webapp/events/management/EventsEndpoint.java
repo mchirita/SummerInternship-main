@@ -9,16 +9,20 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.iqu.slaveservices.entities.ErrorMessage;
 import org.iqu.slaveservices.entities.Event;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.slaveservices.entities.TypeService;
 import org.iqu.webapp.factory.ServiceFactory;
+import org.iqu.webapp.news.management.NewsEndpoint;
 
 import orq.iqu.slaveservices.events.EventsServiceSlave;
 
+@Path("/")
 public class EventsEndpoint {
 
+	private Logger logger = Logger.getLogger(NewsEndpoint.class);
 	private EventsServiceSlave eventsService = ServiceFactory.getEventsServiceInstance();
 
 	/**
