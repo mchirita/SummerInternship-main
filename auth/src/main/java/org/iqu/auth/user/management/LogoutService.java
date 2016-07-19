@@ -30,7 +30,6 @@ public class LogoutService {
 		  tm.printUtm();
 		  tm.removeToken(token);
 		  tm.printUtm();
-		  System.out.println("lohout :" + tm.getToken(token));
 		  status=200;
 	  }
 	  return Response.status(status).entity(response).build();

@@ -1,13 +1,13 @@
 package org.iqu.auth.user.management;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 
-import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.activation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -15,6 +15,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.iqu.auth.email.EmailService;
 
 /**
  * This class takes an email from the url and verifies if it's correctly spelled
@@ -24,79 +26,74 @@ import javax.ws.rs.core.Response;
  * @author Razvan
  *
  */
-
 @Path("/users/password-reset")
 public class ResetPasswordService {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response resetPassword(@QueryParam("email") String email) {
+	public Response resetPassword(@QueryParam("email") String toEmail) throws IOException {
+		EmailService es = new EmailService();
+		es.sendMail(toEmail);
 		
-		final String username = "stefan.mitroi22@gmail.com";
-		final String password = "";
+		
+		// String fromEmail = "stefan.mitroi22@gmail.com";
+		// String fromPassword = "";
+
+		// String host = "smtp.gmail.com";
+		// String port = "465";
+
+		// props.put("mail.smtp.user", fromEmail);
+		// props.put("mail.smtp.host", host);
+		// props.put("mail.smtp.port", port);
+		// props.put("mail.smtp.socketFactory.port", port);
+
+		/*String messageSubject = "";
+		String messageText = "";
+		String fromEmail = "";
+		String fromPassword = "";
+		String host = "";
+		String port = "";
 
 		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		File f = new File("config/email.properties");
+		System.out.println(f.getAbsolutePath());
+		try (FileInputStream input = new FileInputStream("config/email.properties")) {
+			props.load(input);
+			props.put("mail.smtp.user", props.getProperty(fromEmail));
+			props.put("mail.smtp.host", props.getProperty(host));
+			props.put("mail.smtp.port", props.getProperty(port));
+			props.put("mail.smtp.socketFactory.port", props.getProperty(port));
+			props.put("mail.smtp.starttls.enable", "true");
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.debug", "true");
+			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			props.put("mail.smtp.socketFactory.fallback", "false");
 
-		Session session = Session.getInstance(props,
-		  new javax.mail.Authenticator() {
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
+				return new PasswordAuthentication(fromEmail, fromPassword);
 			}
-		  });
-
+		});
+		messageText = fromEmail;
+		messageSubject = "ResetPasswordCode";
+		// session.setDebug(true);
+		MimeMessage msg = new MimeMessage(session);
 		try {
-
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("stefan.mitroi22@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse("msd_9522@yahoo.com"));
-			message.setSubject("Testing Subject");
-			message.setText("Dear Mail Crawler,"
-				+ "\n\n No spam to my email, please!");
-
-			Transport.send(message);
-
-			System.out.println("Done");
-
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		}
-	
-
+			msg.setText(messageText);
+			msg.setSubject(messageSubject);
+			msg.setFrom(new InternetAddress(fromEmail));
+			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+			Transport.send(msg);
+		} catch (Exception mex) {
+			mex.printStackTrace();
+		}*/
 		return Response.status(200).build();
-		
-		
-		/*if (isFound(email) && isValidEmailAddress(email)) {
-
-			SecureRandom random = new SecureRandom();
-			String resetCode = new BigInteger(50, random).toString(32);
-
-			return Response.status(200).entity("{\"Email\":" + "\"" + email + " found\"}").build();
-
-		}
-		return Response.status(404).entity("Email not found").build();
-	*/}
-
-	/*public boolean isValidEmailAddress(String email) {
-		boolean result = true;
-		try {
-			InternetAddress emailAddr = new InternetAddress(email);
-			emailAddr.validate();
-		} catch (AddressException ex) {
-			result = false;
-		}
-		return result;
+		// TO DO : search email in database
 	}
-
-	public boolean isFound(String email) {
-
-		return true;
-
-	}
-*/
 }

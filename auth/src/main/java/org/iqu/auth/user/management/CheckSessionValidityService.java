@@ -25,7 +25,6 @@ public class CheckSessionValidityService {
 		TokenManager tm = TokenManager.getInstance();
 		String response="";
 		int status;
-		//daca nu gasim token implicit nu exista user?
 		if(tm.getToken(token)==null){
 			status=404;
 			response="{\"error\" : \"user does not exist\"}";

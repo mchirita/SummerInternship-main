@@ -1,6 +1,9 @@
 package org.iqu.auth.token;
 
+import java.security.SecureRandom;
 import java.util.Date;
+import java.util.UUID;
+
 import org.iqu.auth.entities.User;
 
 
@@ -15,7 +18,9 @@ public class TokenGenerator {
 	
 	public Token generateToken(User user){
 		String token = "";
-		token=user.getUserName()+user.getPassword();
+		SecureRandom sr = new SecureRandom();
+		UUID uuid = UUID.randomUUID();
+		token=user.getUserName()+uuid.toString();
 		return new Token(token, validUntil);
 		
 	}
