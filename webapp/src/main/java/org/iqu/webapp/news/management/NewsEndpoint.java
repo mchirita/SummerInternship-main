@@ -14,11 +14,11 @@ import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.webapp.factory.ServiceFactory;
 
-import orq.iqu.slaveservices.news.NewsService;
+import orq.iqu.slaveservices.news.NewsServiceSlave;
 
 public class NewsEndpoint {
 
-	private NewsService newsService = ServiceFactory.getNewsServiceInstance();
+	private NewsServiceSlave newsService = ServiceFactory.getNewsServiceInstance();
 
 	/**
 	 * Service that will return all authors

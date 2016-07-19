@@ -9,10 +9,10 @@ import java.util.Set;
 
 public class ConfigServiceProps {
 
-	Properties prop = new Properties();
-	private InputStream input = null;
+	private Properties prop = new Properties();
 
 	public void loadFile() {
+		InputStream input = null;
 		try {
 			input = new FileInputStream("properties/configuration.properties");
 			prop.load(input);
@@ -29,15 +29,15 @@ public class ConfigServiceProps {
 
 	public Set<ServiceInfo> getProperties() {
 
-		Set<ServiceInfo> properties = new HashSet<ServiceInfo>();
+		Set<ServiceInfo> appServices = new HashSet<ServiceInfo>();
 		int length = Integer.parseInt(prop.getProperty("length"));
 		for (int i = 1; i <= length; i++) {
 			String hostname = prop.getProperty("hostname" + i);
 			String port = prop.getProperty("port" + i);
 			String url = prop.getProperty("url" + i);
-			properties.add(new ServiceInfo(hostname, port, url));
+			appServices.add(new ServiceInfo(hostname, port, url));
 		}
-		System.out.println(properties);
-		return properties;
+		System.out.println(appServices);
+		return appServices;
 	}
 }

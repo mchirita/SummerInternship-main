@@ -4,22 +4,31 @@ import java.util.Set;
 
 public class ConfigServicesManager {
 
-	ConfigServiceProps configServiceProps = new ConfigServiceProps();
-	private Set<ServiceInfo> properties = configServiceProps.getProperties();
+	private ConfigServiceProps configServiceProps;
+	private Set<ServiceInfo> appServices;
+
+	public ConfigServicesManager() {
+
+		configServiceProps = new ConfigServiceProps();
+		appServices = configServiceProps.getProperties();
+	}
 
 	public boolean addService(String hostname, String port, String url) {
 
-		return properties.add(new ServiceInfo(hostname, port, url));
+		return appServices.add(new ServiceInfo(hostname, port, url));
 	}
 
 	public boolean removeService(String hostname, String port, String url) {
 
-		for (ServiceInfo serviceInfo : properties) {
+		for (ServiceInfo serviceInfo : appServices) {
 			if (serviceInfo.getHostname() == hostname && serviceInfo.getPort() == port && serviceInfo.getUrl() == url) {
-				return properties.remove(serviceInfo);
+				return appServices.remove(serviceInfo);
 			}
 		}
 		return false;
 	}
 
+	public Set<ServiceInfo> getSlaveApps() {
+		return appServices;
+	}
 }
