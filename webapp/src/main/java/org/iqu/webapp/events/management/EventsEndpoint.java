@@ -15,11 +15,11 @@ import org.iqu.slaveservices.entities.Source;
 import org.iqu.slaveservices.entities.TypeService;
 import org.iqu.webapp.factory.ServiceFactory;
 
-import orq.iqu.slaveservices.events.EventsService;
+import orq.iqu.slaveservices.events.EventsServiceSlave;
 
 public class EventsEndpoint {
 
-	private EventsService eventsService = ServiceFactory.getEventsServiceInstance();
+	private EventsServiceSlave eventsService = ServiceFactory.getEventsServiceInstance();
 
 	/**
 	 * Method that implements retrieve authors service.
