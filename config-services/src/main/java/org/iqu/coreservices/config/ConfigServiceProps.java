@@ -7,6 +7,12 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
+/**
+ * ConfigServiceProps - Class used to configure service properties.
+ * 
+ * @author Alex Dragomir
+ *
+ */
 public class ConfigServiceProps {
 
 	private static final String PROPERTY_URL = "url";
@@ -16,6 +22,10 @@ public class ConfigServiceProps {
 	private static final String INPUT_FILE_PATH = "properties/configuration.properties";
 	private Properties prop = new Properties();
 
+	/**
+	 * This method is used to load an input file, representing the properties
+	 * file, and if it is not possible an IOException error occurs.
+	 */
 	public void loadFile() {
 		InputStream input = null;
 		try {
@@ -32,6 +42,11 @@ public class ConfigServiceProps {
 		}
 	}
 
+	/**
+	 * This method is used to create and return a set of services.
+	 * 
+	 * @return set of services.
+	 */
 	public Set<ServiceInfo> getProperties() {
 
 		Set<ServiceInfo> appServices = new HashSet<ServiceInfo>();

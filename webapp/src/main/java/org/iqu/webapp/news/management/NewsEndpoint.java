@@ -17,6 +17,12 @@ import org.iqu.webapp.factory.ServiceFactory;
 
 import orq.iqu.slaveservices.news.NewsServiceSlave;
 
+/**
+ * NewsEndpoint - Class that holds the services for news end-point.
+ * 
+ * @author Alex Dragomir
+ *
+ */
 @Path("/")
 public class NewsEndpoint {
 
@@ -24,7 +30,7 @@ public class NewsEndpoint {
 	private NewsServiceSlave newsService = ServiceFactory.getNewsServiceInstance();
 
 	/**
-	 * Service that will return all authors
+	 * Service that returns all authors.
 	 */
 	@Path("/authors")
 	@GET
@@ -96,7 +102,7 @@ public class NewsEndpoint {
 	}
 
 	/**
-	 * Service that retrive all sources
+	 * Service that retrieves all sources.
 	 */
 	@Path("/sources")
 	@GET

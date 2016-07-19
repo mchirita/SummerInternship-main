@@ -19,6 +19,12 @@ import org.iqu.webapp.news.management.NewsEndpoint;
 
 import orq.iqu.slaveservices.events.EventsServiceSlave;
 
+/**
+ * EventsEndpoint - Class that holds the services for events end-point.
+ * 
+ * @author Alex Dragomir
+ *
+ */
 @Path("/")
 public class EventsEndpoint {
 
@@ -43,7 +49,7 @@ public class EventsEndpoint {
 	}
 
 	/**
-	 * Service that retrieve events based on filters
+	 * Service that retrieve events based on filters.
 	 */
 	@Path("/")
 	@GET
@@ -89,7 +95,7 @@ public class EventsEndpoint {
 	}
 
 	/**
-	 * Thid method returns all types and subtypes of events.
+	 * This method returns all types and sub-types of events.
 	 */
 	@Path("/types")
 	@GET
