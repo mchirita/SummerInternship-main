@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 
 import org.iqu.slaveservices.entities.Client;
 import org.iqu.webapp.factory.ServiceFactory;
+import org.iqu.webapp.filter.CORSResponse;
 
 import orq.iqu.slaveservices.others.HealthCheckServiceSlave;
 
@@ -23,18 +24,19 @@ import orq.iqu.slaveservices.others.HealthCheckServiceSlave;
 @Path("/healthcheck")
 public class HealthcheckService {
 
-	HealthCheckServiceSlave healthCheckService = ServiceFactory.getOtherServiceInstance();
+  HealthCheckServiceSlave healthCheckService = ServiceFactory.getOtherServiceInstance();
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getHealth() {
+  @GET
+  @CORSResponse
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getHealth() {
 
-		List<Client> heathCheck = healthCheckService.heathCheck();
-		if (heathCheck.isEmpty()) {
-			Response.ok("[{\"Error\"}");
-		}
-		return Response.status(200).entity(heathCheck).build();
+    List<Client> heathCheck = healthCheckService.heathCheck();
+    if (heathCheck.isEmpty()) {
+      Response.ok("[{\"Error\"}");
+    }
+    return Response.status(200).entity(heathCheck).build();
 
-	}
+  }
 
 }

@@ -14,6 +14,7 @@ import org.iqu.slaveservices.entities.ErrorMessage;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.webapp.factory.ServiceFactory;
+import org.iqu.webapp.filter.CORSResponse;
 
 import orq.iqu.slaveservices.news.NewsServiceSlave;
 
@@ -30,10 +31,11 @@ public class NewsEndpoint {
 	private NewsServiceSlave newsService = ServiceFactory.getNewsServiceInstance();
 
 	/**
-	 * Service that returns all authors.
+	 * Service that will return all authors
 	 */
 	@Path("/authors")
 	@GET
+	@CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retrieveAuthors() {
 
@@ -58,6 +60,7 @@ public class NewsEndpoint {
 	 */
 	@Path("/categories")
 	@GET
+	@CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retriveCategories() {
 
@@ -76,6 +79,7 @@ public class NewsEndpoint {
 	 */
 	@Path("/")
 	@GET
+	@CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getNews(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
 			@QueryParam("categories") String categories, @QueryParam("about") String about,
@@ -102,10 +106,11 @@ public class NewsEndpoint {
 	}
 
 	/**
-	 * Service that retrieves all sources.
+	 * Service that retrive all sources
 	 */
 	@Path("/sources")
 	@GET
+	@CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retriveSources() {
 		int status;

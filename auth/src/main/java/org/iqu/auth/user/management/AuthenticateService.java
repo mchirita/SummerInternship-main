@@ -11,45 +11,45 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.iqu.auth.entities.UserCredentials;
-
-
+import org.iqu.auth.filter.CORSResponse;
 
 /**
  * 
- * @author Beniamin Savu
- * Service that authenticates the user and responds back with a token
+ * @author Beniamin Savu Service that authenticates the user and responds back
+ *         with a token
  *
  */
 @Path("/authenticate")
 public class AuthenticateService {
-	private SecureRandom random = new SecureRandom();
+  private SecureRandom random = new SecureRandom();
 
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response authenticateUser(UserCredentials userCredentials) {
-		String response="";
-		try{
-			//TO DO check user credentials validity
-			authenticate(userCredentials.getUsername(), userCredentials.getPassword());
-			String token = issueToken();
-			
-			response="{\"token\":" +"\"" + token + "\"}";
+  @POST
+  @CORSResponse
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response authenticateUser(UserCredentials userCredentials) {
+    String response = "";
+    try {
+      // TO DO check user credentials validity
+      authenticate(userCredentials.getUsername(), userCredentials.getPassword());
+      String token = issueToken();
 
-			return Response.ok(response).build();
-		}catch(Exception e){
-			response = "{\"error\": \"Invalid Data\"}";
-			return Response.status(401).entity(response).build();
-		}
-	}
+      response = "{\"token\":" + "\"" + token + "\"}";
 
-	private String issueToken() {
-		return new BigInteger(130, random).toString(32);
-	}
+      return Response.ok(response).build();
+    } catch (Exception e) {
+      response = "{\"error\": \"Invalid Data\"}";
+      return Response.status(401).entity(response).build();
+    }
+  }
 
-	private void authenticate(String username, String password) throws Exception{
-		if(!(username.equals("johnny") && password.equals("hunter2"))){
-			throw new Exception();
-		}
-	}
+  private String issueToken() {
+    return new BigInteger(130, random).toString(32);
+  }
+
+  private void authenticate(String username, String password) throws Exception {
+    if (!(username.equals("johnny") && password.equals("hunter2"))) {
+      throw new Exception();
+    }
+  }
 }
