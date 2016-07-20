@@ -1,84 +1,113 @@
 package org.iqu.auth.token;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.iqu.auth.entities.Token;
+import org.iqu.auth.entities.TokenInfo;
 import org.iqu.auth.entities.User;
+
 /**
  * 
  * @author Mitroi Stefan-Daniel
  * 
- *  Manage token operation such as: add, remove, update, get and contain
+ *         Manage token operation such as: add, remove, update, get and contain
  *
  */
 public class TokenManager {
 
 	private static TokenManager instance = new TokenManager();
-	private Date tokenValidityPeriod;
-	private Map<User, Token> utm;
-	private TokenGenerator tg;
+	private static final LocalDateTime TOKENVALIDITYPERIOD = LocalDateTime.now().plusDays(1);
+	private Map<String, TokenInfo> tokenTokenInfoMap;
+	private Map<User, TokenInfo> userTokenInfoMap;
+	private Map<TokenInfo, User> resetTokenUserMap;
+	private TokenGenerator tokenGenerator;
 
-	private TokenManager() {
-		tokenValidityPeriod = getTomorowDate();
-		utm = new ConcurrentHashMap<User, Token>();
-		tg = new TokenGenerator(tokenValidityPeriod);
+	public TokenManager() {
+		tokenTokenInfoMap = new ConcurrentHashMap<String, TokenInfo>();
+		userTokenInfoMap = new ConcurrentHashMap<User, TokenInfo>();
+		resetTokenUserMap = new ConcurrentHashMap<TokenInfo, User>();
+		tokenGenerator = new TokenGenerator();
 	}
 
 	public static TokenManager getInstance() {
 		return instance;
 	}
 
-	public void setTokenValidity(Date tokenValidityPeriod) {
-		this.tokenValidityPeriod = tokenValidityPeriod;
-		tg.setValidUntil(tokenValidityPeriod);
+	public String addToken(User user) {
+		String token = tokenGenerator.generateToken(user.getUserName());
+		TokenInfo tokenInfo = new TokenInfo(user, token, TOKENVALIDITYPERIOD);
+		tokenTokenInfoMap.put(token, tokenInfo);
+		userTokenInfoMap.put(user, tokenInfo);
+		return token;
 	}
 
-	public void addToken(User user) {
-		Token token = tg.generateToken(user);
-		utm.put(user, token);
+	public boolean containUser(User user) {
+		return userTokenInfoMap.containsKey(user);
 	}
 
-	public Token getToken(String tokenToBeFound) {
-		for (Map.Entry<User, Token> entry : utm.entrySet()) {
-			if (entry.getValue().getToken().equals(tokenToBeFound)) {
-				return entry.getValue();
-			}
+	public boolean isValid(String token) {
+		boolean isValid = false;
+		if (tokenTokenInfoMap.get(token).getvalidUntil().isAfter(LocalDateTime.now()) == true) {
+			isValid = true;
 		}
-		return null;
+		return isValid;
 	}
 
-	public Token getToken(User user) {
-		return utm.get(user);
+	public boolean isValid(User user) {
+		boolean isValid = false;
+		if (userTokenInfoMap.get(user).getvalidUntil().isAfter(LocalDateTime.now()) == true) {
+			isValid = true;
+		}
+		return isValid;
 	}
 
-	public void removeToken(String tokenToBeRemove) {
-		for (Map.Entry<User, Token> entry : utm.entrySet()) {
-			if (entry.getValue().getToken().equals(tokenToBeRemove)) {
-				utm.remove(entry.getKey());
-				break;
-			}
+	public String getToken(User user) {
+		return userTokenInfoMap.get(user).getToken();
+	}
+
+	public String getToken(String token) {
+		TokenInfo returnToken;
+		returnToken = tokenTokenInfoMap.get(token);
+		if (returnToken != null) {
+			return returnToken.getToken();
+		} else {
+			return "";
 		}
 	}
 
-	public void updateToken(String oldToken, String newToken) {
-		for (Map.Entry<User, Token> entry : utm.entrySet()) {
-			if (entry.getValue().equals(oldToken)) {
-				entry.getValue().setToken(newToken);
-				break;
-			}
+	public String getUser(String token) {
+		return tokenTokenInfoMap.get(token).getUser().getUserName();
+	}
+
+	public void removeToken(String token) {
+		tokenTokenInfoMap.remove(token);
+	}
+
+	public TokenInfo addToResetTokenUserEmailMap(User user,String generateToken) {
+		//LocalDate reserTokenVAlidityPeriod = LocalDate.now().plus(60*60, ChronoUnit.SECONDS);
+		LocalDateTime reserTokenVAlidityPeriod = LocalDateTime.now();
+		TokenInfo token = new TokenInfo(user, generateToken, reserTokenVAlidityPeriod);
+		return token;
+	}
+	public boolean resetTokenUserEmailMapContains(User user){
+		return resetTokenUserMap.containsValue(user);
+	}
+	
+	public TokenInfo getFromResetTokenUserEmailMap(User user) {
+		String userToken = getToken(user);
+		LocalDateTime reserTokenVAlidityPeriod = LocalDateTime.now().plusHours(1);
+		TokenInfo token = new TokenInfo(user, userToken, reserTokenVAlidityPeriod);
+		return token;
+	}
+//TO DO : implement isvalid() and contains for resetTokenUserMap
+	
+	public void printUtm() {
+		System.out.println("utm:");
+		for (Map.Entry<String, TokenInfo> entryutm : tokenTokenInfoMap.entrySet()) {
+			System.out.println(entryutm.getKey().toString() + " " + entryutm.getValue());
 		}
-	}
-
-	public boolean containToken(User user) {
-		return utm.containsKey(user);
-	}
-
-	private Date getTomorowDate() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DAY_OF_YEAR, 1);
-		return calendar.getTime();
 	}
 }

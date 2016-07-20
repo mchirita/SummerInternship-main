@@ -37,6 +37,8 @@ public class ChangePasswordService {
 			response = "{\"error\" : \"Could not change password. Invalid session.\"}";
 		}
 		return Response.status(status).entity(response).build();
-		// TO DO : verify token and password in database
+		// TO DO : verify token and password in database and in resetTokenUserMap
+		
+		//daca exista si este valid
 	}
 }

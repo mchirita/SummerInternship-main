@@ -25,12 +25,14 @@ public class LogoutService {
 		int status;
 		TokenManager tm = TokenManager.getInstance();
 		
-		if (tm.getToken(token).isValid() == false) {
+		if (tm.isValid(token) == false) {
 			status = 440;
 			response = "{\"error\" : \"Session already expired.\"}";
 		} else {
+			tm.printUtm();
 			tm.removeToken(token);
 			status = 200;
+			tm.printUtm();
 		}
 		return Response.status(status).entity(response).build();
 		/*

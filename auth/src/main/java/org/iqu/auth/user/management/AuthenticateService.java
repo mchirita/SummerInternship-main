@@ -12,7 +12,6 @@ import org.iqu.auth.maps.UserPasswordMap;
 import org.iqu.auth.token.TokenManager;
 import org.iqu.auth.filter.CORSResponse;
 
-
 /**
  * 
  * @author Beniamin Savu Service that authenticates the user and responds back
@@ -22,17 +21,17 @@ import org.iqu.auth.filter.CORSResponse;
 @Path("/authenticate")
 public class AuthenticateService {
 
-
 	@POST
 	@CORSResponse
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response authenticateUser(User user) {
-		
+
 		Map<String, String> upm = UserPasswordMap.getInstance();
 		String response = "";
 		int status;
-		TokenManager tm = TokenManager.getInstance();
+		TokenManager tokenManager = TokenManager.getInstance();
+		String userToken = "";
 
 		if (upm.containsKey(user.getUserName()) == false) {
 			status = 401;
@@ -40,19 +39,15 @@ public class AuthenticateService {
 		} else if (upm.get(user.getUserName()).equals(user.getPassword()) == false) {
 			status = 401;
 			response = "{\"error\": \"Invalid Data\"}";
-		} else if (tm.containToken(user) == false) {
-			tm.addToken(user);
+		} else if (tokenManager.containUser(user) == false || tokenManager.isValid(user) == false) {
+			userToken = tokenManager.addToken(user);
+			tokenManager.printUtm();
 			status = 200;
-			response = "{\"token\":" + "\"" + tm.getToken(user).getToken() + "\"}";
+			response = "{\"token\":" + "\"" + userToken + "\"}";
 		} else {
-			if (tm.getToken(user).isValid() == false) {
-				tm.addToken(user);
-				status = 200;
-				response = "{\"token\":" + "\"" + tm.getToken(user).getToken() + "\"}";
-			} else {
-				status = 200;
-				response = "{\"token\":" + "\"" + tm.getToken(user).getToken() + "\"}";
-			}
+			status = 200;
+			tokenManager.printUtm();
+			response = "{\"token\":" + "\"" + tokenManager.getToken(user) + "\"}";
 		}
 		return Response.status(status).entity(response).build();
 	}

@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 import org.iqu.auth.token.TokenManager;
 import org.iqu.auth.filter.CORSResponse;
 
-
 /**
  * 
  * @author Mitroi Stefan-Daniel
@@ -21,7 +20,7 @@ import org.iqu.auth.filter.CORSResponse;
 public class CheckSessionValidityService {
 
 	@GET
-  @CORSResponse
+	@CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response checkSessionValidity(@PathParam("token") String token) {
 
@@ -29,15 +28,15 @@ public class CheckSessionValidityService {
 		String response = "";
 		int status;
 
-		if (tm.getToken(token) == null) {
+		if (tm.getToken(token) == null || "".equals(tm.getToken(token))) {
 			status = 404;
 			response = "{\"error\" : \"user does not exist\"}";
-		} else if (tm.getToken(token).isValid() == false) {
+		} else if (tm.isValid(token) == false) {
 			status = 400;
 			response = "{\"error\" : \"Session expired.\"}";
 		} else {
 			status = 200;
-			response = "{\"userName\": \"stefan\"}";
+			response = "{\"userName\": \"" + tm.getUser(token) + "\"}";
 		}
 		return Response.status(status).entity(response).build();
 	}
