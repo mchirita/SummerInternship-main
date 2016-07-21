@@ -20,6 +20,12 @@ import org.iqu.webapp.news.management.NewsEndpoint;
 
 import orq.iqu.slaveservices.events.EventsServiceSlave;
 
+/**
+ * EventsEndpoint - Class that holds the services for events end-point.
+ * 
+ * @author Alex Dragomir
+ *
+ */
 @Path("/")
 public class EventsEndpoint {
 
@@ -62,7 +68,12 @@ public class EventsEndpoint {
       response = "{\"error\" : \"Requested location not available\"}";
       return Response.status(400).entity(response).build();
     } else {
-      return Response.ok().build();
+      return Response.ok("[{\"date\":1432911176, " + "\"id\":\"012031\", "
+          + "\"title\":\"Cookiecliker is the new hit\", " + "\"subtitle\":\"A new game is out there\", "
+          + "\"description\":\"A new addicting game has been created.\", " + "\"type\": \"concert\", "
+          + "\"subtypes\":[\"rock\",\"rap\"], " + "\"source\":\"cnn\", " + "\"body\":\"Lorem ipsum dolor...\", "
+          + "\"image_id\":\"012032\", " + "\"thumbnail_id\":\"012033\", "
+          + "\"external_url\":\"http://www.cnn.com/article1\", " + "\"location\": \"Sibiu\"}]").build();
     }
   }
   // TO DO : implement filter of data

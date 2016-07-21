@@ -1,5 +1,11 @@
 package org.iqu.slaveservices.entities;
 
+/**
+ * Source - Entity that represents a Source.
+ * 
+ * @author Alex Dragomir
+ *
+ */
 public class Source {
 	private String id;
 	private String displayName;

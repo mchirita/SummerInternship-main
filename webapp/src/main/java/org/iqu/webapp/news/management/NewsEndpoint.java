@@ -18,6 +18,12 @@ import org.iqu.webapp.filter.CORSResponse;
 
 import orq.iqu.slaveservices.news.NewsServiceSlave;
 
+/**
+ * NewsEndpoint - Class that holds the services for news end-point.
+ * 
+ * @author Alex Dragomir
+ *
+ */
 @Path("/")
 public class NewsEndpoint {
 
@@ -83,7 +89,13 @@ public class NewsEndpoint {
     Set<News> retrieveNews = newsService.retrieveNews(startDate, endDate, categories, about, sourceId, author,
         location);
 
-    String response = "";
+    String response = "{ \"date\":1432911176, " + "\"id\":\"012031\", " + "\"title\":\"Cookiecliker is the new hit\", "
+        + "\"subtitle\":\"A new game is out there\", " + "\"description\":\"A new addicting game has been created.\", "
+        + "\"authors\":[\"Peter Parker\", \"Clarck Kent\"], " + "\"categories\":[\"games\", \"sci-fi\"], "
+        + "\"source\":\"cnn\", " + "\"body\":\"Lorem ipsum dolor...\", " + "\"image_id\":\"012032\", "
+        + "\"thumbnail_id\":\"012033\", "
+        + "\"external_url\":\"http://money.cnn.com/2016/07/16/technology/pokemon-go-crash-game/\", "
+        + "\"location\":\"craiova\" }";
     int status = 200;
 
     try {

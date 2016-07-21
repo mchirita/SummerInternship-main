@@ -8,8 +8,17 @@ import org.iqu.slaveservices.entities.Categories;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.Source;
 
+/**
+ * NewsServiceSlaveImpl - Class that implements the interface NewsServiceSlave.
+ * 
+ * @author Alex Dragomir
+ *
+ */
 public class NewsServiceSlaveImpl implements NewsServiceSlave {
 
+	/**
+	 * This method is used to return a set of authors.
+	 */
 	@Override
 	public Set<String> retrieveAuthors() {
 		Authors authors = new Authors();
@@ -22,6 +31,9 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
 		return authors.getAuthors();
 	}
 
+	/**
+	 * This method is used to return a set of categories.
+	 */
 	@Override
 	public Set<String> retrieveCategories() {
 		Categories categories = new Categories();
@@ -35,6 +47,9 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
 		return categories.getCategories();
 	}
 
+	/**
+	 * This method is used to return a set of news.
+	 */
 	@Override
 	public Set<News> retrieveNews(String startDate, String endDate, String categories, String about, String sourceId,
 			String author, String location) {
@@ -44,6 +59,9 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
 		return news;
 	}
 
+	/**
+	 * This method is used to return a set of sources.
+	 */
 	@Override
 	public Set<Source> retrieveSources() {
 		// TODO get sources from db.

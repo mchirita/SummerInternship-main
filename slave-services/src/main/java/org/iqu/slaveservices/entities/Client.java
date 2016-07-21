@@ -2,6 +2,12 @@ package org.iqu.slaveservices.entities;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
+/**
+ * Client - Entity that represents a client.
+ * 
+ * @author Alex Dragomir
+ *
+ */
 public class Client {
 
 	private String host, location;

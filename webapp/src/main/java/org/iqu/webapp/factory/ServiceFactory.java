@@ -11,6 +11,13 @@ import orq.iqu.slaveservices.others.ImageServiceSlaveImpl;
 import orq.iqu.slaveservices.others.LocationServiceSlave;
 import orq.iqu.slaveservices.others.LocationServiceSlaveImpl;
 
+/**
+ * ServiceFactory - Class that provides the same instance of a class for all
+ * threads.
+ * 
+ * @author Alex Dragomir
+ *
+ */
 public class ServiceFactory {
 
 	private static ServiceFactory instance = null;
@@ -24,6 +31,10 @@ public class ServiceFactory {
 
 	}
 
+	/**
+	 * This method is used to ensure the return of the same instance of
+	 * ServiceFactory for all threads.
+	 */
 	public static synchronized ServiceFactory getInstance() {
 		if (instance == null) {
 			synchronized (ServiceFactory.class) {
@@ -36,6 +47,10 @@ public class ServiceFactory {
 
 	}
 
+	/**
+	 * This method is used to ensure the return of the same instance of
+	 * EventsServiceSlave for all threads.
+	 */
 	public static synchronized EventsServiceSlave getEventsServiceInstance() {
 		if (eventsServiceInstance == null) {
 			synchronized (ServiceFactory.class) {
@@ -47,6 +62,10 @@ public class ServiceFactory {
 		return eventsServiceInstance;
 	}
 
+	/**
+	 * This method is used to ensure the return of the same instance of
+	 * NewsServiceSlave for all threads.
+	 */
 	public static synchronized NewsServiceSlave getNewsServiceInstance() {
 		if (newsServiceInstance == null) {
 			synchronized (ServiceFactory.class) {
@@ -58,6 +77,10 @@ public class ServiceFactory {
 		return newsServiceInstance;
 	}
 
+	/**
+	 * This method is used to ensure the return of the same instance of
+	 * HealthCheckServiceSlave for all threads.
+	 */
 	public static synchronized HealthCheckServiceSlave getOtherServiceInstance() {
 		if (healthCheckServiceInstance == null) {
 			synchronized (ServiceFactory.class) {
@@ -69,6 +92,10 @@ public class ServiceFactory {
 		return healthCheckServiceInstance;
 	}
 
+	/**
+	 * This method is used to ensure the return of the same instance of
+	 * LocationServiceSlave for all threads.
+	 */
 	public static synchronized LocationServiceSlave getLocationServiceInstance() {
 		if (locationServiceInstance == null) {
 			synchronized (ServiceFactory.class) {
@@ -80,6 +107,10 @@ public class ServiceFactory {
 		return locationServiceInstance;
 	}
 
+	/**
+	 * This method is used to ensure the return of the same instance of
+	 * ImageServiceSlave for all threads.
+	 */
 	public static synchronized ImageServiceSlave getimageServiceInstance() {
 		if (imageServiceInstance == null) {
 			synchronized (ServiceFactory.class) {
