@@ -1,12 +1,14 @@
 package orq.iqu.slaveservices.news;
 
-import java.util.HashSet;
 import java.util.Set;
 
+import org.iqu.coreservices.config.ServiceInfo;
 import org.iqu.slaveservices.entities.Authors;
 import org.iqu.slaveservices.entities.Categories;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.Source;
+import org.iqu.slaveservices.rest.consumer.NewsConsumer;
+import org.iqu.slaveservices.rest.consumer.factory.ConsumerFactory;
 
 /**
  * NewsServiceSlaveImpl - Class that implements the interface NewsServiceSlave.
@@ -16,18 +18,18 @@ import org.iqu.slaveservices.entities.Source;
  */
 public class NewsServiceSlaveImpl implements NewsServiceSlave {
 
+	private NewsConsumer newsConsumerInstance = ConsumerFactory.getNewsConsumerInstance();
+
 	/**
 	 * This method is used to return a set of authors.
 	 */
 	@Override
 	public Set<String> retrieveAuthors() {
-		Authors authors = new Authors();
 
 		// ToDo get authors from db.
-		authors.addAuthor("Iron Maiden");
-		authors.addAuthor("Amy Lee");
-		authors.addAuthor("Passenger");
-		authors.addAuthor("iQuest");
+
+		Authors authors = newsConsumerInstance.retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
+
 		return authors.getAuthors();
 	}
 
@@ -36,13 +38,9 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
 	 */
 	@Override
 	public Set<String> retrieveCategories() {
-		Categories categories = new Categories();
 
-		// ToDo get categories from db.
-		categories.addCategory("music");
-		categories.addCategory("music");
-		categories.addCategory("politics");
-		categories.addCategory("IT");
+		Categories categories = newsConsumerInstance
+				.retrieveCategories(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
 
 		return categories.getCategories();
 	}
@@ -54,8 +52,7 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
 	public Set<News> retrieveNews(String startDate, String endDate, String categories, String about, String sourceId,
 			String author, String location) {
 		// TODO get news from db.
-		Set<News> news = new HashSet<News>();
-		news.add(new News());
+		Set<News> news = newsConsumerInstance.retrieveNews(new ServiceInfo("localhost", "8080", "web-crawler/"));
 		return news;
 	}
 
@@ -65,8 +62,10 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
 	@Override
 	public Set<Source> retrieveSources() {
 		// TODO get sources from db.
-		Set<Source> sources = new HashSet<Source>();
-		sources.add(new Source("id", "display name", "description"));
+		// Set<Source> sources = new HashSet<Source>();
+		// sources.add(new Source("id", "display name", "description"));
+		Set<Source> sources = newsConsumerInstance
+				.retrieveSources(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
 		return sources;
 	}
 

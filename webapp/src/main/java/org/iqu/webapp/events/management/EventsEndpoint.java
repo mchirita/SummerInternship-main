@@ -42,6 +42,7 @@ public class EventsEndpoint {
 	public Response retriveAuthors() {
 
 		Set<String> retrieveAuthors = eventsService.retrieveAuthors();
+
 		if (retrieveAuthors.isEmpty()) {
 			ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
 			return Response.ok("{\"error\" : " + "\"" + errorMessage.getMessage() + "\"}").build();
