@@ -23,7 +23,7 @@ public class LocationService {
 
     // TODO: implement location retrieving
 
-    return Response.ok().build();
+    return Response.ok("{\"locations\": [\"Cluj\", \"Craiova\", \"Sibiu\", \"Brasov\"]}").build();
   }
 
 }
