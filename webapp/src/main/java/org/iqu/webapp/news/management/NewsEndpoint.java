@@ -27,108 +27,114 @@ import orq.iqu.slaveservices.news.NewsServiceSlave;
 @Path("/")
 public class NewsEndpoint {
 
-	private Logger logger = Logger.getLogger(NewsEndpoint.class);
-	private NewsServiceSlave newsService = ServiceFactory.getNewsServiceInstance();
+  private Logger logger = Logger.getLogger(NewsEndpoint.class);
+  private NewsServiceSlave newsService = ServiceFactory.getNewsServiceInstance();
 
-	/**
-	 * Service that will return all authors
-	 */
-	@Path("/authors")
-	@GET
-	@CORSResponse
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response retrieveAuthors() {
+  /**
+   * Service that will return all authors
+   */
+  @Path("/authors")
+  @GET
+  @CORSResponse
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response retrieveAuthors() {
 
-		Set<String> retrieveAuthors = newsService.retrieveAuthors();
+    Set<String> retrieveAuthors = newsService.retrieveAuthors();
 
-		String response = "";
-		int status = 0;
-		if (retrieveAuthors.size() > 0) {
-			response = "{\"authors\" : " + "\"" + retrieveAuthors + "\"}";
-			status = 200;
-		} else {
-			response = "{\"error\" : \"Could not fetch authors, please try again later.\"}";
-			status = 404;
-			logger.error("Authors not found");
-		}
+    String response = "";
+    int status = 0;
+    if (retrieveAuthors.size() > 0) {
+      response = "{\"authors\" : " + "\"" + retrieveAuthors + "\"}";
+      status = 200;
+    } else {
+      response = "{\"error\" : \"Could not fetch authors, please try again later.\"}";
+      status = 404;
+      logger.error("Authors not found");
+    }
 
-		return Response.status(status).entity(response).build();
-	}
+    return Response.status(status).entity(response).build();
+  }
 
-	/**
-	 * Method that implements retrieve categories service.
-	 */
-	@Path("/categories")
-	@GET
-	@CORSResponse
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response retriveCategories() {
+  /**
+   * Method that implements retrieve categories service.
+   */
+  @Path("/categories")
+  @GET
+  @CORSResponse
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response retriveCategories() {
 
-		Set<String> retrieveCategories = newsService.retrieveCategories();
+    Set<String> retrieveCategories = newsService.retrieveCategories();
 
-		if (retrieveCategories.isEmpty()) {
-			ErrorMessage errorMessage = new ErrorMessage("Could not fetch categories, please try again later.");
-			return Response.ok("{\"error\" : " + "\"" + errorMessage.getMessage() + "\"}").build();
-		}
+    if (retrieveCategories.isEmpty()) {
+      ErrorMessage errorMessage = new ErrorMessage("Could not fetch categories, please try again later.");
+      return Response.ok("{\"error\" : " + "\"" + errorMessage.getMessage() + "\"}").build();
+    }
 
-		return Response.status(200).entity("{\"categories\" : " + "\"" + retrieveCategories + "\"}").build();
-	}
+    return Response.status(200).entity("{\"categories\" : " + "\"" + retrieveCategories + "\"}").build();
+  }
 
-	/**
-	 * Retrieves news based on filters, that are sent as query parameters.
-	 */
-	@Path("/")
-	@GET
-	@CORSResponse
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getNews(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
-			@QueryParam("categories") String categories, @QueryParam("about") String about,
-			@QueryParam("sourceId") String sourceId, @QueryParam("author") String author,
-			@QueryParam("location") String location) {
+  /**
+   * Retrieves news based on filters, that are sent as query parameters.
+   */
+  @Path("/")
+  @GET
+  @CORSResponse
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getNews(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
+      @QueryParam("categories") String categories, @QueryParam("about") String about,
+      @QueryParam("sourceId") String sourceId, @QueryParam("author") String author,
+      @QueryParam("location") String location) {
 
-		Set<News> retrieveNews = newsService.retrieveNews(startDate, endDate, categories, about, sourceId, author,
-				location);
+    Set<News> retrieveNews = newsService.retrieveNews(startDate, endDate, categories, about, sourceId, author,
+        location);
 
-		String response = "";
-		int status = 200;
+    String response = "{ \"date\":1432911176, " + "\"id\":\"012031\", " + "\"title\":\"Cookiecliker is the new hit\", "
+        + "\"subtitle\":\"A new game is out there\", " + "\"description\":\"A new addicting game has been created.\", "
+        + "\"authors\":[\"Peter Parker\", \"Clarck Kent\"], " + "\"categories\":[\"games\", \"sci-fi\"], "
+        + "\"source\":\"cnn\", " + "\"body\":\"Lorem ipsum dolor...\", " + "\"image_id\":\"012032\", "
+        + "\"thumbnail_id\":\"012033\", "
+        + "\"external_url\":\"http://money.cnn.com/2016/07/16/technology/pokemon-go-crash-game/\", "
+        + "\"location\":\"craiova\" }";
+    int status = 200;
 
-		try {
-			long startDateLong = Long.parseLong(startDate);
+    try {
+      long startDateLong = Long.parseLong(startDate);
 
-			// TODO: implement actual filtering of data
+      // TODO: implement actual filtering of data
 
-		} catch (NumberFormatException e) {
-			status = 400;
-			response = "{ \"error\" : \"startDate parameter missing/invalid\" }";
-		}
+    } catch (NumberFormatException e) {
+      status = 400;
+      response = "{ \"error\" : \"startDate parameter missing/invalid\" }";
+    }
 
-		return Response.status(status).entity(response).build();
-	}
+    return Response.status(status).entity(response).build();
+  }
 
-	/**
-	 * Service that retrive all sources
-	 */
-	@Path("/sources")
-	@GET
-	@CORSResponse
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response retriveSources() {
-		int status;
-		String response = "";
-		status = 0;
+  /**
+   * Service that retrive all sources
+   */
+  @Path("/sources")
+  @GET
+  @CORSResponse
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response retriveSources() {
+    int status;
+    String response = "";
+    status = 0;
 
-		Set<Source> retrieveSources = newsService.retrieveSources();
+    Set<Source> retrieveSources = newsService.retrieveSources();
 
-		Source s = new Source("1", "BNR Brasov", "This is the official BNR site");
-		if (s.getDisplayName().equals("BNR Brasov")) {
-			status = 200;
-			return Response.status(status).entity(s).build();
-		} else {
-			status = 404;
-			response = "{\"error\" : \"Could not fetch sources, please try again later.\"}";
-			return Response.status(status).entity(response).build();
-		}
-		// TO DO : retrive sources form database
-	}
+    Source s = new Source("1", "BNR Brasov", "This is the official BNR site");
+    if (s.getDisplayName().equals("BNR Brasov")) {
+      status = 200;
+      return Response.status(status).entity(s).build();
+    } else {
+      status = 404;
+      response = "{\"error\" : \"Could not fetch sources, please try again later.\"}";
+      return Response.status(status).entity(response).build();
+    }
+    // TO DO : retrive sources form database
+  }
 
 }
