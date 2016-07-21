@@ -1,5 +1,11 @@
 package org.iqu.coreservices.config;
 
+/**
+ * ServiceInfo - Class that represents a service.
+ * 
+ * @author Alex Dragomir
+ *
+ */
 public class ServiceInfo {
 
 	private String hostname;

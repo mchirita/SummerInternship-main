@@ -8,8 +8,18 @@ import org.iqu.slaveservices.entities.Event;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.slaveservices.entities.TypeService;
 
+/**
+ * EventsServiceSlaveImpl - Class that implements the interface
+ * EventsServiceSlave.
+ * 
+ * @author Alex Dragomir
+ *
+ */
 public class EventsServiceSlaveImpl implements EventsServiceSlave {
 
+	/**
+	 * This method is used to return a set of authors.
+	 */
 	@Override
 	public Set<String> retrieveAuthors() {
 		Authors authors = new Authors();
@@ -22,6 +32,9 @@ public class EventsServiceSlaveImpl implements EventsServiceSlave {
 		return authors.getAuthors();
 	}
 
+	/**
+	 * This method is used to return a set of events.
+	 */
 	@Override
 	public Set<Event> retrieveEvents(String startDate, String endDate, String type, String subType, String sourceId,
 			String author, String location) {
@@ -31,6 +44,9 @@ public class EventsServiceSlaveImpl implements EventsServiceSlave {
 		return events;
 	}
 
+	/**
+	 * This method is used to return a set of sources.
+	 */
 	@Override
 	public Set<Source> retrieveSources() {
 		// TODO get source from db.
@@ -39,6 +55,9 @@ public class EventsServiceSlaveImpl implements EventsServiceSlave {
 		return sources;
 	}
 
+	/**
+	 * This method is used to return a set of service types.
+	 */
 	@Override
 	public Set<TypeService> retrieveTypes() {
 		// TODO get types from db.
