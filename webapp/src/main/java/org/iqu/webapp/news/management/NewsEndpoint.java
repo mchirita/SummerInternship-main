@@ -18,6 +18,12 @@ import org.iqu.webapp.filter.CORSResponse;
 
 import orq.iqu.slaveservices.news.NewsServiceSlave;
 
+/**
+ * NewsEndpoint - Class that holds the services for news end-point.
+ * 
+ * @author Alex Dragomir
+ *
+ */
 @Path("/")
 public class NewsEndpoint {
 

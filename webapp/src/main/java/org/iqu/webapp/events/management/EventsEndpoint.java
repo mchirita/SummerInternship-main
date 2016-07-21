@@ -20,6 +20,12 @@ import org.iqu.webapp.news.management.NewsEndpoint;
 
 import orq.iqu.slaveservices.events.EventsServiceSlave;
 
+/**
+ * EventsEndpoint - Class that holds the services for events end-point.
+ * 
+ * @author Alex Dragomir
+ *
+ */
 @Path("/")
 public class EventsEndpoint {
 
