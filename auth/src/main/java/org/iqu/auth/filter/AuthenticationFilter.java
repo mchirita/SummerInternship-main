@@ -1,6 +1,5 @@
 package org.iqu.auth.filter;
 
-import java.io.IOException;
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -9,10 +8,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
 /**
+ *
+ * Authentication filter for rest end points.
  * 
  * @author Mitroi Stefan-Daniel
  * 
- *         Authentication filter for rest end points
  *
  */
 @Secured
@@ -20,7 +20,7 @@ import javax.ws.rs.ext.Provider;
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements ContainerRequestFilter {
 
-	public void filter(ContainerRequestContext requestContext) throws IOException {
+	public void filter(ContainerRequestContext requestContext) {
 		String token = "";
 
 		try {
@@ -31,7 +31,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 		}
 	}
 
-	private void validateToken(String token) throws Exception {
+	private void validateToken(String token) {
 
 	}
 }

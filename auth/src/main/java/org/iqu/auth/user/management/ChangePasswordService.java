@@ -12,16 +12,18 @@ import org.iqu.auth.filter.CORSResponse;
 
 /**
  * 
+ *
+ * Service that update password in database
+ *
  * @author Mitroi Stefan-Daniel
- *
- *         Service that update password in database
- *
+ * 
+ * 
  */
 @Path("/users/password")
 public class ChangePasswordService {
 
 	@POST
-  @CORSResponse
+	@CORSResponse
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response changePassword(ChangePasswordDetailes passwordDetailes) {
@@ -37,8 +39,8 @@ public class ChangePasswordService {
 			response = "{\"error\" : \"Could not change password. Invalid session.\"}";
 		}
 		return Response.status(status).entity(response).build();
-		// TO DO : verify token and password in database and in resetTokenUserMap
-		
-		//daca exista si este valid
+		// TO DO : verify token, password in database and resetTokenUserMap
+		// TO DO : check is token is valid and is in map
+
 	}
 }

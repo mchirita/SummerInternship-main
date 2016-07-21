@@ -1,10 +1,11 @@
 package org.iqu.auth.filter;
 
 /**
+ *
+ * Enum use for authorization filter
  * 
  * @author Mitroi Stefan-Daniel
  *
- *         Enum use for authorization filter
  *
  */
 public enum Role {

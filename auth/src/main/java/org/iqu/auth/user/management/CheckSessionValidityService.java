@@ -11,10 +11,12 @@ import org.iqu.auth.filter.CORSResponse;
 
 /**
  * 
+ * 
+ * Service that checks session validity
+ *
  * @author Mitroi Stefan-Daniel
  * 
- *         Service that checks session validity
- *
+ * 
  */
 @Path("/authenticate/{token}")
 public class CheckSessionValidityService {
@@ -24,19 +26,20 @@ public class CheckSessionValidityService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response checkSessionValidity(@PathParam("token") String token) {
 
-		TokenManager tm = TokenManager.getInstance();
+		TokenManager tokenManager = TokenManager.getInstance();
 		String response = "";
+		String userToken = tokenManager.getToken(token);
 		int status;
 
-		if (tm.getToken(token) == null || "".equals(tm.getToken(token))) {
+		if ("".equals(userToken)) {
 			status = 404;
 			response = "{\"error\" : \"user does not exist\"}";
-		} else if (tm.isValid(token) == false) {
+		} else if (!tokenManager.tokenValidator(token)) {
 			status = 400;
 			response = "{\"error\" : \"Session expired.\"}";
 		} else {
 			status = 200;
-			response = "{\"userName\": \"" + tm.getUser(token) + "\"}";
+			response = "{\"userName\": \"" + tokenManager.getUser(token) + "\"}";
 		}
 		return Response.status(status).entity(response).build();
 	}

@@ -7,9 +7,10 @@ import java.util.Date;
 
 /**
  * 
+ * Entity for token
+ * 
  * @author Mitroi Stefan-Daniel
  * 
- *         Entity for token
  *
  */
 public class TokenInfo {
@@ -23,18 +24,18 @@ public class TokenInfo {
 		this.validUntil = validUnti;
 	}
 
-
 	public void setValidUntil(LocalDateTime validUntil) {
 		this.validUntil = validUntil;
 	}
-	
+
 	public LocalDateTime getvalidUntil() {
 		return validUntil;
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
+
 	public String getToken() {
 		return token;
 	}
@@ -42,7 +43,6 @@ public class TokenInfo {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -52,7 +52,6 @@ public class TokenInfo {
 		result = prime * result + ((validUntil == null) ? 0 : validUntil.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -76,12 +75,9 @@ public class TokenInfo {
 		return true;
 	}
 
-
 	@Override
 	public String toString() {
 		return "TokenInfo [user=" + user + ", validUntil=" + validUntil + "]";
 	}
-	
-	
-	
+
 }

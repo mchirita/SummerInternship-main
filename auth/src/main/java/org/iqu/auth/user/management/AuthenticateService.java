@@ -13,9 +13,9 @@ import org.iqu.auth.token.TokenManager;
 import org.iqu.auth.filter.CORSResponse;
 
 /**
+ * Service that authenticates the user and responds back with a token
  * 
- * @author Beniamin Savu Service that authenticates the user and responds back
- *         with a token
+ * @author Beniamin Savu
  *
  */
 @Path("/authenticate")
@@ -30,25 +30,26 @@ public class AuthenticateService {
 		Map<String, String> upm = UserPasswordMap.getInstance();
 		String response = "";
 		int status;
+		String invalidUserMessage = "invalid user";
+		String invalidPasswordMessage = "invalid password";
 		TokenManager tokenManager = TokenManager.getInstance();
 		String userToken = "";
 
-		if (upm.containsKey(user.getUserName()) == false) {
+		if (!upm.containsKey(user.getUserName())) {
 			status = 401;
-			response = "{\"error\": \"Invalid Data\"}";
-		} else if (upm.get(user.getUserName()).equals(user.getPassword()) == false) {
+			response = "{\"error\": \"" + invalidUserMessage + "\"}";
+		} else if (!upm.get(user.getUserName()).equals(user.getPassword())) {
 			status = 401;
-			response = "{\"error\": \"Invalid Data\"}";
-		} else if (tokenManager.containUser(user) == false || tokenManager.isValid(user) == false) {
-			userToken = tokenManager.addToken(user);
-			tokenManager.printUtm();
+			response = "{\"error\": \"" + invalidPasswordMessage + "\"}";
+		} else if ((!tokenManager.containUser(user)) || (!tokenManager.tokenValidator(user))) {
+			userToken = tokenManager.generateToken(user);
 			status = 200;
 			response = "{\"token\":" + "\"" + userToken + "\"}";
 		} else {
 			status = 200;
-			tokenManager.printUtm();
 			response = "{\"token\":" + "\"" + tokenManager.getToken(user) + "\"}";
 		}
 		return Response.status(status).entity(response).build();
+		
 	}
 }

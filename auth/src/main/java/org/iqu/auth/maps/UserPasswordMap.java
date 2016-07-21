@@ -6,9 +6,10 @@ import org.iqu.auth.entities.User;
 
 /**
  * 
+ * Class use for simulate database
+ * 
  * @author Mitroi Stefan-Daniel
  *
- * Class use for simulate database
  * 
  */
 public class UserPasswordMap {

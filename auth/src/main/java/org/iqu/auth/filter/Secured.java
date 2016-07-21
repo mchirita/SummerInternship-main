@@ -5,16 +5,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import javax.ws.rs.NameBinding;
+
 /**
+ * 
+ * Class will be use for filters
  * 
  * @author Mitroi Stefan-Daniel
  *
- * Class will be use for filters
  *
+ * 
  */
 @NameBinding
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ ElementType.TYPE, ElementType.METHOD })
 public @interface Secured {
-	Role[] value() default{};
+	Role[] value() default {};
 }

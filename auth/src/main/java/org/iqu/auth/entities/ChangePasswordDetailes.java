@@ -5,9 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * 
+ * Service that updates the user password in the database
+ * 
  * @author Cristi Badoi
  * 
- *         Service that updates the user password in the database
  *
  */
 public class ChangePasswordDetailes {

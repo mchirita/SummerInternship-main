@@ -29,20 +29,18 @@ public class ResetPasswordService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response resetPassword(@QueryParam("email") String toEmail) {
-		
+
 		EmailSender emailSender;
-		User user = new User();	//TO DO: read from database 
-		TokenManager tokenManager = new TokenManager();
-		String resetToken="";
-		
-		if(tokenManager.resetTokenUserEmailMapContains(user)==true){
+		User user = new User(); // TO DO: read from database
+		TokenManager tokenManager = TokenManager.getInstance();
+		String resetToken = "";
+
+		if (tokenManager.containsResetToken(user) == true) {
 			return Response.status(200).build();
-		}
-		else{
+		} else {
 			emailSender = new EmailSender();
 			resetToken = emailSender.sendMail(user.getUserName(), toEmail);
-			tokenManager.addToResetTokenUserEmailMap(user,resetToken);
-			
+			tokenManager.generateResetToken(user, resetToken);
 		}
 		return Response.status(200).build();
 		// TO DO : search email in database

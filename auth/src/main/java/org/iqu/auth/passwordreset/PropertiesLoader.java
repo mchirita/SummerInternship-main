@@ -1,19 +1,36 @@
 package org.iqu.auth.passwordreset;
 
+import static org.iqu.auth.passwordreset.PropertiesConstants.EMAIL;
+import static org.iqu.auth.passwordreset.PropertiesConstants.HOST;
+import static org.iqu.auth.passwordreset.PropertiesConstants.PASSWORD;
+import static org.iqu.auth.passwordreset.PropertiesConstants.PATH;
+import static org.iqu.auth.passwordreset.PropertiesConstants.PORT;
+import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_AUTH;
+import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_DEBUG;
+import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_FACTORY_CLASS;
+import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_FACTORY_FCALLBACK;
+import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_FACTORY_PORT;
+import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_HOST;
+import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_PASSWORD;
+import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_PORT;
+import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_STARTTLS_ENABLE;
+import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_USER;
+
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import javax.naming.ConfigurationException;
+import org.iqu.auth.exception.ConfigurationException;
 
+/**
+ * Load configuration from email.properties file.
+ * 
+ * @author Mitroi Stefan-Daniel
+ *
+ */
 public class PropertiesLoader {
 	private Properties readProps;
 	private Properties mailProps;
-	private String host = "host";
-	private String email = "email";
-	private String port = "port";
-	private String password = "password";
 
 	public PropertiesLoader() {
 		readProps = new Properties();
@@ -21,20 +38,19 @@ public class PropertiesLoader {
 	}
 
 	public Properties loadProperties() throws ConfigurationException {
-		try (FileInputStream input = new FileInputStream(
-				"C:/Users/iQuest/Documents/SummerInternship-main/auth/email-config/email.properties")) {
+		try (FileInputStream input = new FileInputStream(PATH)) {
 			readProps.load(input);
-			mailProps.put("mail.smtp.user", readProps.getProperty(email));
-			mailProps.put("mail.smtp.host", readProps.getProperty(host));
-			mailProps.put("mail.smtp.port", readProps.getProperty(port));
-			mailProps.put("password", readProps.getProperty(password));
-			mailProps.put("mail.smtp.starttls.enable", "true");
-			mailProps.put("mail.smtp.auth", "true");
-			mailProps.put("mail.smtp.debug", "true");
-			mailProps.put("mail.smtp.socketFactory.port", readProps.getProperty(port));
-			mailProps.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-			mailProps.put("mail.smtp.socketFactory.fallback", "false");
-
+			mailProps.put(SMTP_USER, readProps.getProperty(EMAIL));
+			mailProps.put(SMTP_HOST, readProps.getProperty(HOST));
+			mailProps.put(SMTP_PORT, readProps.getProperty(PORT));
+			mailProps.put(SMTP_PASSWORD, readProps.getProperty(PASSWORD));
+			mailProps.put(SMTP_STARTTLS_ENABLE, "true");
+			mailProps.put(SMTP_AUTH, "true");
+			mailProps.put(SMTP_DEBUG, "true");
+			mailProps.put(SMTP_FACTORY_PORT, readProps.getProperty(PORT));
+			mailProps.put(SMTP_FACTORY_CLASS, "javax.net.ssl.SSLSocketFactory");
+			mailProps.put(SMTP_FACTORY_FCALLBACK, "false");
+			
 		} catch (IOException e) {
 			throw new ConfigurationException("file corupted");
 		}

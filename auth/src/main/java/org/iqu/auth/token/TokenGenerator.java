@@ -5,10 +5,12 @@ import org.iqu.auth.entities.User;
 
 /**
  * 
+ * Class that generate token for user.
+ * 
  * @author Mitroi Stefan-Daiel
  * 
- *         Class that generate token for user
  *
+ * 
  */
 public class TokenGenerator {
 
