@@ -9,6 +9,6 @@ import auth.persistence.entities.UserCredentials;
 
 public interface UserCredentialsDao {
 
-	public UserCredentials findUser(UserCredentials userCredentials);
+	public void findUserCredentials(UserCredentials uc);
 
 }
