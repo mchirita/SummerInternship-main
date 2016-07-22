@@ -27,9 +27,6 @@ public class NewsConsumerImpl implements NewsConsumer {
 				"http://" + serviceInfo.getHostname() + ":" + serviceInfo.getPort() + "/" + serviceInfo.getUrl())
 				.path("news");
 
-		// WebTarget webTarget =
-		// client.target("http://localhost:8080/web-crawler/").path("news");
-
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 		Response response = invocationBuilder.get();
 		System.out.println(response);

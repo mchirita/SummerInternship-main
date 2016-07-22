@@ -16,25 +16,9 @@ import org.iqu.slaveservices.rest.consumer.NewsConsumerImpl;
  */
 public class ConsumerFactory {
 
-	private static ConsumerFactory instance = null;
 	private static NewsConsumer newsConsumerInstance = null;
 	private static EventsConsumer eventsConsumerInstance = null;
 	private static HealthCheckConsumer healthCheckConsumerInstance = null;
-
-	/**
-	 * This method is used to ensure the return of the same instance of
-	 * ConsumerFactory for all threads.
-	 */
-	public static synchronized ConsumerFactory getInstance() {
-		if (instance == null) {
-			synchronized (ConsumerFactory.class) {
-				if (instance == null) {
-					instance = new ConsumerFactory();
-				}
-			}
-		}
-		return instance;
-	}
 
 	/**
 	 * This method is used to ensure the return of the same instance of
