@@ -13,12 +13,12 @@ public class Categories {
 
 	private Set<String> categories = new HashSet<String>();
 
+	public Categories() {
+	}
+
 	public Categories(Set<String> categories) {
 		super();
 		this.categories = categories;
-	}
-
-	public Categories() {
 	}
 
 	@Override

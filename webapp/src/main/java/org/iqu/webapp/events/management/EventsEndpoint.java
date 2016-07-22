@@ -29,93 +29,96 @@ import orq.iqu.slaveservices.events.EventsServiceSlave;
 @Path("/")
 public class EventsEndpoint {
 
-  private Logger logger = Logger.getLogger(NewsEndpoint.class);
-  private EventsServiceSlave eventsService = ServiceFactory.getEventsServiceInstance();
+	private Logger logger = Logger.getLogger(NewsEndpoint.class);
+	private EventsServiceSlave eventsService = ServiceFactory.getEventsServiceInstance();
 
-  /**
-   * Method that implements retrieve authors service.
-   */
-  @Path("/authors")
-  @GET
-  @CORSResponse
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response retriveAuthors() {
+	/**
+	 * Method that implements retrieve authors service.
+	 */
+	@Path("/authors")
+	@GET
+	@CORSResponse
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response retriveAuthors() {
 
-    Set<String> retrieveAuthors = eventsService.retrieveAuthors();
-    if (retrieveAuthors.isEmpty()) {
-      ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
-      return Response.ok("{\"error\" : " + "\"" + errorMessage.getMessage() + "\"}").build();
-    }
+		Set<String> retrieveAuthors = eventsService.retrieveAuthors();
 
-    return Response.status(200).entity("{\"authors\" : " + "\"" + retrieveAuthors + "\"}").build();
-  }
+		if (retrieveAuthors.isEmpty()) {
+			ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
+			return Response.ok("{\"error\" : " + "\"" + errorMessage.getMessage() + "\"}").build();
+		}
 
-  /**
-   * Service that retrieve events based on filters
-   */
-  @Path("/")
-  @GET
-  @CORSResponse
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response retriveEvents(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
-      @QueryParam("type") String type, @QueryParam("subType") String subType, @QueryParam("sourceId") String sourceId,
-      @QueryParam("author") String author, @QueryParam("location") String location) {
+		return Response.status(200).entity("{\"authors\" : " + "\"" + retrieveAuthors + "\"}").build();
+	}
 
-    Set<Event> retrieveEvents = eventsService.retrieveEvents(startDate, endDate, type, subType, sourceId, author,
-        location);
-    String response = "";
-    if (startDate == null) {
-      response = "{\"error\" : \"Requested location not available\"}";
-      return Response.status(400).entity(response).build();
-    } else {
-      return Response.ok("[{\"date\":1432911176, " + "\"id\":\"012031\", "
-          + "\"title\":\"Cookiecliker is the new hit\", " + "\"subtitle\":\"A new game is out there\", "
-          + "\"description\":\"A new addicting game has been created.\", " + "\"type\": \"concert\", "
-          + "\"subtypes\":[\"rock\",\"rap\"], " + "\"source\":\"cnn\", " + "\"body\":\"Lorem ipsum dolor...\", "
-          + "\"image_id\":\"012032\", " + "\"thumbnail_id\":\"012033\", "
-          + "\"external_url\":\"http://www.cnn.com/article1\", " + "\"location\": \"Sibiu\"}]").build();
-    }
-  }
-  // TO DO : implement filter of data
+	/**
+	 * Service that retrieve events based on filters
+	 */
+	@Path("/")
+	@GET
+	@CORSResponse
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response retriveEvents(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
+			@QueryParam("type") String type, @QueryParam("subType") String subType,
+			@QueryParam("sourceId") String sourceId, @QueryParam("author") String author,
+			@QueryParam("location") String location) {
 
-  /**
-   * This method returns a list of sources where we grab our content.
-   */
-  @Path("/sources")
-  @GET
-  @CORSResponse
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response retrieveSource() {
-    int status;
-    String response = "";
-    status = 0;
-    Source source = new Source("1", "BNR Brasov", "This is the official BNR site");
-    Set<Source> retrieveSources = eventsService.retrieveSources();
+		Set<Event> retrieveEvents = eventsService.retrieveEvents(startDate, endDate, type, subType, sourceId, author,
+				location);
+		String response = "";
+		if (startDate == null) {
+			response = "{\"error\" : \"Requested location not available\"}";
+			return Response.status(400).entity(response).build();
+		} else {
+			return Response.ok("[{\"date\":1432911176, " + "\"id\":\"012031\", "
+					+ "\"title\":\"Cookiecliker is the new hit\", " + "\"subtitle\":\"A new game is out there\", "
+					+ "\"description\":\"A new addicting game has been created.\", " + "\"type\": \"concert\", "
+					+ "\"subtypes\":[\"rock\",\"rap\"], " + "\"source\":\"cnn\", "
+					+ "\"body\":\"Lorem ipsum dolor...\", " + "\"image_id\":\"012032\", "
+					+ "\"thumbnail_id\":\"012033\", " + "\"external_url\":\"http://www.cnn.com/article1\", "
+					+ "\"location\": \"Sibiu\"}]").build();
+		}
+	}
+	// TO DO : implement filter of data
 
-    if (source.getDisplayName().equals("BNR Brasov")) {
-      status = 200;
-      return Response.status(status).entity(source).build();
-    } else {
-      status = 404;
-      response = "\"error\" : \"Could not fetch sources, please try again later.\"";
-      return Response.status(status).entity(response).build();
-    }
-  }
+	/**
+	 * This method returns a list of sources where we grab our content.
+	 */
+	@Path("/sources")
+	@GET
+	@CORSResponse
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response retrieveSource() {
+		int status;
+		String response = "";
+		status = 0;
+		Source source = new Source("1", "BNR Brasov", "This is the official BNR site");
+		Set<Source> retrieveSources = eventsService.retrieveSources();
 
-  /**
-   * Thid method returns all types and subtypes of events.
-   */
-  @Path("/types")
-  @GET
-  @CORSResponse
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response retriveTypes() {
+		if (source.getDisplayName().equals("BNR Brasov")) {
+			status = 200;
+			return Response.status(status).entity(source).build();
+		} else {
+			status = 404;
+			response = "\"error\" : \"Could not fetch sources, please try again later.\"";
+			return Response.status(status).entity(response).build();
+		}
+	}
 
-    Set<TypeService> retrieveSources = eventsService.retrieveTypes();
+	/**
+	 * Thid method returns all types and subtypes of events.
+	 */
+	@Path("/types")
+	@GET
+	@CORSResponse
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response retriveTypes() {
 
-    String type = "Concert";
-    return Response.ok("[{\"Type\": " + "\"" + type + "\",\n\"Subtypes\" : [\"rock\", \"classical\"]}]").build();
+		Set<TypeService> retrieveSources = eventsService.retrieveTypes();
 
-  }
+		String type = "Concert";
+		return Response.ok("[{\"Type\": " + "\"" + type + "\",\n\"Subtypes\" : [\"rock\", \"classical\"]}]").build();
+
+	}
 
 }

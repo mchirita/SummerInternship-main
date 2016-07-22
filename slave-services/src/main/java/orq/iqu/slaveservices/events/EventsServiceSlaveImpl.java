@@ -3,10 +3,13 @@ package orq.iqu.slaveservices.events;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.iqu.coreservices.config.ServiceInfo;
 import org.iqu.slaveservices.entities.Authors;
 import org.iqu.slaveservices.entities.Event;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.slaveservices.entities.TypeService;
+import org.iqu.slaveservices.rest.consumer.EventsConsumer;
+import org.iqu.slaveservices.rest.consumer.factory.ConsumerFactory;
 
 /**
  * EventsServiceSlaveImpl - Class that implements the interface
@@ -17,18 +20,17 @@ import org.iqu.slaveservices.entities.TypeService;
  */
 public class EventsServiceSlaveImpl implements EventsServiceSlave {
 
+	private EventsConsumer eventsConsumerInstance = ConsumerFactory.getEventsConsumerInstance();
+
 	/**
 	 * This method is used to return a set of authors.
 	 */
 	@Override
 	public Set<String> retrieveAuthors() {
-		Authors authors = new Authors();
 
-		// ToDo get authors from db.
-		authors.addAuthor("Iron Maiden");
-		authors.addAuthor("Amy Lee");
-		authors.addAuthor("Passenger");
-		authors.addAuthor("iQuest");
+		Authors authors = eventsConsumerInstance
+				.retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/events/"));
+
 		return authors.getAuthors();
 	}
 
