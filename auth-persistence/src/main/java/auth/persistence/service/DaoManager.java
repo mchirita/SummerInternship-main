@@ -22,7 +22,7 @@ public class DaoManager {
 		return instance;
 	}
 
-	public void getConnection() {
+	public Connection getConnection() {
 		BasicDataSource bds = new BasicDataSource();
 		bds.setDriverClassName("com.mysql.jdbc.Driver");
 		bds.setUrl("jdbc:mysql://localhost:3306/mydb");
@@ -33,7 +33,15 @@ public class DaoManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		return conn;
+	}
+	
+	public void closeConnection(){
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private DaoManager() {
