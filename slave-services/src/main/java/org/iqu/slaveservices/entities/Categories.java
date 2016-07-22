@@ -3,12 +3,19 @@ package org.iqu.slaveservices.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Categories - Class that represents a set of categories.
  * 
  * @author Alex Dragomir
  *
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Categories {
 
 	private Set<String> categories = new HashSet<String>();
@@ -46,6 +53,7 @@ public class Categories {
 		return true;
 	}
 
+	@XmlElement
 	public Set<String> getCategories() {
 		return categories;
 	}
