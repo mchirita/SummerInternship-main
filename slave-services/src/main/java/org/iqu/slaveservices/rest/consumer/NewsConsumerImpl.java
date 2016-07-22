@@ -29,7 +29,7 @@ public class NewsConsumerImpl implements NewsConsumer {
 
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 		Response response = invocationBuilder.get();
-		System.out.println(response);
+
 		return response.readEntity(new GenericType<Set<News>>() {
 		});
 	}
@@ -74,7 +74,7 @@ public class NewsConsumerImpl implements NewsConsumer {
 				.path("sources");
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 		Response response = invocationBuilder.get();
-		System.out.println(response);
+
 		return response.readEntity(new GenericType<Set<Source>>() {
 		});
 

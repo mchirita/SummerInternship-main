@@ -24,25 +24,20 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
 	 * This method is used to return a set of authors.
 	 */
 	@Override
-	public Set<String> retrieveAuthors() {
+	public Authors retrieveAuthors() {
 
-		// ToDo get authors from db.
+		return newsConsumerInstance.retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
 
-		Authors authors = newsConsumerInstance.retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
-
-		return authors.getAuthors();
 	}
 
 	/**
 	 * This method is used to return a set of categories.
 	 */
 	@Override
-	public Set<String> retrieveCategories() {
+	public Categories retrieveCategories() {
 
-		Categories categories = newsConsumerInstance
-				.retrieveCategories(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
+		return newsConsumerInstance.retrieveCategories(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
 
-		return categories.getCategories();
 	}
 
 	/**

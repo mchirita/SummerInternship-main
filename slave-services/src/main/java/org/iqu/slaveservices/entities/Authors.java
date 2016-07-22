@@ -3,12 +3,19 @@ package org.iqu.slaveservices.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Categories - Class that represents a set of authors.
  * 
  * @author Alex Dragomir
  *
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Authors {
 
 	private Set<String> authors = new HashSet<String>();
@@ -47,6 +54,7 @@ public class Authors {
 		return true;
 	}
 
+	@XmlElement
 	public Set<String> getAuthors() {
 		return authors;
 	}
@@ -61,5 +69,9 @@ public class Authors {
 
 	public boolean isEmpty() {
 		return this.authors.isEmpty();
+	}
+
+	public int size() {
+		return authors.size();
 	}
 }

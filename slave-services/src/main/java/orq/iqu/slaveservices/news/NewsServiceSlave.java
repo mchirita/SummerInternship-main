@@ -2,6 +2,8 @@ package orq.iqu.slaveservices.news;
 
 import java.util.Set;
 
+import org.iqu.slaveservices.entities.Authors;
+import org.iqu.slaveservices.entities.Categories;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.Source;
 
@@ -16,12 +18,12 @@ public interface NewsServiceSlave {
 	/**
 	 * This method is used to return a set of authors.
 	 */
-	public Set<String> retrieveAuthors();
+	public Authors retrieveAuthors();
 
 	/**
 	 * This method is used to return a set of categories.
 	 */
-	public Set<String> retrieveCategories();
+	public Categories retrieveCategories();
 
 	/**
 	 * This method is used to return a set of news.
