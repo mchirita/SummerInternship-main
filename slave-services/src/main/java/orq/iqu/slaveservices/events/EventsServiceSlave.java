@@ -1,12 +1,9 @@
 package orq.iqu.slaveservices.events;
 
-import java.util.Set;
-
-import org.iqu.slaveservices.entities.Event;
-import org.iqu.slaveservices.entities.Source;
-import org.iqu.slaveservices.entities.TypeService;
-
 import orq.iqu.slaveservices.dto.AuthorsDTO;
+import orq.iqu.slaveservices.dto.EventsDTO;
+import orq.iqu.slaveservices.dto.SourcesDTO;
+import orq.iqu.slaveservices.dto.TypesDTO;
 
 /**
  * EventsServiceSlave - Interface.
@@ -24,16 +21,16 @@ public interface EventsServiceSlave {
 	/**
 	 * This method is used to return a set of events.
 	 */
-	public Set<Event> retrieveEvents(String startDate, String endDate, String type, String subType, String sourceId,
+	public EventsDTO retrieveEvents(String startDate, String endDate, String type, String subType, String sourceId,
 			String author, String location);
 
 	/**
 	 * This method is used to return a set of sources.
 	 */
-	public Set<Source> retrieveSources();
+	public SourcesDTO retrieveSources();
 
 	/**
 	 * This method is used to return a set of service types.
 	 */
-	public Set<TypeService> retrieveTypes();
+	public TypesDTO retrieveTypes();
 }

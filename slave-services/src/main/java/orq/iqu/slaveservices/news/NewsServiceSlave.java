@@ -3,10 +3,10 @@ package orq.iqu.slaveservices.news;
 import java.util.Set;
 
 import org.iqu.slaveservices.entities.News;
-import org.iqu.slaveservices.entities.Source;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
+import orq.iqu.slaveservices.dto.SourcesDTO;
 
 /**
  * NewsServiceSlave - Interface.
@@ -35,6 +35,6 @@ public interface NewsServiceSlave {
 	/**
 	 * This method is used to return a set of sources.
 	 */
-	public Set<Source> retrieveSources();
+	public SourcesDTO retrieveSources();
 
 }

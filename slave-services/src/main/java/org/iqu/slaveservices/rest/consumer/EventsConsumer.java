@@ -1,22 +1,20 @@
 package org.iqu.slaveservices.rest.consumer;
 
-import java.util.Set;
-
 import org.iqu.coreservices.config.ServiceInfo;
-import org.iqu.slaveservices.entities.Event;
-import org.iqu.slaveservices.entities.Source;
-import org.iqu.slaveservices.entities.TypeService;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
+import orq.iqu.slaveservices.dto.EventsDTO;
+import orq.iqu.slaveservices.dto.SourcesDTO;
+import orq.iqu.slaveservices.dto.TypesDTO;
 
 public interface EventsConsumer {
 
+	EventsDTO retrieveEvents(ServiceInfo serviceInfo);
+
 	AuthorsDTO retrieveAuthors(ServiceInfo serviceInfo);
 
-	Set<Event> retrieveEvents(ServiceInfo serviceInfo);
+	TypesDTO retrieveTypes(ServiceInfo serviceInfo);
 
-	Set<Source> retrieveSources(ServiceInfo serviceInfo);
-
-	Set<TypeService> retrieveTypes(ServiceInfo serviceInfo);
+	SourcesDTO retrieveSources(ServiceInfo serviceInfo);
 
 }

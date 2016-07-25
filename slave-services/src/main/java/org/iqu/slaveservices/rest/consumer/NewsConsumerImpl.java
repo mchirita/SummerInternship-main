@@ -13,10 +13,11 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.iqu.coreservices.config.ServiceInfo;
 import org.iqu.slaveservices.entities.News;
-import org.iqu.slaveservices.entities.Source;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
+import orq.iqu.slaveservices.dto.SourceDTO;
+import orq.iqu.slaveservices.dto.SourcesDTO;
 
 public class NewsConsumerImpl implements NewsConsumer {
 
@@ -81,18 +82,30 @@ public class NewsConsumerImpl implements NewsConsumer {
 	}
 
 	@Override
-	public Set<Source> retrieveSources(ServiceInfo serviceInfo) {
+	public SourcesDTO retrieveSources(ServiceInfo serviceInfo) {
 
 		Client client = ClientBuilder.newClient();
 
 		WebTarget webTarget = client.target(
 				"http://" + serviceInfo.getHostname() + ":" + serviceInfo.getPort() + "/" + serviceInfo.getUrl())
 				.path("sources");
+
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 		Response response = invocationBuilder.get();
 
-		return response.readEntity(new GenericType<Set<Source>>() {
-		});
+		if (response.getStatus() == 200) {
+			SourcesDTO sourcesDTO = new SourcesDTO();
+			Sources sources = response.readEntity(Sources.class);
+			for (Source source : sources.getSources()) {
+				sourcesDTO.add(new SourceDTO(source.getId(), source.getDisplayName(), source.getDescription()));
+
+			}
+			return sourcesDTO;
+		}
+		if (response.getStatus() == 404) {
+			// error logging
+		}
+		return new SourcesDTO();
 
 	}
 }
