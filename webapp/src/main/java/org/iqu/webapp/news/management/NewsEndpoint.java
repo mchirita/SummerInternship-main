@@ -64,9 +64,9 @@ public class NewsEndpoint {
 	@CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retriveCategories() {
-		CategoriesDTO retrieveCategories = newsService.retrieveCategories();
-		Categories categories = new Categories(retrieveCategories.getCategories());
-		if (categories.isEmpty()) {
+		CategoriesDTO categoriesDTO = newsService.retrieveCategories();
+		Categories categories = new Categories(categoriesDTO.getCategories());
+		if (categoriesDTO.isEmpty()) {
 			int status = 404;
 			ErrorMessage errorMessage = new ErrorMessage("Could not fetch categories, please try again later.");
 			return Response.status(status).entity(errorMessage).build();
