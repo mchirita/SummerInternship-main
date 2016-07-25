@@ -65,10 +65,9 @@ public class EventsEndpoint {
 
 		Set<Event> retrieveEvents = eventsService.retrieveEvents(startDate, endDate, type, subType, sourceId, author,
 				location);
-		String response = "";
+		System.out.println(retrieveEvents.toString());
 		if (startDate == null) {
-			response = "{\"error\" : \"Requested location not available\"}";
-			return Response.status(400).entity(response).build();
+			return Response.status(200).entity(retrieveEvents).build();
 		} else {
 			return Response.ok("[{\"date\":1432911176, " + "\"id\":\"012031\", "
 					+ "\"title\":\"Cookiecliker is the new hit\", " + "\"subtitle\":\"A new game is out there\", "

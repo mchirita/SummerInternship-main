@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import org.iqu.coreservices.config.ServiceInfo;
 import org.iqu.slaveservices.entities.Authors;
 import org.iqu.slaveservices.entities.Event;
+import org.iqu.slaveservices.entities.Events;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.slaveservices.entities.TypeService;
 
@@ -32,8 +33,14 @@ public class EventsConsumerImpl implements EventsConsumer {
 
 	@Override
 	public Set<Event> retrieveEvents(ServiceInfo serviceInfo) {
-		// TODO Auto-generated method stub
-		return null;
+		Client client = ClientBuilder.newClient();
+		WebTarget webTarget = client.target(
+				"http://" + serviceInfo.getHostname() + ":" + serviceInfo.getPort() + "/" + serviceInfo.getUrl())
+				.path("events");
+		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
+		Response response = invocationBuilder.get();
+		Events events = response.readEntity(Events.class);
+		return events.getEvents();
 	}
 
 	@Override

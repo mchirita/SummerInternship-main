@@ -41,8 +41,9 @@ public class EventsServiceSlaveImpl implements EventsServiceSlave {
 	public Set<Event> retrieveEvents(String startDate, String endDate, String type, String subType, String sourceId,
 			String author, String location) {
 		// TODO get events from db.
+
 		Set<Event> events = new HashSet<Event>();
-		events.add(new Event());
+		events = eventsConsumerInstance.retrieveEvents(new ServiceInfo("localhost", "8080", "web-crawler/"));
 		return events;
 	}
 
