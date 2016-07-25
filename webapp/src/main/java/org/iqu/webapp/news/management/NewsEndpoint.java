@@ -31,7 +31,7 @@ import orq.iqu.slaveservices.news.NewsServiceSlave;
 @Path("/")
 public class NewsEndpoint {
 
-	private Logger logger = Logger.getLogger(NewsEndpoint.class);
+	private static final Logger LOGGER = Logger.getLogger(NewsEndpoint.class);
 	private NewsServiceSlave newsService = ServiceFactory.getNewsServiceInstance();
 
 	/**
@@ -47,7 +47,7 @@ public class NewsEndpoint {
 		Authors authors = new Authors(retrieveAuthors.getAuthors());
 		if (authors.isEmpty()) {
 			int status = 404;
-			logger.error("Authors not found");
+			LOGGER.error("Authors not found");
 			ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
 
 			return Response.status(status).entity(errorMessage).build();
@@ -64,9 +64,9 @@ public class NewsEndpoint {
 	@CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retriveCategories() {
-		CategoriesDTO retrieveCategories = newsService.retrieveCategories();
-		Categories categories = new Categories(retrieveCategories.getCategories());
-		if (categories.isEmpty()) {
+		CategoriesDTO categoriesDTO = newsService.retrieveCategories();
+		Categories categories = new Categories(categoriesDTO.getCategories());
+		if (categoriesDTO.isEmpty()) {
 			int status = 404;
 			ErrorMessage errorMessage = new ErrorMessage("Could not fetch categories, please try again later.");
 			return Response.status(status).entity(errorMessage).build();

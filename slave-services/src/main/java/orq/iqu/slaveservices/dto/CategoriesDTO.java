@@ -21,4 +21,8 @@ public class CategoriesDTO {
 	public void setCategories(Set<String> categories) {
 		this.categories = categories;
 	}
+
+	public boolean isEmpty() {
+		return categories.isEmpty();
+	}
 }
