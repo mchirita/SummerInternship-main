@@ -10,6 +10,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.iqu.coreservices.config.ServiceInfo;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.Source;
@@ -18,6 +19,8 @@ import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
 
 public class NewsConsumerImpl implements NewsConsumer {
+
+	private static final Logger LOGGER = Logger.getLogger(NewsConsumerImpl.class);
 
 	@Override
 	public Set<News> retrieveNews(ServiceInfo serviceInfo) {
@@ -51,7 +54,7 @@ public class NewsConsumerImpl implements NewsConsumer {
 			return new AuthorsDTO(authors.getAuthors());
 		}
 		if (response.getStatus() == 404) {
-			// error logging
+			LOGGER.error("Authors not found!");
 		}
 		return new AuthorsDTO();
 	}
@@ -72,7 +75,7 @@ public class NewsConsumerImpl implements NewsConsumer {
 			return new CategoriesDTO(categories.getCategories());
 		}
 		if (response.getStatus() == 404) {
-			// error logging
+			LOGGER.error("Categories not found!");
 		}
 		return new CategoriesDTO();
 	}
