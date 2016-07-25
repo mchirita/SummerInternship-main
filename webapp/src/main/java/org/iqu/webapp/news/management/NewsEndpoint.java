@@ -42,7 +42,6 @@ public class NewsEndpoint {
 	@CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retrieveAuthors() {
-
 		AuthorsDTO retrieveAuthors = newsService.retrieveAuthors();
 		Authors authors = new Authors(retrieveAuthors.getAuthors());
 		if (authors.isEmpty()) {
