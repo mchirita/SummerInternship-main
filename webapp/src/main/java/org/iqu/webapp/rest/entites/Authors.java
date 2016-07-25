@@ -1,4 +1,4 @@
-package org.iqu.slaveservices.entities;
+package org.iqu.webapp.rest.entites;
 
 import java.util.HashSet;
 import java.util.Set;

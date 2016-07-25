@@ -11,10 +11,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.iqu.coreservices.config.ServiceInfo;
-import org.iqu.slaveservices.entities.Authors;
-import org.iqu.slaveservices.entities.Categories;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.Source;
+
+import orq.iqu.slaveservices.dto.AuthorsDTO;
+import orq.iqu.slaveservices.dto.CategoriesDTO;
 
 public class NewsConsumerImpl implements NewsConsumer {
 
@@ -35,7 +36,7 @@ public class NewsConsumerImpl implements NewsConsumer {
 	}
 
 	@Override
-	public Authors retrieveAuthors(ServiceInfo serviceInfo) {
+	public AuthorsDTO retrieveAuthors(ServiceInfo serviceInfo) {
 
 		Client client = ClientBuilder.newClient();
 
@@ -44,13 +45,19 @@ public class NewsConsumerImpl implements NewsConsumer {
 				.path("authors");
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 		Response response = invocationBuilder.get();
-		Authors authors = response.readEntity(Authors.class);
 
-		return authors;
+		if (response.getStatus() == 200) {
+			Authors authors = response.readEntity(Authors.class);
+			return new AuthorsDTO(authors.getAuthors());
+		}
+		if (response.getStatus() == 404) {
+			// error logging
+		}
+		return new AuthorsDTO();
 	}
 
 	@Override
-	public Categories retrieveCategories(ServiceInfo serviceInfo) {
+	public CategoriesDTO retrieveCategories(ServiceInfo serviceInfo) {
 
 		Client client = ClientBuilder.newClient();
 
@@ -59,9 +66,15 @@ public class NewsConsumerImpl implements NewsConsumer {
 				.path("categories");
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 		Response response = invocationBuilder.get();
-		Categories categories = response.readEntity(Categories.class);
 
-		return categories;
+		if (response.getStatus() == 200) {
+			Categories categories = response.readEntity(Categories.class);
+			return new CategoriesDTO(categories.getCategories());
+		}
+		if (response.getStatus() == 404) {
+			// error logging
+		}
+		return new CategoriesDTO();
 	}
 
 	@Override

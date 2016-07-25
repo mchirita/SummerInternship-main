@@ -10,14 +10,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.iqu.slaveservices.entities.Authors;
-import org.iqu.slaveservices.entities.Categories;
-import org.iqu.slaveservices.entities.ErrorMessage;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
+import org.iqu.webapp.rest.entites.Authors;
+import org.iqu.webapp.rest.entites.Categories;
+import org.iqu.webapp.rest.entites.ErrorMessage;
 
+import orq.iqu.slaveservices.dto.AuthorsDTO;
+import orq.iqu.slaveservices.dto.CategoriesDTO;
 import orq.iqu.slaveservices.news.NewsServiceSlave;
 
 /**
@@ -41,17 +43,17 @@ public class NewsEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retrieveAuthors() {
 
-		Authors retrieveAuthors = newsService.retrieveAuthors();
+		AuthorsDTO retrieveAuthors = newsService.retrieveAuthors();
+		Authors authors = new Authors(retrieveAuthors.getAuthors());
+		if (authors.isEmpty()) {
+			int status = 404;
+			logger.error("Authors not found");
+			ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
 
-		if (retrieveAuthors.size() > 0) {
-			return Response.status(200).entity(retrieveAuthors).build();
+			return Response.status(status).entity(errorMessage).build();
 		}
 
-		String response = "{\"error\" : \"Could not fetch authors, please try again later.\"}";
-		int status = 404;
-		logger.error("Authors not found");
-
-		return Response.status(status).entity(response).build();
+		return Response.status(200).entity(authors).build();
 	}
 
 	/**
@@ -62,15 +64,15 @@ public class NewsEndpoint {
 	@CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retriveCategories() {
-
-		Categories retrieveCategories = newsService.retrieveCategories();
-
-		if (retrieveCategories.isEmpty()) {
+		CategoriesDTO retrieveCategories = newsService.retrieveCategories();
+		Categories categories = new Categories(retrieveCategories.getCategories());
+		if (categories.isEmpty()) {
+			int status = 404;
 			ErrorMessage errorMessage = new ErrorMessage("Could not fetch categories, please try again later.");
-			return Response.ok("{\"error\" : " + "\"" + errorMessage.getMessage() + "\"}").build();
+			return Response.status(status).entity(errorMessage).build();
 		}
 
-		return Response.status(200).entity(retrieveCategories).build();
+		return Response.status(200).entity(categories).build();
 	}
 
 	/**
@@ -125,15 +127,16 @@ public class NewsEndpoint {
 
 		Set<Source> retrieveSources = newsService.retrieveSources();
 
-		Source s = new Source("1", "BNR Brasov", "This is the official BNR site");
-		if (s.getDisplayName().equals("BNR Brasov")) {
-			status = 200;
-			return Response.status(status).entity(s).build();
-		} else {
+		// Source s = new Source("1", "BNR Brasov", "This is the official BNR
+		// site");
+		if (retrieveSources.isEmpty()) {
 			status = 404;
 			response = "{\"error\" : \"Could not fetch sources, please try again later.\"}";
 			return Response.status(status).entity(response).build();
 		}
+
+		status = 200;
+		return Response.status(status).entity("{\"sources\" : " + "\"" + retrieveSources + "\"}").build();
 		// TO DO : retrive sources form database
 	}
 

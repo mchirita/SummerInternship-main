@@ -4,12 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.iqu.coreservices.config.ServiceInfo;
-import org.iqu.slaveservices.entities.Authors;
 import org.iqu.slaveservices.entities.Event;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.slaveservices.entities.TypeService;
 import org.iqu.slaveservices.rest.consumer.EventsConsumer;
 import org.iqu.slaveservices.rest.consumer.factory.ConsumerFactory;
+
+import orq.iqu.slaveservices.dto.AuthorsDTO;
 
 /**
  * EventsServiceSlaveImpl - Class that implements the interface
@@ -26,12 +27,10 @@ public class EventsServiceSlaveImpl implements EventsServiceSlave {
 	 * This method is used to return a set of authors.
 	 */
 	@Override
-	public Set<String> retrieveAuthors() {
+	public AuthorsDTO retrieveAuthors() {
 
-		Authors authors = eventsConsumerInstance
-				.retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/events/"));
+		return eventsConsumerInstance.retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/events/"));
 
-		return authors.getAuthors();
 	}
 
 	/**
