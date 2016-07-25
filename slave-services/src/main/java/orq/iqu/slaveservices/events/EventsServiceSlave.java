@@ -6,6 +6,8 @@ import org.iqu.slaveservices.entities.Event;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.slaveservices.entities.TypeService;
 
+import orq.iqu.slaveservices.dto.AuthorsDTO;
+
 /**
  * EventsServiceSlave - Interface.
  * 
@@ -17,7 +19,7 @@ public interface EventsServiceSlave {
 	/**
 	 * This method is used to return a set of authors.
 	 */
-	public Set<String> retrieveAuthors();
+	public AuthorsDTO retrieveAuthors();
 
 	/**
 	 * This method is used to return a set of events.

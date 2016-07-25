@@ -1,4 +1,4 @@
-package org.iqu.slaveservices.entities;
+package org.iqu.slaveservices.rest.consumer;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Categories {
+class Categories {
 
 	private Set<String> categories = new HashSet<String>();
 

@@ -3,12 +3,13 @@ package orq.iqu.slaveservices.news;
 import java.util.Set;
 
 import org.iqu.coreservices.config.ServiceInfo;
-import org.iqu.slaveservices.entities.Authors;
-import org.iqu.slaveservices.entities.Categories;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.slaveservices.rest.consumer.NewsConsumer;
 import org.iqu.slaveservices.rest.consumer.factory.ConsumerFactory;
+
+import orq.iqu.slaveservices.dto.AuthorsDTO;
+import orq.iqu.slaveservices.dto.CategoriesDTO;
 
 /**
  * NewsServiceSlaveImpl - Class that implements the interface NewsServiceSlave.
@@ -24,7 +25,7 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
 	 * This method is used to return a set of authors.
 	 */
 	@Override
-	public Authors retrieveAuthors() {
+	public AuthorsDTO retrieveAuthors() {
 
 		return newsConsumerInstance.retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
 
@@ -34,7 +35,7 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
 	 * This method is used to return a set of categories.
 	 */
 	@Override
-	public Categories retrieveCategories() {
+	public CategoriesDTO retrieveCategories() {
 
 		return newsConsumerInstance.retrieveCategories(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
 
