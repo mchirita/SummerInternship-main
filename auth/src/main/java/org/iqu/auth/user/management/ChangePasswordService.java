@@ -9,6 +9,11 @@ import javax.ws.rs.core.Response;
 
 import org.iqu.auth.entities.ChangePasswordDetailes;
 import org.iqu.auth.filter.CORSResponse;
+import org.iqu.auth.persistence.dao.DaoFactory;
+import org.iqu.auth.persistence.dao.UserDaoImpl;
+import org.iqu.auth.persistence.dto.ChangePasswordDetailesDto;
+import org.iqu.auth.service.Convertor;
+import org.iqu.auth.token.TokenManager;
 
 /**
  * 
@@ -29,15 +34,14 @@ public class ChangePasswordService {
 	public Response changePassword(ChangePasswordDetailes passwordDetailes) {
 
 		String response = "";
-		int status;
+		int status = 1;
+	
+		Convertor convertor = new Convertor();
+		ChangePasswordDetailesDto changePasswordDto = convertor
+				.convertChangePasswordDetailesEntitieToChangePasswordDetailesDto(passwordDetailes);
+UserDaoImpl daoUser = DaoFactory.getInstance().getUserDao();
 
-		if (passwordDetailes.getNewPassword().equals("hunter3")
-				&& passwordDetailes.getResetToken().equals("xKdcPoqw23qDEr")) {
-			status = 200;
-		} else {
-			status = 404;
-			response = "{\"error\" : \"Could not change password. Invalid session.\"}";
-		}
+		
 		return Response.status(status).entity(response).build();
 		// TO DO : verify token, password in database and resetTokenUserMap
 		// TO DO : check is token is valid and is in map

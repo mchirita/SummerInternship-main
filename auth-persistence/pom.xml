@@ -21,9 +21,5 @@
 			<version>1.4</version>
 		</dependency>
 	</dependencies>
-	<distributionManagement>
-		<downloadUrl>
-http://java.sun.com/products/jndi/downloads/index.html
-</downloadUrl>
-	</distributionManagement>
+
 </project>

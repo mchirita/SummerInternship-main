@@ -1,21 +1,22 @@
-package auth.persistence.entities;
+package org.iqu.auth.persistence.dto;
 
-/**
- * 
- * @author Mitroi Stefan-Daniel
- *
- */
-public class UserCredentials {
 
+public class UserCredentialsDto {
 
 	private String userName;
 	private String password;
 
-	public UserCredentials(String userName, String password) {
+	public UserCredentialsDto(UserCredentialsDto userCredentials) {
+		this.userName = userCredentials.getUserName();
+		this.password = userCredentials.getPassword();
+	}
 
+	
+	public UserCredentialsDto(String userName, String password) {
 		this.userName = userName;
 		this.password = password;
 	}
+
 
 	public String getUserName() {
 		return userName;
@@ -32,10 +33,6 @@ public class UserCredentials {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	@Override
-	public String toString() {
-		return "UserCredentials [userName=" + userName + ", password=" + password + "]";
-	}
 
+	
 }

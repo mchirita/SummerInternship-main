@@ -1,16 +1,20 @@
 package org.iqu.auth.user.management;
 
-import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.iqu.auth.entities.User;
-import org.iqu.auth.maps.UserPasswordMap;
-import org.iqu.auth.token.TokenManager;
+import org.iqu.auth.entities.UserCredentials;
 import org.iqu.auth.filter.CORSResponse;
+import org.iqu.auth.persistence.dao.DaoFactory;
+import org.iqu.auth.persistence.dao.UserDaoImpl;
+import org.iqu.auth.persistence.dto.UserCredentialsDto;
+import org.iqu.auth.service.Convertor;
+import org.iqu.auth.token.TokenManager;
 
 /**
  * Service that authenticates the user and responds back with a token
@@ -25,31 +29,33 @@ public class AuthenticateService {
 	@CORSResponse
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response authenticateUser(User user) {
+	public Response authenticateUser(UserCredentials userCredentials) {
 
-		Map<String, String> upm = UserPasswordMap.getInstance();
 		String response = "";
-		int status;
-		String invalidUserMessage = "invalid user";
+		int status = 2;
 		String invalidPasswordMessage = "invalid password";
 		TokenManager tokenManager = TokenManager.getInstance();
 		String userToken = "";
+		Convertor convertor = new Convertor();
+		UserCredentialsDto userCredentialsDto = convertor
+				.convertUserCredentialsEntitieToUserCredentialsDto(userCredentials);
+		UserDaoImpl userDao = DaoFactory.getInstance().getUserDao();
 
-		if (!upm.containsKey(user.getUserName())) {
-			status = 401;
-			response = "{\"error\": \"" + invalidUserMessage + "\"}";
-		} else if (!upm.get(user.getUserName()).equals(user.getPassword())) {
+		if (userDao.findUserCredentials(userCredentialsDto)) {
+			if ((!tokenManager.containUser(userCredentialsDto.getUserName())
+					|| (!tokenManager.tokenValidatorForUser(userCredentialsDto.getUserName())))) {
+				userToken = tokenManager.generateToken(userCredentialsDto.getUserName());
+				status = 200;
+				response = "{\"token\":" + "\"" + userToken + "\"}";
+			} else {
+				status = 200;
+				response = "{\"token\":" + "\"" + tokenManager.getTokenForUser(userCredentialsDto.getUserName()) + "\"}";
+			}
+		} else {
 			status = 401;
 			response = "{\"error\": \"" + invalidPasswordMessage + "\"}";
-		} else if ((!tokenManager.containUser(user)) || (!tokenManager.tokenValidator(user))) {
-			userToken = tokenManager.generateToken(user);
-			status = 200;
-			response = "{\"token\":" + "\"" + userToken + "\"}";
-		} else {
-			status = 200;
-			response = "{\"token\":" + "\"" + tokenManager.getToken(user) + "\"}";
 		}
 		return Response.status(status).entity(response).build();
-		
+
 	}
 }

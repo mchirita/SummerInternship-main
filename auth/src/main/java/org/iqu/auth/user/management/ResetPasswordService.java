@@ -11,6 +11,11 @@ import javax.ws.rs.core.Response;
 import org.iqu.auth.entities.User;
 import org.iqu.auth.filter.CORSResponse;
 import org.iqu.auth.passwordreset.EmailSender;
+import org.iqu.auth.persistence.dao.DaoFactory;
+import org.iqu.auth.persistence.dao.UserDaoImpl;
+import org.iqu.auth.persistence.dto.UserDto;
+import org.iqu.auth.persistence.exception.AuthPersistenceException;
+import org.iqu.auth.service.Convertor;
 import org.iqu.auth.token.TokenManager;
 
 /**
@@ -31,18 +36,31 @@ public class ResetPasswordService {
 	public Response resetPassword(@QueryParam("email") String toEmail) {
 
 		EmailSender emailSender;
-		User user = new User(); // TO DO: read from database
 		TokenManager tokenManager = TokenManager.getInstance();
 		String resetToken = "";
-
-		if (tokenManager.containsResetToken(user) == true) {
-			return Response.status(200).build();
-		} else {
-			emailSender = new EmailSender();
-			resetToken = emailSender.sendMail(user.getUserName(), toEmail);
-			tokenManager.generateResetToken(user, resetToken);
+		Convertor convertor = new Convertor();
+		String message = "";
+		int status = 200;
+		String userName="";
+		
+		UserDaoImpl daoUser = DaoFactory.getInstance().getUserDao();
+		UserDto dtoUser;
+		try {
+			userName= daoUser.getUser(toEmail);
+			if (tokenManager.containsResetToken(userName) == true) {
+				return Response.status(200).build();
+			} else {
+				emailSender = new EmailSender();
+				resetToken = emailSender.sendMail(userName, toEmail);
+				tokenManager.generateResetToken(userName, resetToken);
+			}
+			
+		} catch (AuthPersistenceException e) {
+			status = 400;
+			message ="{\"error\" : " + "\"" + e.getMessage() + "\"}";
 		}
-		return Response.status(200).build();
-		// TO DO : search email in database
+
+		return Response.status(status).entity(message).build();
+	
 	}
 }

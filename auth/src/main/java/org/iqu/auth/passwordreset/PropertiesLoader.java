@@ -1,20 +1,7 @@
 package org.iqu.auth.passwordreset;
 
-import static org.iqu.auth.passwordreset.PropertiesConstants.EMAIL;
-import static org.iqu.auth.passwordreset.PropertiesConstants.HOST;
-import static org.iqu.auth.passwordreset.PropertiesConstants.PASSWORD;
-import static org.iqu.auth.passwordreset.PropertiesConstants.PATH;
-import static org.iqu.auth.passwordreset.PropertiesConstants.PORT;
-import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_AUTH;
-import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_DEBUG;
-import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_FACTORY_CLASS;
-import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_FACTORY_FCALLBACK;
-import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_FACTORY_PORT;
-import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_HOST;
-import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_PASSWORD;
-import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_PORT;
-import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_STARTTLS_ENABLE;
-import static org.iqu.auth.passwordreset.PropertiesConstants.SMTP_USER;
+
+import static org.iqu.auth.passwordreset.PropertiesConstants.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;

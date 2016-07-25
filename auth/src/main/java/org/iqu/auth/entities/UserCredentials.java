@@ -25,11 +25,11 @@ public class UserCredentials {
 		this.password = password;
 	}
 
-	public String getUsername() {
+	public String getUserName() {
 		return userName;
 	}
 
-	public void setUsername(String username) {
+	public void setUserName(String username) {
 		this.userName = username;
 	}
 
