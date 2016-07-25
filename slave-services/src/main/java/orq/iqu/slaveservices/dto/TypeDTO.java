@@ -12,7 +12,7 @@ public class TypeDTO {
 
 	}
 
-	public TypeDTO(String nameOfType, Set<String> subTypes) {
+	public TypeDTO(String nameOfType, Set<String> subtypes) {
 		super();
 		this.type = nameOfType;
 		this.subtypes = subtypes;

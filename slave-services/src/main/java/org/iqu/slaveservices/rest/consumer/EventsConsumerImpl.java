@@ -101,7 +101,6 @@ public class EventsConsumerImpl implements EventsConsumer {
 			TypesDTO typesDTO = new TypesDTO();
 			for (Type type : types.getTypes()) {
 				typesDTO.addType(new TypeDTO(type.getType(), type.getSubTypes()));
-
 			}
 			return typesDTO;
 		}

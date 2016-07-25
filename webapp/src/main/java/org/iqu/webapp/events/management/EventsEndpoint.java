@@ -52,7 +52,6 @@ public class EventsEndpoint {
 			int status = 404;
 			LOGGER.error("Authors not found");
 			ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
-
 			return Response.status(status).entity(errorMessage).build();
 		}
 
