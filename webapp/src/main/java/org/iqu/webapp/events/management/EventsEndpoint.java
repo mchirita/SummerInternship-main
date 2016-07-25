@@ -10,14 +10,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.iqu.slaveservices.entities.ErrorMessage;
 import org.iqu.slaveservices.entities.Event;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.slaveservices.entities.TypeService;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
 import org.iqu.webapp.news.management.NewsEndpoint;
+import org.iqu.webapp.rest.entites.Authors;
+import org.iqu.webapp.rest.entites.ErrorMessage;
 
+import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.events.EventsServiceSlave;
 
 /**
@@ -41,14 +43,30 @@ public class EventsEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retriveAuthors() {
 
-		Set<String> retrieveAuthors = eventsService.retrieveAuthors();
+		// Set<String> retrieveAuthors = eventsService.retrieveAuthors();
+		//
+		// if (retrieveAuthors.isEmpty()) {
+		// ErrorMessage errorMessage = new ErrorMessage("Could not fetch
+		// authors, please try again later.");
+		// return Response.ok("{\"error\" : " + "\"" + errorMessage.getMessage()
+		// + "\"}").build();
+		// }
+		//
+		// return Response.status(200).entity("{\"authors\" : " + "\"" +
+		// retrieveAuthors + "\"}").build();
 
-		if (retrieveAuthors.isEmpty()) {
+		AuthorsDTO retrieveAuthors = eventsService.retrieveAuthors();
+		Authors authors = new Authors(retrieveAuthors.getAuthors());
+		if (authors.isEmpty()) {
+			int status = 404;
+			logger.error("Authors not found");
 			ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
-			return Response.ok("{\"error\" : " + "\"" + errorMessage.getMessage() + "\"}").build();
+
+			return Response.status(status).entity(errorMessage).build();
 		}
 
-		return Response.status(200).entity("{\"authors\" : " + "\"" + retrieveAuthors + "\"}").build();
+		return Response.status(200).entity(authors).build();
+
 	}
 
 	/**

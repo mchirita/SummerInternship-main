@@ -10,16 +10,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.iqu.coreservices.config.ServiceInfo;
-import org.iqu.slaveservices.entities.Authors;
 import org.iqu.slaveservices.entities.Event;
 import org.iqu.slaveservices.entities.Events;
 import org.iqu.slaveservices.entities.Source;
 import org.iqu.slaveservices.entities.TypeService;
 
+import orq.iqu.slaveservices.dto.AuthorsDTO;
+
 public class EventsConsumerImpl implements EventsConsumer {
 
 	@Override
-	public Authors retrieveAuthors(ServiceInfo serviceInfo) {
+	public AuthorsDTO retrieveAuthors(ServiceInfo serviceInfo) {
 		Client client = ClientBuilder.newClient();
 		WebTarget webTarget = client.target(
 				"http://" + serviceInfo.getHostname() + ":" + serviceInfo.getPort() + "/" + serviceInfo.getUrl())
@@ -28,7 +29,8 @@ public class EventsConsumerImpl implements EventsConsumer {
 		Response response = invocationBuilder.get();
 		Authors authors = response.readEntity(Authors.class);
 
-		return authors;
+		// return authors;
+		return new AuthorsDTO(authors.getAuthors());
 	}
 
 	@Override
