@@ -4,12 +4,12 @@ import java.util.Set;
 
 import org.iqu.coreservices.config.ServiceInfo;
 import org.iqu.slaveservices.entities.News;
-import org.iqu.slaveservices.entities.Source;
 import org.iqu.slaveservices.rest.consumer.NewsConsumer;
 import org.iqu.slaveservices.rest.consumer.factory.ConsumerFactory;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
+import orq.iqu.slaveservices.dto.SourcesDTO;
 
 /**
  * NewsServiceSlaveImpl - Class that implements the interface NewsServiceSlave.
@@ -56,13 +56,8 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
 	 * This method is used to return a set of sources.
 	 */
 	@Override
-	public Set<Source> retrieveSources() {
-		// TODO get sources from db.
-		// Set<Source> sources = new HashSet<Source>();
-		// sources.add(new Source("id", "display name", "description"));
-		Set<Source> sources = newsConsumerInstance
-				.retrieveSources(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
-		return sources;
+	public SourcesDTO retrieveSources() {
+		return newsConsumerInstance.retrieveSources(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
 	}
 
 }

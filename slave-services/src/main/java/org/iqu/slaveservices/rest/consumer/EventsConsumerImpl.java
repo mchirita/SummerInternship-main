@@ -1,7 +1,5 @@
 package org.iqu.slaveservices.rest.consumer;
 
-import java.util.Set;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
@@ -10,44 +8,107 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.iqu.coreservices.config.ServiceInfo;
-import org.iqu.slaveservices.entities.Event;
-import org.iqu.slaveservices.entities.Source;
-import org.iqu.slaveservices.entities.TypeService;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
+import orq.iqu.slaveservices.dto.EventsDTO;
+import orq.iqu.slaveservices.dto.SourceDTO;
+import orq.iqu.slaveservices.dto.SourcesDTO;
+import orq.iqu.slaveservices.dto.TypeDTO;
+import orq.iqu.slaveservices.dto.TypesDTO;
 
 public class EventsConsumerImpl implements EventsConsumer {
 
 	@Override
 	public AuthorsDTO retrieveAuthors(ServiceInfo serviceInfo) {
 		Client client = ClientBuilder.newClient();
+
 		WebTarget webTarget = client.target(
 				"http://" + serviceInfo.getHostname() + ":" + serviceInfo.getPort() + "/" + serviceInfo.getUrl())
 				.path("authors");
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 		Response response = invocationBuilder.get();
-		Authors authors = response.readEntity(Authors.class);
 
-		// return authors;
-		return new AuthorsDTO(authors.getAuthors());
+		if (response.getStatus() == 200) {
+			Authors authors = response.readEntity(Authors.class);
+			return new AuthorsDTO(authors.getAuthors());
+		}
+		if (response.getStatus() == 404) {
+			// error logging
+		}
+		return new AuthorsDTO();
 	}
 
 	@Override
-	public Set<Event> retrieveEvents(ServiceInfo serviceInfo) {
-		// TODO Auto-generated method stub
-		return null;
+	public EventsDTO retrieveEvents(ServiceInfo serviceInfo) {
+		Client client = ClientBuilder.newClient();
+
+		WebTarget webTarget = client.target(
+				"http://" + serviceInfo.getHostname() + ":" + serviceInfo.getPort() + "/" + serviceInfo.getUrl())
+				.path("events");
+
+		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
+		Response response = invocationBuilder.get();
+
+		if (response.getStatus() == 200) {
+			Events events = response.readEntity(Events.class);
+			return new EventsDTO(events.getEvents());
+		}
+		if (response.getStatus() == 404) {
+			// error logging
+		}
+		return new EventsDTO();
 	}
 
 	@Override
-	public Set<Source> retrieveSources(ServiceInfo serviceInfo) {
-		// TODO Auto-generated method stub
-		return null;
+	public SourcesDTO retrieveSources(ServiceInfo serviceInfo) {
+		Client client = ClientBuilder.newClient();
+
+		WebTarget webTarget = client.target(
+				"http://" + serviceInfo.getHostname() + ":" + serviceInfo.getPort() + "/" + serviceInfo.getUrl())
+				.path("sources");
+
+		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
+		Response response = invocationBuilder.get();
+
+		if (response.getStatus() == 200) {
+			SourcesDTO sourcesDTO = new SourcesDTO();
+			Sources sources = response.readEntity(Sources.class);
+			for (Source source : sources.getSources()) {
+				sourcesDTO.add(new SourceDTO(source.getId(), source.getDisplayName(), source.getDescription()));
+
+			}
+			return sourcesDTO;
+		}
+		if (response.getStatus() == 404) {
+			// error logging
+		}
+		return new SourcesDTO();
+
 	}
 
 	@Override
-	public Set<TypeService> retrieveTypes(ServiceInfo serviceInfo) {
-		// TODO Auto-generated method stub
-		return null;
+	public TypesDTO retrieveTypes(ServiceInfo serviceInfo) {
+		Client client = ClientBuilder.newClient();
+
+		WebTarget webTarget = client.target(
+				"http://" + serviceInfo.getHostname() + ":" + serviceInfo.getPort() + "/" + serviceInfo.getUrl())
+				.path("types");
+		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
+		Response response = invocationBuilder.get();
+
+		if (response.getStatus() == 200) {
+			Types types = response.readEntity(Types.class);
+			TypesDTO typesDTO = new TypesDTO();
+			for (Type type : types.getTypes()) {
+				typesDTO.addType(new TypeDTO(type.getType(), type.getSubTypes()));
+
+			}
+			return typesDTO;
+		}
+		if (response.getStatus() == 404) {
+			// error logging
+		}
+		return new TypesDTO();
 	}
 
 }

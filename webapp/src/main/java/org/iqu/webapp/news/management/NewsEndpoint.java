@@ -11,7 +11,6 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.iqu.slaveservices.entities.News;
-import org.iqu.slaveservices.entities.Source;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
 import org.iqu.webapp.rest.entites.Authors;
@@ -20,6 +19,7 @@ import org.iqu.webapp.rest.entites.ErrorMessage;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
+import orq.iqu.slaveservices.dto.SourcesDTO;
 import orq.iqu.slaveservices.news.NewsServiceSlave;
 
 /**
@@ -31,7 +31,7 @@ import orq.iqu.slaveservices.news.NewsServiceSlave;
 @Path("/")
 public class NewsEndpoint {
 
-	private Logger logger = Logger.getLogger(NewsEndpoint.class);
+	private static final Logger LOGGER = Logger.getLogger(NewsEndpoint.class);
 	private NewsServiceSlave newsService = ServiceFactory.getNewsServiceInstance();
 
 	/**
@@ -47,7 +47,7 @@ public class NewsEndpoint {
 		Authors authors = new Authors(retrieveAuthors.getAuthors());
 		if (authors.isEmpty()) {
 			int status = 404;
-			logger.error("Authors not found");
+			LOGGER.error("Authors not found");
 			ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
 
 			return Response.status(status).entity(errorMessage).build();
@@ -125,7 +125,7 @@ public class NewsEndpoint {
 		String response = "";
 		status = 0;
 
-		Set<Source> retrieveSources = newsService.retrieveSources();
+		SourcesDTO retrieveSources = newsService.retrieveSources();
 
 		// Source s = new Source("1", "BNR Brasov", "This is the official BNR
 		// site");

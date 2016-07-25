@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -52,6 +53,7 @@ class Categories {
 		return true;
 	}
 
+	@XmlElement
 	public Set<String> getCategories() {
 		return categories;
 	}
