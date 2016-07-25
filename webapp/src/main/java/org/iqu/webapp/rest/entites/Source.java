@@ -1,11 +1,11 @@
-package org.iqu.slaveservices.entities;
+package org.iqu.webapp.rest.entites;
 
-/**
- * Source - Entity that represents a Source.
- * 
- * @author Alex Dragomir
- *
- */
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Source {
 	private String id;
 	private String displayName;
@@ -40,12 +40,6 @@ public class Source {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	// @Override
-	// public String toString() {
-	// return "Source [id=" + id + ", displayName=" + displayName + ",
-	// description=" + description + "]";
-	// }
 
 	@Override
 	public String toString() {

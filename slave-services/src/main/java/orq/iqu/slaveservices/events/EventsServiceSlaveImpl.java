@@ -1,20 +1,16 @@
 package orq.iqu.slaveservices.events;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.iqu.coreservices.config.ServiceInfo;
-import org.iqu.slaveservices.entities.Event;
-import org.iqu.slaveservices.entities.Source;
-import org.iqu.slaveservices.entities.TypeService;
 import org.iqu.slaveservices.rest.consumer.EventsConsumer;
 import org.iqu.slaveservices.rest.consumer.factory.ConsumerFactory;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
+import orq.iqu.slaveservices.dto.EventsDTO;
+import orq.iqu.slaveservices.dto.SourcesDTO;
+import orq.iqu.slaveservices.dto.TypesDTO;
 
 /**
- * EventsServiceSlaveImpl - Class that implements the interface
- * EventsServiceSlave.
+ * NewsServiceSlaveImpl - Class that implements the interface NewsServiceSlave.
  * 
  * @author Alex Dragomir
  *
@@ -34,38 +30,29 @@ public class EventsServiceSlaveImpl implements EventsServiceSlave {
 	}
 
 	/**
-	 * This method is used to return a set of events.
+	 * This method is used to return a set of categories.
+	 */
+	public TypesDTO retrieveTypes() {
+
+		return eventsConsumerInstance.retrieveTypes(new ServiceInfo("localhost", "8080", "web-crawler/events/"));
+
+	}
+
+	/**
+	 * This method is used to return a set of news.
 	 */
 	@Override
-	public Set<Event> retrieveEvents(String startDate, String endDate, String type, String subType, String sourceId,
+	public EventsDTO retrieveEvents(String startDate, String endDate, String categories, String about, String sourceId,
 			String author, String location) {
-		// TODO get events from db.
-
-		Set<Event> events = new HashSet<Event>();
-		events = eventsConsumerInstance.retrieveEvents(new ServiceInfo("localhost", "8080", "web-crawler/"));
-		return events;
+		return eventsConsumerInstance.retrieveEvents(new ServiceInfo("localhost", "8080", "web-crawler/"));
 	}
 
 	/**
 	 * This method is used to return a set of sources.
 	 */
 	@Override
-	public Set<Source> retrieveSources() {
-		// TODO get source from db.
-		Set<Source> sources = new HashSet<Source>();
-		sources.add(new Source("id", "display name", "description"));
-		return sources;
-	}
-
-	/**
-	 * This method is used to return a set of service types.
-	 */
-	@Override
-	public Set<TypeService> retrieveTypes() {
-		// TODO get types from db.
-		Set<TypeService> types = new HashSet<TypeService>();
-		types.add(new TypeService());
-		return types;
+	public SourcesDTO retrieveSources() {
+		return eventsConsumerInstance.retrieveSources(new ServiceInfo("localhost", "8080", "web-crawler/events/"));
 	}
 
 }

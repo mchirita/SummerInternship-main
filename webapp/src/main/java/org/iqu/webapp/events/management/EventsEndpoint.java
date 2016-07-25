@@ -1,7 +1,5 @@
 package org.iqu.webapp.events.management;
 
-import java.util.Set;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -10,16 +8,21 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.iqu.slaveservices.entities.Event;
-import org.iqu.slaveservices.entities.Source;
-import org.iqu.slaveservices.entities.TypeService;
+import org.iqu.slaveservices.rest.consumer.Type;
+import org.iqu.slaveservices.rest.consumer.Types;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
-import org.iqu.webapp.news.management.NewsEndpoint;
 import org.iqu.webapp.rest.entites.Authors;
 import org.iqu.webapp.rest.entites.ErrorMessage;
+import org.iqu.webapp.rest.entites.Source;
+import org.iqu.webapp.rest.entites.Sources;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
+import orq.iqu.slaveservices.dto.EventsDTO;
+import orq.iqu.slaveservices.dto.SourceDTO;
+import orq.iqu.slaveservices.dto.SourcesDTO;
+import orq.iqu.slaveservices.dto.TypeDTO;
+import orq.iqu.slaveservices.dto.TypesDTO;
 import orq.iqu.slaveservices.events.EventsServiceSlave;
 
 /**
@@ -31,7 +34,7 @@ import orq.iqu.slaveservices.events.EventsServiceSlave;
 @Path("/")
 public class EventsEndpoint {
 
-	private Logger logger = Logger.getLogger(NewsEndpoint.class);
+	private Logger LOGGER = Logger.getLogger(EventsEndpoint.class);
 	private EventsServiceSlave eventsService = ServiceFactory.getEventsServiceInstance();
 
 	/**
@@ -41,25 +44,13 @@ public class EventsEndpoint {
 	@GET
 	@CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response retriveAuthors() {
-
-		// Set<String> retrieveAuthors = eventsService.retrieveAuthors();
-		//
-		// if (retrieveAuthors.isEmpty()) {
-		// ErrorMessage errorMessage = new ErrorMessage("Could not fetch
-		// authors, please try again later.");
-		// return Response.ok("{\"error\" : " + "\"" + errorMessage.getMessage()
-		// + "\"}").build();
-		// }
-		//
-		// return Response.status(200).entity("{\"authors\" : " + "\"" +
-		// retrieveAuthors + "\"}").build();
+	public Response retrieveAuthors() {
 
 		AuthorsDTO retrieveAuthors = eventsService.retrieveAuthors();
 		Authors authors = new Authors(retrieveAuthors.getAuthors());
 		if (authors.isEmpty()) {
 			int status = 404;
-			logger.error("Authors not found");
+			LOGGER.error("Authors not found");
 			ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
 
 			return Response.status(status).entity(errorMessage).build();
@@ -81,7 +72,7 @@ public class EventsEndpoint {
 			@QueryParam("sourceId") String sourceId, @QueryParam("author") String author,
 			@QueryParam("location") String location) {
 
-		Set<Event> retrieveEvents = eventsService.retrieveEvents(startDate, endDate, type, subType, sourceId, author,
+		EventsDTO retrieveEvents = eventsService.retrieveEvents(startDate, endDate, type, subType, sourceId, author,
 				location);
 		System.out.println(retrieveEvents.toString());
 		if (startDate == null) {
@@ -109,12 +100,16 @@ public class EventsEndpoint {
 		int status;
 		String response = "";
 		status = 0;
-		Source source = new Source("1", "BNR Brasov", "This is the official BNR site");
-		Set<Source> retrieveSources = eventsService.retrieveSources();
-
-		if (source.getDisplayName().equals("BNR Brasov")) {
+		// Source source = new Source("1", "BNR Brasov", "This is the official
+		// BNR site");
+		SourcesDTO retrieveSources = eventsService.retrieveSources();
+		Sources sources = new Sources();
+		for (SourceDTO sourceDTO : retrieveSources.getSources()) {
+			sources.addSource(new Source(sourceDTO.getId(), sourceDTO.getDisplayName(), sourceDTO.getDescription()));
+		}
+		if (!sources.isEmpty()) {
 			status = 200;
-			return Response.status(status).entity(source).build();
+			return Response.status(status).entity(sources).build();
 		} else {
 			status = 404;
 			response = "\"error\" : \"Could not fetch sources, please try again later.\"";
@@ -131,10 +126,18 @@ public class EventsEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retriveTypes() {
 
-		Set<TypeService> retrieveSources = eventsService.retrieveTypes();
+		TypesDTO typesDTO = eventsService.retrieveTypes();
+		Types types = new Types();
+		for (TypeDTO type : typesDTO.getTypes()) {
+			types.addType(new Type(type.getType(), type.getSubTypes()));
+		}
+		if (types.isEmpty()) {
+			int status = 404;
+			ErrorMessage errorMessage = new ErrorMessage("Could not fetch categories, please try again later.");
+			return Response.status(status).entity(errorMessage).build();
+		}
 
-		String type = "Concert";
-		return Response.ok("[{\"Type\": " + "\"" + type + "\",\n\"Subtypes\" : [\"rock\", \"classical\"]}]").build();
+		return Response.status(200).entity(types).build();
 
 	}
 

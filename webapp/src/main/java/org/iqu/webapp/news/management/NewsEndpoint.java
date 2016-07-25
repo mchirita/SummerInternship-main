@@ -11,7 +11,6 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.iqu.slaveservices.entities.News;
-import org.iqu.slaveservices.entities.Source;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
 import org.iqu.webapp.rest.entites.Authors;
@@ -20,6 +19,7 @@ import org.iqu.webapp.rest.entites.ErrorMessage;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
+import orq.iqu.slaveservices.dto.SourcesDTO;
 import orq.iqu.slaveservices.news.NewsServiceSlave;
 
 /**
@@ -125,7 +125,7 @@ public class NewsEndpoint {
 		String response = "";
 		status = 0;
 
-		Set<Source> retrieveSources = newsService.retrieveSources();
+		SourcesDTO retrieveSources = newsService.retrieveSources();
 
 		// Source s = new Source("1", "BNR Brasov", "This is the official BNR
 		// site");
