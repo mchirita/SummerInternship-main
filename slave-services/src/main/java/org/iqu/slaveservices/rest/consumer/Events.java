@@ -9,6 +9,10 @@ public class Events {
 
 	private Set<Event> events = new HashSet<Event>();
 
+	public Events() {
+
+	}
+
 	public Events(Set<Event> events) {
 		super();
 		this.events = events;

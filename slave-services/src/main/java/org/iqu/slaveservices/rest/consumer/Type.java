@@ -14,6 +14,10 @@ public class Type {
 	private String type;
 	private Set<String> subtypes = new HashSet<String>();
 
+	public Type() {
+
+	}
+
 	public Type(String nameOfType, Set<String> subtypes) {
 		super();
 		this.type = nameOfType;
