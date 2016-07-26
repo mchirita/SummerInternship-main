@@ -1,13 +1,6 @@
-package org.iqu.slaveservices.entities;
+package orq.iqu.slaveservices.dto;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-
-public class Event {
+public class EventDTO {
   private String startDate;
   private String endDate;
   private String id;
@@ -23,11 +16,11 @@ public class Event {
   private String external_url;
   private String author;
 
-  public Event() {
+  public EventDTO() {
     // TODO Auto-generated constructor stub
   }
 
-  public Event(String startDate, String endDate, String id, String title, String subtitle, String description,
+  public EventDTO(String startDate, String endDate, String id, String title, String subtitle, String description,
       String[] type, String[] subtypes, String source, String body, String image_id, String thumbnail_id,
       String external_url, String author) {
     super();
@@ -158,4 +151,5 @@ public class Event {
   public void setAuthor(String author) {
     this.author = author;
   }
+
 }
