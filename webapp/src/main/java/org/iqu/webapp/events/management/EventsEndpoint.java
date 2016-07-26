@@ -108,7 +108,8 @@ public class EventsEndpoint {
     SourcesDTO retrieveSources = eventsService.retrieveSources();
     Sources sources = new Sources();
     for (SourceDTO sourceDTO : retrieveSources.getSources()) {
-      sources.addSource(new Source(sourceDTO.getId(), sourceDTO.getDisplayName(), sourceDTO.getDescription()));
+      sources.addSource(
+          new Source(sourceDTO.getId(), sourceDTO.getDisplayName(), sourceDTO.getDescription(), sourceDTO.getImage()));
     }
     if (!sources.isEmpty()) {
       status = 200;

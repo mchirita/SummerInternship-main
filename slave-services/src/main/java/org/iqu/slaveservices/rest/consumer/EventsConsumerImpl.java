@@ -83,7 +83,8 @@ public class EventsConsumerImpl implements EventsConsumer {
       SourcesDTO sourcesDTO = new SourcesDTO();
       Sources sources = response.readEntity(Sources.class);
       for (Source source : sources.getSources()) {
-        sourcesDTO.add(new SourceDTO(source.getId(), source.getDisplayName(), source.getDescription()));
+        sourcesDTO
+            .add(new SourceDTO(source.getId(), source.getDisplayName(), source.getDescription(), source.getImage()));
 
       }
       return sourcesDTO;

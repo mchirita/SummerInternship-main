@@ -17,26 +17,26 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class News {
-  private Set<NewsArticle> news = new HashSet<NewsArticle>();
+  private Set<SingleNews> news = new HashSet<SingleNews>();
 
   public News() {
   }
 
-  public News(Set<NewsArticle> news) {
+  public News(Set<SingleNews> news) {
     super();
     this.news = news;
   }
 
   @XmlElement
-  public Set<NewsArticle> getNews() {
+  public Set<SingleNews> getNews() {
     return news;
   }
 
-  public void setNews(Set<NewsArticle> news) {
+  public void setNews(Set<SingleNews> news) {
     this.news = news;
   }
 
-  public void add(NewsArticle singleNews) {
+  public void add(SingleNews singleNews) {
     news.add(singleNews);
   }
 
