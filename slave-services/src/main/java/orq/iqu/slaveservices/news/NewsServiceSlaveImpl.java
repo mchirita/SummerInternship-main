@@ -1,14 +1,12 @@
 package orq.iqu.slaveservices.news;
 
-import java.util.Set;
-
 import org.iqu.coreservices.config.ServiceInfo;
-import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.rest.consumer.NewsConsumer;
 import org.iqu.slaveservices.rest.consumer.factory.ConsumerFactory;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
+import orq.iqu.slaveservices.dto.NewsDTO;
 import orq.iqu.slaveservices.dto.SourcesDTO;
 
 /**
@@ -45,11 +43,10 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
 	 * This method is used to return a set of news.
 	 */
 	@Override
-	public Set<News> retrieveNews(String startDate, String endDate, String categories, String about, String sourceId,
+	public NewsDTO retrieveNews(String startDate, String endDate, String categories, String about, String sourceId,
 			String author, String location) {
 		// TODO get news from db.
-		Set<News> news = newsConsumerInstance.retrieveNews(new ServiceInfo("localhost", "8080", "web-crawler/"));
-		return news;
+		return newsConsumerInstance.retrieveNews(new ServiceInfo("localhost", "8080", "web-crawler/"));
 	}
 
 	/**
