@@ -5,6 +5,11 @@ import java.util.Set;
 
 import org.iqu.slaveservices.entities.Event;
 
+/**
+ * 
+ * @author Razvan Rosu
+ *
+ */
 public class Events {
 
 	private Set<Event> events = new HashSet<Event>();

@@ -28,7 +28,7 @@ import orq.iqu.slaveservices.events.EventsServiceSlave;
 /**
  * EventsEndpoint - Class that holds the services for events end-point.
  * 
- * @author Alex Dragomir
+ * @author Razvan Rosu
  *
  */
 @Path("/")
