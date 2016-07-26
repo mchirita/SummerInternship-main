@@ -1,21 +1,21 @@
 package org.iqu.slaveservices.rest.consumer;
 
-import java.util.Set;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.iqu.coreservices.config.ServiceInfo;
 import org.iqu.slaveservices.entities.News;
+import org.iqu.slaveservices.entities.SingleNews;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
+import orq.iqu.slaveservices.dto.NewsDTO;
+import orq.iqu.slaveservices.dto.SingleNewsDTO;
 import orq.iqu.slaveservices.dto.SourceDTO;
 import orq.iqu.slaveservices.dto.SourcesDTO;
 
@@ -24,7 +24,7 @@ public class NewsConsumerImpl implements NewsConsumer {
 	private static final Logger LOGGER = Logger.getLogger(NewsConsumerImpl.class);
 
 	@Override
-	public Set<News> retrieveNews(ServiceInfo serviceInfo) {
+	public NewsDTO retrieveNews(ServiceInfo serviceInfo) {
 
 		Client client = ClientBuilder.newClient();
 
@@ -35,8 +35,22 @@ public class NewsConsumerImpl implements NewsConsumer {
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 		Response response = invocationBuilder.get();
 
-		return response.readEntity(new GenericType<Set<News>>() {
-		});
+		if (response.getStatus() == 200) {
+			News news = response.readEntity(News.class);
+
+			NewsDTO newsDTO = new NewsDTO();
+			for (SingleNews newsItem : news.getNews()) {
+				newsDTO.add(new SingleNewsDTO(newsItem.getDate(), newsItem.getId(), newsItem.getTitle(),
+						newsItem.getSubtitle(), newsItem.getDescription(), newsItem.getAuthors(),
+						newsItem.getCategories(), newsItem.getSource(), newsItem.getBody(), newsItem.getImage_id(),
+						newsItem.getThumbnail_id(), newsItem.getExternal_url()));
+			}
+			return newsDTO;
+		}
+		if (response.getStatus() == 404) {
+			LOGGER.error("News not found!");
+		}
+		return new NewsDTO();
 	}
 
 	@Override
