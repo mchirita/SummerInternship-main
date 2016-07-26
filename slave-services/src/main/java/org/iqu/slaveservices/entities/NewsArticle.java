@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SingleNews {
+public class NewsArticle {
 
 	private String date;
 	private String id;
@@ -27,10 +27,10 @@ public class SingleNews {
 	private String thumbnail_id;
 	private String external_url;
 
-	public SingleNews() {
+	public NewsArticle() {
 	}
 
-	public SingleNews(String date, String id, String title, String subtitle, String description, String[] authors,
+	public NewsArticle(String date, String id, String title, String subtitle, String description, String[] authors,
 			String[] categories, String source, String body, String image_id, String thumbnail_id,
 			String external_url) {
 		super();

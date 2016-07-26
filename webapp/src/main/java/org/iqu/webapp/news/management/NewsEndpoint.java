@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.iqu.slaveservices.entities.News;
-import org.iqu.slaveservices.entities.SingleNews;
+import org.iqu.slaveservices.entities.NewsArticle;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
 import org.iqu.webapp.rest.entites.Authors;
@@ -94,7 +94,7 @@ public class NewsEndpoint {
 				location);
 		News news = new News();
 		for (SingleNewsDTO newsItem : retrieveNews.getNews()) {
-			news.add(new SingleNews(newsItem.getDate(), newsItem.getId(), newsItem.getTitle(), newsItem.getSubtitle(),
+			news.add(new NewsArticle(newsItem.getDate(), newsItem.getId(), newsItem.getTitle(), newsItem.getSubtitle(),
 					newsItem.getDescription(), newsItem.getAuthors(), newsItem.getCategories(), newsItem.getSource(),
 					newsItem.getBody(), newsItem.getImage_id(), newsItem.getThumbnail_id(),
 					newsItem.getExternal_url()));

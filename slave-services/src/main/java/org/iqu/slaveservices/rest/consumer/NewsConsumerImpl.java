@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.iqu.coreservices.config.ServiceInfo;
 import org.iqu.slaveservices.entities.News;
-import org.iqu.slaveservices.entities.SingleNews;
+import org.iqu.slaveservices.entities.NewsArticle;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
@@ -39,7 +39,7 @@ public class NewsConsumerImpl implements NewsConsumer {
 			News news = response.readEntity(News.class);
 
 			NewsDTO newsDTO = new NewsDTO();
-			for (SingleNews newsItem : news.getNews()) {
+			for (NewsArticle newsItem : news.getNews()) {
 				newsDTO.add(new SingleNewsDTO(newsItem.getDate(), newsItem.getId(), newsItem.getTitle(),
 						newsItem.getSubtitle(), newsItem.getDescription(), newsItem.getAuthors(),
 						newsItem.getCategories(), newsItem.getSource(), newsItem.getBody(), newsItem.getImage_id(),
