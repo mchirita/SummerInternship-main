@@ -16,9 +16,12 @@ import org.iqu.webapp.filter.CORSResponse;
 import org.iqu.webapp.rest.entites.Authors;
 import org.iqu.webapp.rest.entites.Categories;
 import org.iqu.webapp.rest.entites.ErrorMessage;
+import org.iqu.webapp.rest.entites.Source;
+import org.iqu.webapp.rest.entites.Sources;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
+import orq.iqu.slaveservices.dto.SourceDTO;
 import orq.iqu.slaveservices.dto.SourcesDTO;
 import orq.iqu.slaveservices.news.NewsServiceSlave;
 
@@ -122,21 +125,24 @@ public class NewsEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retriveSources() {
 		int status;
-		String response = "";
 		status = 0;
 
 		SourcesDTO retrieveSources = newsService.retrieveSources();
+		Sources sources = new Sources();
+		for (SourceDTO sourceDTO : retrieveSources.getSources()) {
+			sources.addSource(new Source(sourceDTO.getId(), sourceDTO.getDisplayName(), sourceDTO.getDescription()));
+		}
 
 		// Source s = new Source("1", "BNR Brasov", "This is the official BNR
 		// site");
-		if (retrieveSources.isEmpty()) {
+		if (sources.isEmpty()) {
 			status = 404;
-			response = "{\"error\" : \"Could not fetch sources, please try again later.\"}";
-			return Response.status(status).entity(response).build();
+			ErrorMessage errorMessage = new ErrorMessage("Could not fetch sources, please try again later.");
+			return Response.status(status).entity(errorMessage).build();
 		}
 
 		status = 200;
-		return Response.status(status).entity("{\"sources\" : " + "\"" + retrieveSources + "\"}").build();
+		return Response.status(status).entity(sources).build();
 		// TO DO : retrive sources form database
 	}
 

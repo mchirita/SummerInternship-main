@@ -73,7 +73,6 @@ public class EventsEndpoint {
 
 		EventsDTO retrieveEvents = eventsService.retrieveEvents(startDate, endDate, type, subType, sourceId, author,
 				location);
-		System.out.println(retrieveEvents.toString());
 		if (startDate == null) {
 			return Response.status(200).entity(retrieveEvents).build();
 		} else {
@@ -97,10 +96,7 @@ public class EventsEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response retrieveSource() {
 		int status;
-		String response = "";
 		status = 0;
-		// Source source = new Source("1", "BNR Brasov", "This is the official
-		// BNR site");
 		SourcesDTO retrieveSources = eventsService.retrieveSources();
 		Sources sources = new Sources();
 		for (SourceDTO sourceDTO : retrieveSources.getSources()) {
@@ -111,8 +107,8 @@ public class EventsEndpoint {
 			return Response.status(status).entity(sources).build();
 		} else {
 			status = 404;
-			response = "\"error\" : \"Could not fetch sources, please try again later.\"";
-			return Response.status(status).entity(response).build();
+			ErrorMessage errorMessage = new ErrorMessage("Could not fetch sources, please try again later.");
+			return Response.status(status).entity(errorMessage).build();
 		}
 	}
 
@@ -139,5 +135,4 @@ public class EventsEndpoint {
 		return Response.status(200).entity(types).build();
 
 	}
-
 }
