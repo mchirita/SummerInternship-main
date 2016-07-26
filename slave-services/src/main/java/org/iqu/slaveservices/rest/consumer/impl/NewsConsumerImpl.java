@@ -1,16 +1,22 @@
-package org.iqu.slaveservices.rest.consumer;
+package org.iqu.slaveservices.rest.consumer.impl;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 import org.iqu.coreservices.config.ServiceInfo;
+import org.iqu.slaveservices.entities.Authors;
+import org.iqu.slaveservices.entities.Categories;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.SingleNews;
+import org.iqu.slaveservices.entities.Source;
+import org.iqu.slaveservices.entities.Sources;
+import org.iqu.slaveservices.rest.consumer.BaseConsumer;
+import org.iqu.slaveservices.rest.consumer.NewsConsumer;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
@@ -19,7 +25,7 @@ import orq.iqu.slaveservices.dto.SingleNewsDTO;
 import orq.iqu.slaveservices.dto.SourceDTO;
 import orq.iqu.slaveservices.dto.SourcesDTO;
 
-public class NewsConsumerImpl implements NewsConsumer {
+public class NewsConsumerImpl extends BaseConsumer implements NewsConsumer {
 
   private static final Logger LOGGER = Logger.getLogger(NewsConsumerImpl.class);
 
@@ -28,14 +34,11 @@ public class NewsConsumerImpl implements NewsConsumer {
 
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client
-        .target("http://" + serviceInfo.getHostname() + ":" + serviceInfo.getPort() + "/" + serviceInfo.getUrl())
-        .path("news");
+    WebTarget webTarget = client.target(buildTarget(serviceInfo)).path("news");
 
-    Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-    Response response = invocationBuilder.get();
+    Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
-    if (response.getStatus() == 200) {
+    if (response.getStatus() == Status.OK.getStatusCode()) {
       News news = response.readEntity(News.class);
 
       NewsDTO newsDTO = new NewsDTO();
@@ -46,7 +49,7 @@ public class NewsConsumerImpl implements NewsConsumer {
       }
       return newsDTO;
     }
-    if (response.getStatus() == 404) {
+    if (response.getStatus() == Status.NOT_FOUND.getStatusCode()) {
       LOGGER.error("News not found!");
     }
     return new NewsDTO();
@@ -57,17 +60,14 @@ public class NewsConsumerImpl implements NewsConsumer {
 
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client
-        .target("http://" + serviceInfo.getHostname() + ":" + serviceInfo.getPort() + "/" + serviceInfo.getUrl())
-        .path("authors");
-    Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-    Response response = invocationBuilder.get();
+    WebTarget webTarget = client.target(buildTarget(serviceInfo)).path("authors");
+    Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
-    if (response.getStatus() == 200) {
+    if (response.getStatus() == Status.OK.getStatusCode()) {
       Authors authors = response.readEntity(Authors.class);
       return new AuthorsDTO(authors.getAuthors());
     }
-    if (response.getStatus() == 404) {
+    if (response.getStatus() == Status.NOT_FOUND.getStatusCode()) {
       LOGGER.error("Authors not found!");
     }
     return new AuthorsDTO();
@@ -78,17 +78,14 @@ public class NewsConsumerImpl implements NewsConsumer {
 
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client
-        .target("http://" + serviceInfo.getHostname() + ":" + serviceInfo.getPort() + "/" + serviceInfo.getUrl())
-        .path("categories");
-    Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-    Response response = invocationBuilder.get();
+    WebTarget webTarget = client.target(buildTarget(serviceInfo)).path("categories");
+    Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
-    if (response.getStatus() == 200) {
+    if (response.getStatus() == Status.OK.getStatusCode()) {
       Categories categories = response.readEntity(Categories.class);
       return new CategoriesDTO(categories.getCategories());
     }
-    if (response.getStatus() == 404) {
+    if (response.getStatus() == Status.NOT_FOUND.getStatusCode()) {
       LOGGER.error("Categories not found!");
     }
     return new CategoriesDTO();
@@ -99,14 +96,11 @@ public class NewsConsumerImpl implements NewsConsumer {
 
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client
-        .target("http://" + serviceInfo.getHostname() + ":" + serviceInfo.getPort() + "/" + serviceInfo.getUrl())
-        .path("sources");
+    WebTarget webTarget = client.target(buildTarget(serviceInfo)).path("sources");
 
-    Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-    Response response = invocationBuilder.get();
+    Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
-    if (response.getStatus() == 200) {
+    if (response.getStatus() == Status.OK.getStatusCode()) {
       SourcesDTO sourcesDTO = new SourcesDTO();
       Sources sources = response.readEntity(Sources.class);
       for (Source source : sources.getSources()) {
@@ -116,7 +110,7 @@ public class NewsConsumerImpl implements NewsConsumer {
       }
       return sourcesDTO;
     }
-    if (response.getStatus() == 404) {
+    if (response.getStatus() == Status.NOT_FOUND.getStatusCode()) {
       // error logging
     }
     return new SourcesDTO();

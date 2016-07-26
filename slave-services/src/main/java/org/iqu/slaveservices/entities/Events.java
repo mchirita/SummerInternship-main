@@ -18,6 +18,10 @@ public class Events {
     this.events = events;
   }
 
+  public Events() {
+    // TODO Auto-generated constructor stub
+  }
+
   public void addEvent(Event event) {
     events.add(event);
   }
@@ -32,6 +36,10 @@ public class Events {
 
   public void setEvents(Set<Event> events) {
     this.events = events;
+  }
+
+  public void add(Event event) {
+    events.add(event);
   }
 
 }

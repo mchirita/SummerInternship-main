@@ -1,4 +1,4 @@
-package org.iqu.slaveservices.rest.consumer;
+package org.iqu.slaveservices.entities;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Class that implements a set of types for an event.
  * 
  * @author Razvan Rosu
  *

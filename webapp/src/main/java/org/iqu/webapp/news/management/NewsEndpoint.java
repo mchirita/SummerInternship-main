@@ -6,17 +6,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
+import org.iqu.slaveservices.entities.Authors;
+import org.iqu.slaveservices.entities.Categories;
+import org.iqu.slaveservices.entities.ErrorMessage;
 import org.iqu.slaveservices.entities.News;
 import org.iqu.slaveservices.entities.SingleNews;
+import org.iqu.slaveservices.entities.Source;
+import org.iqu.slaveservices.entities.Sources;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
-import org.iqu.webapp.rest.entites.Authors;
-import org.iqu.webapp.rest.entites.Categories;
-import org.iqu.webapp.rest.entites.ErrorMessage;
-import org.iqu.webapp.rest.entites.Source;
-import org.iqu.webapp.rest.entites.Sources;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
@@ -50,14 +51,13 @@ public class NewsEndpoint {
     AuthorsDTO retrieveAuthors = newsService.retrieveAuthors();
     Authors authors = new Authors(retrieveAuthors.getAuthors());
     if (authors.isEmpty()) {
-      int status = 404;
       LOGGER.error("Authors not found");
       ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
 
-      return Response.status(status).entity(errorMessage).build();
+      return Response.status(Status.NOT_FOUND.getStatusCode()).entity(errorMessage).build();
     }
 
-    return Response.status(200).entity(authors).build();
+    return Response.status(Status.OK.getStatusCode()).entity(authors).build();
   }
 
   /**
@@ -71,12 +71,11 @@ public class NewsEndpoint {
     CategoriesDTO categoriesDTO = newsService.retrieveCategories();
     Categories categories = new Categories(categoriesDTO.getCategories());
     if (categoriesDTO.isEmpty()) {
-      int status = 404;
       ErrorMessage errorMessage = new ErrorMessage("Could not fetch categories, please try again later.");
-      return Response.status(status).entity(errorMessage).build();
+      return Response.status(Status.NOT_FOUND.getStatusCode()).entity(errorMessage).build();
     }
 
-    return Response.status(200).entity(categories).build();
+    return Response.status(Status.OK.getStatusCode()).entity(categories).build();
   }
 
   /**
@@ -98,7 +97,7 @@ public class NewsEndpoint {
           newsItem.getBody(), newsItem.getImage_id(), newsItem.getThumbnail_id(), newsItem.getExternal_url()));
     }
     if (startDate == null) {
-      return Response.status(200).entity(news).build();
+      return Response.status(Status.OK.getStatusCode()).entity(news).build();
     } else {
       return Response.ok("[{\"date\":1432911176, " + "\"id\":\"012031\", "
           + "\"title\":\"Cookiecliker is the new hit\", " + "\"subtitle\":\"A new game is out there\", "
@@ -117,8 +116,6 @@ public class NewsEndpoint {
   @CORSResponse
   @Produces(MediaType.APPLICATION_JSON)
   public Response retriveSources() {
-    int status;
-    status = 0;
 
     SourcesDTO retrieveSources = newsService.retrieveSources();
     Sources sources = new Sources();
@@ -130,13 +127,11 @@ public class NewsEndpoint {
     // Source s = new Source("1", "BNR Brasov", "This is the official BNR
     // site");
     if (sources.isEmpty()) {
-      status = 404;
       ErrorMessage errorMessage = new ErrorMessage("Could not fetch sources, please try again later.");
-      return Response.status(status).entity(errorMessage).build();
+      return Response.status(Status.NOT_FOUND.getStatusCode()).entity(errorMessage).build();
     }
 
-    status = 200;
-    return Response.status(status).entity(sources).build();
+    return Response.status(Status.OK.getStatusCode()).entity(sources).build();
     // TO DO : retrive sources form database
   }
 
