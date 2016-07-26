@@ -29,8 +29,6 @@ public class DaoFactory {
 		}
 	}
 
-
-
 	private DaoFactory() {
 		connection = DaoManager.getInstace().getConnection();
 	}

@@ -1,9 +1,6 @@
 package org.iqu.auth.entities;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * 
@@ -85,7 +82,8 @@ public class TokenInfo {
 
 	@Override
 	public String toString() {
-		return "TokenInfo [user=" + userName + ", validUntil=" + validUntil + "]";
+		return "TokenInfo [userName=" + userName + ", token=" + token + ", validUntil=" + validUntil + "]";
 	}
+
 
 }

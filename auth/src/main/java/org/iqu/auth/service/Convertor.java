@@ -9,36 +9,36 @@ import org.iqu.auth.persistence.dto.UserDto;
 
 public class Convertor {
 
-	public User convertUserDtoToUserEntitie(UserDto dtoUser) {
-		return new User(dtoUser.getUserName(), dtoUser.getPassword(), dtoUser.getFirstName(), dtoUser.getLastName(),
-				dtoUser.getEmail(), dtoUser.getCountry(), dtoUser.getAge());
+	public User convertToUserEntitie(UserDto userDto) {
+		return new User(userDto.getUserName(), userDto.getPassword(), userDto.getFirstName(), userDto.getLastName(),
+				userDto.getEmail(), userDto.getCountry(), userDto.getAge());
 	}
 
-	public UserDto convertUserEntitieToUserDto(User user) {
+	public UserDto convertToUserDto(User user) {
 
-		UserDto dtoUser = new UserDto(user.getUserName(), user.getPassword(), user.getFirstName(), user.getLastName(),
+		UserDto userDto = new UserDto(user.getUserName(), user.getPassword(), user.getFirstName(), user.getLastName(),
 				user.getEmail(), user.getCountry(), user.getAge());
-		return dtoUser;
+		return userDto;
 	}
 
-	public UserCredentials convertUserCredentialsDtoToUserCredentialsEntitie(UserCredentialsDto dtoUserCredentials) {
-		return new UserCredentials(dtoUserCredentials.getUserName(), dtoUserCredentials.getPassword());
+	public UserCredentials convertToUserCredentialsEntitie(UserCredentialsDto userCredentialsDto) {
+		return new UserCredentials(userCredentialsDto.getUserName(), userCredentialsDto.getPassword());
 	}
 
-	public UserCredentialsDto convertUserCredentialsEntitieToUserCredentialsDto(UserCredentials userCredentials) {
-		UserCredentialsDto dtoUserCredentials = new UserCredentialsDto(userCredentials.getUserName(),
+	public UserCredentialsDto convertToUserCredentialsDto(UserCredentials userCredentials) {
+		UserCredentialsDto userCredentialsDto = new UserCredentialsDto(userCredentials.getUserName(),
 				userCredentials.getPassword());
-		return dtoUserCredentials;
+		return userCredentialsDto;
 
 	}
 
-	public ChangePasswordDetailes convertChangePasswordDetailesDtoToChangePasswordDetailesEntitie(
-			ChangePasswordDetailesDto dtoChangePasswordDetailes) {
-		return new ChangePasswordDetailes(dtoChangePasswordDetailes.getResetToken(),
-				dtoChangePasswordDetailes.getNewPassword());
+	public ChangePasswordDetailes convertToChangePasswordDetailesEntitie(
+			ChangePasswordDetailesDto changePasswordDetailesDto) {
+		return new ChangePasswordDetailes(changePasswordDetailesDto.getResetToken(),
+				changePasswordDetailesDto.getNewPassword());
 	}
 
-	public ChangePasswordDetailesDto convertChangePasswordDetailesEntitieToChangePasswordDetailesDto(
+	public ChangePasswordDetailesDto convertToChangePasswordDetailesDto(
 			ChangePasswordDetailes changePasswordDetailes) {
 		ChangePasswordDetailesDto dtoChangePasswordDetailes = new ChangePasswordDetailesDto(
 				changePasswordDetailes.getResetToken(), changePasswordDetailes.getNewPassword());

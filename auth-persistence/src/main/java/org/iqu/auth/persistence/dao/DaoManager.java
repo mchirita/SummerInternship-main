@@ -7,6 +7,11 @@ import java.sql.SQLException;
 
 import org.apache.commons.dbcp.BasicDataSource;
 
+/**
+ * 
+ * @author Mitroi Stefan-Daniel
+ *
+ */
 public class DaoManager {
 
 	private static DaoManager instance = new DaoManager();

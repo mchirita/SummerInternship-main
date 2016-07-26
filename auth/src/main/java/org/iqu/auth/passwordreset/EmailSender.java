@@ -35,12 +35,13 @@ public class EmailSender {
 		tokenGenerator = new TokenGenerator();
 	}
 
-	public String sendMail(String userName, String toEmail) {
+	public String sendMail(String userName, String toEmail) throws ConfigurationException {
 
 		try {
 			props = propsLoader.loadProperties();
-		} catch (ConfigurationException e) {
+		}  catch (ConfigurationException e) {
 			LOGGER.error("can't load properties", e);
+			throw new ConfigurationException("interanl problem");
 		}
 		auth = new SMTPAuthenticator(props.getProperty(SMTP_USER), props.getProperty(SMTP_PASSWORD));
 		Session session = Session.getInstance(props, auth);

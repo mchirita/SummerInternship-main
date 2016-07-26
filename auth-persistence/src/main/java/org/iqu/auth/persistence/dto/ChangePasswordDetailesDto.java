@@ -1,5 +1,10 @@
 package org.iqu.auth.persistence.dto;
 
+/**
+ * 
+ * @author Mitroi Stefan-Daniel
+ *
+ */
 public class ChangePasswordDetailesDto {
 	
 	private String resetToken;

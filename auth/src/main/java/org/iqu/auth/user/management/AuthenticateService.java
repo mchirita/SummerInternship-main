@@ -6,8 +6,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
-import org.iqu.auth.entities.User;
+import org.iqu.auth.entities.ErrorMessage;
+import org.iqu.auth.entities.TokenMessage;
 import org.iqu.auth.entities.UserCredentials;
 import org.iqu.auth.filter.CORSResponse;
 import org.iqu.auth.persistence.dao.DaoFactory;
@@ -31,31 +33,44 @@ public class AuthenticateService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response authenticateUser(UserCredentials userCredentials) {
 
-		String response = "";
-		int status = 2;
-		String invalidPasswordMessage = "invalid password";
-		TokenManager tokenManager = TokenManager.getInstance();
+
+		String userName = "";
 		String userToken = "";
+		// String invalidPasswordMessage = "invalid password";
+
+		ErrorMessage errorMessage;
+		TokenMessage tokenMessage;
+		TokenManager tokenManager = TokenManager.getInstance();
 		Convertor convertor = new Convertor();
-		UserCredentialsDto userCredentialsDto = convertor
-				.convertUserCredentialsEntitieToUserCredentialsDto(userCredentials);
+		UserCredentialsDto userCredentialsDto = convertor.convertToUserCredentialsDto(userCredentials);
 		UserDaoImpl userDao = DaoFactory.getInstance().getUserDao();
 
+		userName = userCredentialsDto.getUserName();
+
 		if (userDao.findUserCredentials(userCredentialsDto)) {
-			if ((!tokenManager.containUser(userCredentialsDto.getUserName())
-					|| (!tokenManager.tokenValidatorForUser(userCredentialsDto.getUserName())))) {
-				userToken = tokenManager.generateToken(userCredentialsDto.getUserName());
-				status = 200;
-				response = "{\"token\":" + "\"" + userToken + "\"}";
+			if ((!tokenManager.containUser(userName) || (!tokenManager.tokenValidatorForUser(userName)))) {
+				System.out.println("1");
+				userToken = tokenManager.generateToken(userName);
+				tokenManager.printTokenMap();
+				tokenManager.printUserMap();
+		
+				tokenMessage = new TokenMessage(userToken);
+				return Response.status(Status.OK).entity(tokenMessage).build();
 			} else {
-				status = 200;
-				response = "{\"token\":" + "\"" + tokenManager.getTokenForUser(userCredentialsDto.getUserName()) + "\"}";
+				System.out.println("2");
+				tokenMessage = new TokenMessage(tokenManager.getTokenForUser(userName));
+				tokenManager.printTokenMap();
+				tokenManager.printUserMap();
+				
+				return Response.status(Status.OK).entity(tokenMessage).build();
 			}
 		} else {
-			status = 401;
-			response = "{\"error\": \"" + invalidPasswordMessage + "\"}";
+			errorMessage = new ErrorMessage("invalidPasswordMessage");
+			tokenManager.printTokenMap();
+			tokenManager.printUserMap();
+			return Response.status(Status.UNAUTHORIZED).entity(errorMessage).build();
 		}
-		return Response.status(status).entity(response).build();
+		
 
 	}
 }

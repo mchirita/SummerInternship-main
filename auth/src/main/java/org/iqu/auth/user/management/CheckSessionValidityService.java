@@ -6,7 +6,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.iqu.auth.token.TokenManager;
+import org.iqu.auth.entities.ErrorMessage;
+import org.iqu.auth.entities.UserNameMessage;
 import org.iqu.auth.filter.CORSResponse;
 
 /**
@@ -27,20 +31,22 @@ public class CheckSessionValidityService {
 	public Response checkSessionValidity(@PathParam("token") String token) {
 
 		TokenManager tokenManager = TokenManager.getInstance();
-		String response = "";
 		String userToken = tokenManager.getToken(token);
-		int status;
+		ErrorMessage errorMessage;
+		UserNameMessage userNameMessage;
+		tokenManager.printTokenMap();
+		tokenManager.printUserMap();
 
 		if ("".equals(userToken)) {
-			status = 404;
-			response = "{\"error\" : \"user does not exist\"}";
+			errorMessage = new ErrorMessage("user does not exist.");
+			return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
 		} else if (!tokenManager.tokenValidator(token)) {
-			status = 400;
-			response = "{\"error\" : \"Session expired.\"}";
+			errorMessage = new ErrorMessage("Session expired.");
+			return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
 		} else {
-			status = 200;
-			response = "{\"userName\": \"" + tokenManager.getUser(token) + "\"}";
+			userNameMessage = new UserNameMessage(tokenManager.getUser(token));
+			return Response.status(Status.OK).entity(userNameMessage).build();
+
 		}
-		return Response.status(status).entity(response).build();
 	}
 }

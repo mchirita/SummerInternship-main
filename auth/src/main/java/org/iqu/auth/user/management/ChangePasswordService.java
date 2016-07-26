@@ -6,8 +6,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.iqu.auth.entities.ChangePasswordDetailes;
+import org.iqu.auth.entities.ErrorMessage;
 import org.iqu.auth.filter.CORSResponse;
 import org.iqu.auth.persistence.dao.DaoFactory;
 import org.iqu.auth.persistence.dao.UserDaoImpl;
@@ -32,19 +34,38 @@ public class ChangePasswordService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response changePassword(ChangePasswordDetailes passwordDetailes) {
+		System.out.println("changepassword");
 
-		String response = "";
-		int status = 1;
-	
-		Convertor convertor = new Convertor();
-		ChangePasswordDetailesDto changePasswordDto = convertor
-				.convertChangePasswordDetailesEntitieToChangePasswordDetailesDto(passwordDetailes);
-UserDaoImpl daoUser = DaoFactory.getInstance().getUserDao();
+		ErrorMessage errorMessage;
+		String resetToken = passwordDetailes.getResetToken();
+		TokenManager tokenManager = TokenManager.getInstance();
 
-		
-		return Response.status(status).entity(response).build();
-		// TO DO : verify token, password in database and resetTokenUserMap
-		// TO DO : check is token is valid and is in map
-
+		if (!tokenManager.containsResetTokenForToken(passwordDetailes.getResetToken())) {
+			tokenManager.printResetTokenMap();
+			errorMessage = new ErrorMessage("Could not change password. Invalid session.");
+			return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
+		}
+		if (!tokenManager.resetTokenValidatorForToken(resetToken)) {
+			System.out.println("inainte de remove");
+			tokenManager.printResetTokenMap();
+			tokenManager.removeResetTokenWithToken(resetToken);
+			System.out.println("dupa remove");
+			tokenManager.printResetTokenMap();
+			errorMessage = new ErrorMessage("Could not change password. Invalid session.");
+			return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
+		}
+		else {
+			Convertor convertor = new Convertor();
+			ChangePasswordDetailesDto changePasswordDto = convertor.convertToChangePasswordDetailesDto(passwordDetailes);
+			UserDaoImpl daoUser = DaoFactory.getInstance().getUserDao();
+			String userName = tokenManager.getUserWithResetToken(resetToken);
+			daoUser.updatePassword(changePasswordDto, userName);
+			System.out.println("inainte de remove");
+			tokenManager.printResetTokenMap();
+			tokenManager.removeResetTokenWithToken(resetToken);
+			System.out.println("dupa remove");
+			tokenManager.printResetTokenMap();
+			return Response.status(Status.OK).build();
+		}
 	}
 }

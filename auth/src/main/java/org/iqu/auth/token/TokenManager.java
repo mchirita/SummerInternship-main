@@ -21,12 +21,14 @@ public class TokenManager {
 	private Map<String, TokenInfo> tokenMap;
 	private Map<String, TokenInfo> userMap;
 	private Map<String, TokenInfo> resetTokenMap;
+	private Map<String, TokenInfo> userResetTokenMap;
 	private TokenGenerator tokenGenerator;
 
 	private TokenManager() {
 		tokenMap = new ConcurrentHashMap<String, TokenInfo>();
 		userMap = new ConcurrentHashMap<String, TokenInfo>();
 		resetTokenMap = new ConcurrentHashMap<String, TokenInfo>();
+		userResetTokenMap = new ConcurrentHashMap<String, TokenInfo>();
 		tokenGenerator = new TokenGenerator();
 	}
 
@@ -35,7 +37,7 @@ public class TokenManager {
 	}
 
 	public String generateToken(String userName) {
-		LocalDateTime tokenValidityPeriod = LocalDateTime.now().plusDays(1);
+		LocalDateTime tokenValidityPeriod = LocalDateTime.now().plusMinutes(1);
 		String token = tokenGenerator.generateToken(userName);
 		TokenInfo tokenInfo = new TokenInfo(userName, token, tokenValidityPeriod);
 		tokenMap.put(token, tokenInfo);
@@ -55,8 +57,10 @@ public class TokenManager {
 	 */
 	public boolean tokenValidator(String token) {
 		boolean isValid = false;
-		if (tokenMap.get(token).getvalidUntil().isAfter(LocalDateTime.now())) {
-			isValid = true;
+		if (tokenMap.containsKey(token)) {
+			if (tokenMap.get(token).getvalidUntil().isAfter(LocalDateTime.now())) {
+				isValid = true;
+			}
 		}
 		return isValid;
 	}
@@ -64,7 +68,7 @@ public class TokenManager {
 	/**
 	 * Check if user corresponding token is valid.
 	 * 
-	 * @param user
+	 * @param userName
 	 * @return true if token is valid and flase otherwise.
 	 */
 	public boolean tokenValidatorForUser(String userName) {
@@ -94,31 +98,100 @@ public class TokenManager {
 	}
 
 	public void removeToken(String token) {
-		tokenMap.remove(token);
+		String userName = tokenMap.remove(token).getUserName();
+		userMap.remove(userName);
 	}
 
 	public TokenInfo generateResetToken(String userName, String generateToken) {
-		LocalDateTime reserTokenVAlidityPeriod = LocalDateTime.now().plusHours(1);
+		LocalDateTime reserTokenVAlidityPeriod = LocalDateTime.now().plusMinutes(1);
 		TokenInfo token = new TokenInfo(userName, generateToken, reserTokenVAlidityPeriod);
 		resetTokenMap.put(generateToken, token);
+		userResetTokenMap.put(userName, token);
 		return token;
 	}
 
-	public boolean containsResetToken(String userName) {
+	public boolean containsResetTokenForUserName(String userName) {
 
-		return resetTokenMap.containsValue(userName);
+		return userResetTokenMap.containsKey(userName);
 	}
 
-	public boolean resetTokenValidator(String token) {
+	public boolean containsResetTokenForToken(String resetToken) {
+
+		return resetTokenMap.containsKey(resetToken);
+	}
+
+	/**
+	 * Check if reset token is valid.
+	 * 
+	 * @param resetToken
+	 * @return true if token is valid and flase otherwise.
+	 */
+	public boolean resetTokenValidatorForToken(String resetToken) {
 		boolean isValid = false;
-		if (resetTokenMap.get(token).getvalidUntil().isAfter(LocalDateTime.now())) {
+		if (resetTokenMap.get(resetToken).getvalidUntil().isAfter(LocalDateTime.now())) {
 			isValid = true;
 		}
 		return isValid;
 	}
-	
-	public String getUserFromResetToken(String token){
-		return resetTokenMap.get(token).getUserName();
+
+	/**
+	 * Check if user corresponding reset token is valid.
+	 * 
+	 * @param userName
+	 * @return true if token is valid and flase otherwise.
+	 */
+	public boolean resetTokenValidatorForUser(String userName) {
+		boolean isValid = false;
+		if (userResetTokenMap.containsKey(userName)) {
+			if (userResetTokenMap.get(userName).getvalidUntil().isAfter(LocalDateTime.now())) {
+				isValid = true;
+			}
+		}
+		return isValid;
+	}
+
+	public String getUserWithResetToken(String resetToken) {
+		return resetTokenMap.get(resetToken).getUserName();
+
+	}
+
+	public void removeResetTokenWithToken(String resetToken) {
+		String userName = resetTokenMap.remove(resetToken).getUserName();
+		userResetTokenMap.remove(userName);
+	}
+
+	public void removeResetTokenWithUserName(String userName) {
+		String token = userResetTokenMap.remove(userName).getToken();
+		resetTokenMap.remove(token);
+
+	}
+
+	public void printUserMap() {
+		System.out.println("UserMap");
+		for (String key : userMap.keySet()) {
+			System.out.println(key + " " + userMap.get(key));
+		}
+	}
+
+	public void printTokenMap() {
+		System.out.println("TokenMap");
+		for (String key : tokenMap.keySet()) {
+			System.out.println(key + " " + tokenMap.get(key));
+		}
+	}
+
+	public void printResetTokenMap() {
+		System.out.println("ResetTokenMap");
+		for (String key : resetTokenMap.keySet()) {
+			System.out.println(key + " " + resetTokenMap.get(key));
+		}
+	}
+
+	public void printUserResetTokenMap() {
+		System.out.println("ResetTokenMap");
+		for (String key : userResetTokenMap.keySet()) {
+			System.out.println(key + " " + userResetTokenMap.get(key));
+		}
 	}
 
 	// TO DO : implement resetTokenVAlidator() for resetTokenUserMap

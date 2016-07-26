@@ -7,15 +7,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
-import org.iqu.auth.entities.User;
+import org.iqu.auth.entities.ErrorMessage;
+import org.iqu.auth.exception.ConfigurationException;
 import org.iqu.auth.filter.CORSResponse;
 import org.iqu.auth.passwordreset.EmailSender;
 import org.iqu.auth.persistence.dao.DaoFactory;
 import org.iqu.auth.persistence.dao.UserDaoImpl;
-import org.iqu.auth.persistence.dto.UserDto;
 import org.iqu.auth.persistence.exception.AuthPersistenceException;
-import org.iqu.auth.service.Convertor;
 import org.iqu.auth.token.TokenManager;
 
 /**
@@ -34,33 +34,50 @@ public class ResetPasswordService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response resetPassword(@QueryParam("email") String toEmail) {
-
+		System.out.println("resetpassword");
 		EmailSender emailSender;
 		TokenManager tokenManager = TokenManager.getInstance();
 		String resetToken = "";
-		Convertor convertor = new Convertor();
-		String message = "";
-		int status = 200;
-		String userName="";
-		
+		String userName = "";
 		UserDaoImpl daoUser = DaoFactory.getInstance().getUserDao();
-		UserDto dtoUser;
+		ErrorMessage errorMessage;
+
+		tokenManager.printResetTokenMap();
+
 		try {
-			userName= daoUser.getUser(toEmail);
-			if (tokenManager.containsResetToken(userName) == true) {
-				return Response.status(200).build();
-			} else {
+			userName = daoUser.findUser(toEmail);
+			if ((tokenManager.containsResetTokenForUserName(userName))
+					&& (tokenManager.resetTokenValidatorForUser(userName))) {
+				return Response.status(Status.OK).build();
+			}
+				if((tokenManager.containsResetTokenForUserName(userName))
+						&& (!tokenManager.resetTokenValidatorForUser(userName))){
+					System.out.println("token invalid");
+					tokenManager.printUserResetTokenMap();
+					tokenManager.printResetTokenMap();
+					System.out.println("---------");
+					tokenManager.removeResetTokenWithUserName(userName);
+					emailSender = new EmailSender();
+					resetToken = emailSender.sendMail(userName, toEmail);
+					tokenManager.generateResetToken(userName, resetToken);
+					tokenManager.printUserResetTokenMap();
+					tokenManager.printResetTokenMap();
+				}
+			 else {
 				emailSender = new EmailSender();
 				resetToken = emailSender.sendMail(userName, toEmail);
 				tokenManager.generateResetToken(userName, resetToken);
+				tokenManager.printResetTokenMap();
 			}
-			
-		} catch (AuthPersistenceException e) {
-			status = 400;
-			message ="{\"error\" : " + "\"" + e.getMessage() + "\"}";
-		}
 
-		return Response.status(status).entity(message).build();
-	
+		} catch (AuthPersistenceException e) {
+			errorMessage = new ErrorMessage(e.getMessage());
+			return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
+		} catch (ConfigurationException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		}
+		return Response.status(Status.OK).build();
+
 	}
+	
 }
