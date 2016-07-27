@@ -34,7 +34,7 @@ public class NewsConsumerImpl extends BaseConsumer implements NewsConsumer {
 
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client.target(buildTarget(serviceInfo)).path("news");
+    WebTarget webTarget = client.target(buildTarget(serviceInfo));
 
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 

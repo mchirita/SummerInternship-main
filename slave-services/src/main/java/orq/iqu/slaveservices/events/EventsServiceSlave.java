@@ -21,7 +21,7 @@ public interface EventsServiceSlave {
   /**
    * This method is used to return a set of events.
    */
-  EventsDTO retrieveEvents(String startDate, String endDate, String type, String subType, String sourceId,
+  EventsDTO retrieveEvents(String startDate, String endDate, String type, String subtype, String sourceId,
       String author, String location);
 
   /**
@@ -33,4 +33,5 @@ public interface EventsServiceSlave {
    * This method is used to return a set of service types.
    */
   TypesDTO retrieveTypes();
+
 }

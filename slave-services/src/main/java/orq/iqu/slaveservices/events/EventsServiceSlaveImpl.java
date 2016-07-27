@@ -21,10 +21,8 @@ public class EventsServiceSlaveImpl implements EventsServiceSlave {
    */
   @Override
   public AuthorsDTO retrieveAuthors() {
-
     return ConsumerFactory.getEventsConsumerInstance()
         .retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/events/"));
-
   }
 
   /**
@@ -32,20 +30,20 @@ public class EventsServiceSlaveImpl implements EventsServiceSlave {
    */
   @Override
   public TypesDTO retrieveTypes() {
-
     return ConsumerFactory.getEventsConsumerInstance()
         .retrieveTypes(new ServiceInfo("localhost", "8080", "web-crawler/events/"));
-
   }
 
   /**
    * This method is used to return a set of news.
    */
   @Override
-  public EventsDTO retrieveEvents(String startDate, String endDate, String categories, String about, String sourceId,
+  public EventsDTO retrieveEvents(String startDate, String endDate, String type, String subtype, String sourceId,
       String author, String location) {
     return ConsumerFactory.getEventsConsumerInstance()
-        .retrieveEvents(new ServiceInfo("localhost", "8080", "web-crawler/"));
+        .retrieveEvents(new ServiceInfo("localhost", "8080",
+            "web-crawler/events?startDate=" + startDate + "&endDate=" + endDate + "&type=" + type + "subtype=" + subtype
+                + "&sourceId=" + sourceId + "&author=" + author + "&location=" + location));
   }
 
   /**

@@ -49,7 +49,7 @@ public class EventsConsumerImpl extends BaseConsumer implements EventsConsumer {
   public EventsDTO retrieveEvents(ServiceInfo serviceInfo) {
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client.target(buildTarget(serviceInfo)).path("events");
+    WebTarget webTarget = client.target(buildTarget(serviceInfo));
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (response.getStatus() == Status.OK.getStatusCode()) {

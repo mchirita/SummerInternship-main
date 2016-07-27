@@ -21,7 +21,6 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
    */
   @Override
   public AuthorsDTO retrieveAuthors() {
-
     return ConsumerFactory.getNewsConsumerInstance()
         .retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
 
@@ -44,7 +43,10 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
   @Override
   public NewsDTO retrieveNews(String startDate, String endDate, String categories, String about, String sourceId,
       String author, String location) {
-    return ConsumerFactory.getNewsConsumerInstance().retrieveNews(new ServiceInfo("localhost", "8080", "web-crawler/"));
+    return ConsumerFactory.getNewsConsumerInstance()
+        .retrieveNews(new ServiceInfo("localhost", "8080",
+            "web-crawler/news?startDate=" + startDate + "&endaDate=" + endDate + "&categories=" + categories + "&about="
+                + about + "&sourceId=" + sourceId + "&author=" + author + "&location=" + location));
   }
 
   /**
@@ -52,8 +54,10 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
    */
   @Override
   public SourcesDTO retrieveSources() {
+
     return ConsumerFactory.getNewsConsumerInstance()
         .retrieveSources(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
+
   }
 
 }
