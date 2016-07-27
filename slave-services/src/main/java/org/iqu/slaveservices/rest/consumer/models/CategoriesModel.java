@@ -1,4 +1,4 @@
-package org.iqu.slaveservices.entities;
+package org.iqu.slaveservices.rest.consumer.models;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,14 +15,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Categories {
+public class CategoriesModel {
 
 	private Set<String> categories = new HashSet<String>();
 
-	public Categories() {
+	public CategoriesModel() {
 	}
 
-	public Categories(Set<String> categories) {
+	public CategoriesModel(Set<String> categories) {
 		super();
 		this.categories = categories;
 	}
@@ -43,7 +43,7 @@ public class Categories {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categories other = (Categories) obj;
+		CategoriesModel other = (CategoriesModel) obj;
 		if (categories == null) {
 			if (other.categories != null)
 				return false;

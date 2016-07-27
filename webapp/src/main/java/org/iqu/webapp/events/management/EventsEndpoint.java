@@ -9,14 +9,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
-import org.iqu.slaveservices.entities.Authors;
-import org.iqu.slaveservices.entities.ErrorMessage;
-import org.iqu.slaveservices.entities.Event;
-import org.iqu.slaveservices.entities.Events;
-import org.iqu.slaveservices.entities.Source;
-import org.iqu.slaveservices.entities.Sources;
-import org.iqu.slaveservices.entities.Type;
-import org.iqu.slaveservices.entities.Types;
+import org.iqu.webapp.entities.Authors;
+import org.iqu.webapp.entities.ErrorMessage;
+import org.iqu.webapp.entities.Event;
+import org.iqu.webapp.entities.Events;
+import org.iqu.webapp.entities.Source;
+import org.iqu.webapp.entities.Sources;
+import org.iqu.webapp.entities.Type;
+import org.iqu.webapp.entities.Types;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
 
@@ -53,8 +53,8 @@ public class EventsEndpoint {
     AuthorsDTO retrieveAuthors = eventsService.retrieveAuthors();
     Authors authors = new Authors(retrieveAuthors.getAuthors());
     if (authors.isEmpty()) {
-      LOGGER.error("Authors not found");
       ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
+      LOGGER.error(errorMessage.getMessage());
       return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
     }
 
@@ -113,6 +113,7 @@ public class EventsEndpoint {
       return Response.status(Status.OK).entity(sources).build();
     } else {
       ErrorMessage errorMessage = new ErrorMessage("Could not fetch sources, please try again later.");
+      LOGGER.error(errorMessage.getMessage());
       return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
     }
   }
@@ -133,6 +134,7 @@ public class EventsEndpoint {
     }
     if (types.isEmpty()) {
       ErrorMessage errorMessage = new ErrorMessage("Could not fetch categories, please try again later.");
+      LOGGER.error(errorMessage.getMessage());
       return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
     }
 

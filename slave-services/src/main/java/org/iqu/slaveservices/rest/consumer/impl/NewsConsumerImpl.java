@@ -9,14 +9,14 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 import org.iqu.coreservices.config.ServiceInfo;
-import org.iqu.slaveservices.entities.Authors;
-import org.iqu.slaveservices.entities.Categories;
-import org.iqu.slaveservices.entities.News;
-import org.iqu.slaveservices.entities.SingleNews;
-import org.iqu.slaveservices.entities.Source;
-import org.iqu.slaveservices.entities.Sources;
 import org.iqu.slaveservices.rest.consumer.BaseConsumer;
 import org.iqu.slaveservices.rest.consumer.NewsConsumer;
+import org.iqu.slaveservices.rest.consumer.models.AuthorsModel;
+import org.iqu.slaveservices.rest.consumer.models.CategoriesModel;
+import org.iqu.slaveservices.rest.consumer.models.NewsModel;
+import org.iqu.slaveservices.rest.consumer.models.SingleNewsModel;
+import org.iqu.slaveservices.rest.consumer.models.SourceModel;
+import org.iqu.slaveservices.rest.consumer.models.SourcesModel;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
@@ -39,10 +39,10 @@ public class NewsConsumerImpl extends BaseConsumer implements NewsConsumer {
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (response.getStatus() == Status.OK.getStatusCode()) {
-      News news = response.readEntity(News.class);
+      NewsModel news = response.readEntity(NewsModel.class);
 
       NewsDTO newsDTO = new NewsDTO();
-      for (SingleNews newsItem : news.getNews()) {
+      for (SingleNewsModel newsItem : news.getNews()) {
         newsDTO.add(new SingleNewsDTO(newsItem.getDate(), newsItem.getId(), newsItem.getTitle(), newsItem.getSubtitle(),
             newsItem.getDescription(), newsItem.getAuthors(), newsItem.getCategories(), newsItem.getSource(),
             newsItem.getBody(), newsItem.getImage_id(), newsItem.getThumbnail_id(), newsItem.getExternal_url()));
@@ -64,7 +64,7 @@ public class NewsConsumerImpl extends BaseConsumer implements NewsConsumer {
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (response.getStatus() == Status.OK.getStatusCode()) {
-      Authors authors = response.readEntity(Authors.class);
+      AuthorsModel authors = response.readEntity(AuthorsModel.class);
       return new AuthorsDTO(authors.getAuthors());
     }
     if (response.getStatus() == Status.NOT_FOUND.getStatusCode()) {
@@ -82,7 +82,7 @@ public class NewsConsumerImpl extends BaseConsumer implements NewsConsumer {
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (response.getStatus() == Status.OK.getStatusCode()) {
-      Categories categories = response.readEntity(Categories.class);
+      CategoriesModel categories = response.readEntity(CategoriesModel.class);
       return new CategoriesDTO(categories.getCategories());
     }
     if (response.getStatus() == Status.NOT_FOUND.getStatusCode()) {
@@ -102,8 +102,8 @@ public class NewsConsumerImpl extends BaseConsumer implements NewsConsumer {
 
     if (response.getStatus() == Status.OK.getStatusCode()) {
       SourcesDTO sourcesDTO = new SourcesDTO();
-      Sources sources = response.readEntity(Sources.class);
-      for (Source source : sources.getSources()) {
+      SourcesModel sources = response.readEntity(SourcesModel.class);
+      for (SourceModel source : sources.getSources()) {
         sourcesDTO
             .add(new SourceDTO(source.getId(), source.getDisplayName(), source.getDescription(), source.getImage()));
 

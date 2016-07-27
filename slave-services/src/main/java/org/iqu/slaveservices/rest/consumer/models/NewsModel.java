@@ -1,4 +1,4 @@
-package org.iqu.slaveservices.entities;
+package org.iqu.slaveservices.rest.consumer.models;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,27 +16,27 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class News {
-  private Set<SingleNews> news = new HashSet<SingleNews>();
+public class NewsModel {
+  private Set<SingleNewsModel> news = new HashSet<SingleNewsModel>();
 
-  public News() {
+  public NewsModel() {
   }
 
-  public News(Set<SingleNews> news) {
+  public NewsModel(Set<SingleNewsModel> news) {
     super();
     this.news = news;
   }
 
   @XmlElement
-  public Set<SingleNews> getNews() {
+  public Set<SingleNewsModel> getNews() {
     return news;
   }
 
-  public void setNews(Set<SingleNews> news) {
+  public void setNews(Set<SingleNewsModel> news) {
     this.news = news;
   }
 
-  public void add(SingleNews singleNews) {
+  public void add(SingleNewsModel singleNews) {
     news.add(singleNews);
   }
 

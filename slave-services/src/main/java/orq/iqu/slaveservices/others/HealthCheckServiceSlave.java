@@ -2,9 +2,9 @@ package orq.iqu.slaveservices.others;
 
 import java.util.List;
 
-import org.iqu.slaveservices.entities.Client;
+import org.iqu.slaveservices.rest.consumer.models.ClientModel;
 
 public interface HealthCheckServiceSlave {
 
-	public List<Client> heathCheck();
+	public List<ClientModel> heathCheck();
 }

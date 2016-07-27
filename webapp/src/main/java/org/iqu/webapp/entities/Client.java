@@ -1,4 +1,4 @@
-package org.iqu.slaveservices.entities;
+package org.iqu.webapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

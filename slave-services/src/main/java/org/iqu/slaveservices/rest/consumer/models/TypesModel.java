@@ -1,4 +1,4 @@
-package org.iqu.slaveservices.entities;
+package org.iqu.slaveservices.rest.consumer.models;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,23 +15,23 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Types {
-	private Set<Type> types = new HashSet<Type>();
+public class TypesModel {
+	private Set<TypeModel> types = new HashSet<TypeModel>();
 
-	public Types() {
+	public TypesModel() {
 	}
 
-	public Types(Set<Type> types) {
+	public TypesModel(Set<TypeModel> types) {
 		super();
 		this.types = types;
 	}
 
 	@XmlElement
-	public Set<Type> getTypes() {
+	public Set<TypeModel> getTypes() {
 		return types;
 	}
 
-	public void setTypes(Set<Type> types) {
+	public void setTypes(Set<TypeModel> types) {
 		this.types = types;
 	}
 
@@ -39,7 +39,7 @@ public class Types {
 		return types.isEmpty();
 	}
 
-	public void addType(Type type) {
+	public void addType(TypeModel type) {
 		types.add(type);
 	}
 
@@ -59,7 +59,7 @@ public class Types {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Types other = (Types) obj;
+		TypesModel other = (TypesModel) obj;
 		if (types == null) {
 			if (other.types != null)
 				return false;

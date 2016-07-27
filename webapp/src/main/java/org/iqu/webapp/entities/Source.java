@@ -1,4 +1,4 @@
-package org.iqu.slaveservices.entities;
+package org.iqu.webapp.entities;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -8,15 +8,15 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.iqu.coreservices.config.ServiceInfo;
-import org.iqu.slaveservices.entities.Authors;
-import org.iqu.slaveservices.entities.Event;
-import org.iqu.slaveservices.entities.Events;
-import org.iqu.slaveservices.entities.Source;
-import org.iqu.slaveservices.entities.Sources;
-import org.iqu.slaveservices.entities.Type;
-import org.iqu.slaveservices.entities.Types;
 import org.iqu.slaveservices.rest.consumer.BaseConsumer;
 import org.iqu.slaveservices.rest.consumer.EventsConsumer;
+import org.iqu.slaveservices.rest.consumer.models.AuthorsModel;
+import org.iqu.slaveservices.rest.consumer.models.EventModel;
+import org.iqu.slaveservices.rest.consumer.models.EventsModel;
+import org.iqu.slaveservices.rest.consumer.models.SourceModel;
+import org.iqu.slaveservices.rest.consumer.models.SourcesModel;
+import org.iqu.slaveservices.rest.consumer.models.TypeModel;
+import org.iqu.slaveservices.rest.consumer.models.TypesModel;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.EventDTO;
@@ -36,7 +36,7 @@ public class EventsConsumerImpl extends BaseConsumer implements EventsConsumer {
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (response.getStatus() == Status.OK.getStatusCode()) {
-      Authors authors = response.readEntity(Authors.class);
+      AuthorsModel authors = response.readEntity(AuthorsModel.class);
       return new AuthorsDTO(authors.getAuthors());
     }
     if (response.getStatus() == Status.NOT_FOUND.getStatusCode()) {
@@ -53,9 +53,9 @@ public class EventsConsumerImpl extends BaseConsumer implements EventsConsumer {
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (response.getStatus() == Status.OK.getStatusCode()) {
-      Events events = response.readEntity(Events.class);
+      EventsModel events = response.readEntity(EventsModel.class);
       EventsDTO eventsDTO = new EventsDTO();
-      for (Event event : events.getEvents()) {
+      for (EventModel event : events.getEvents()) {
         eventsDTO.add(new EventDTO(event.getStartDate(), event.getEndDate(), event.getId(), event.getTitle(),
             event.getSubtitle(), event.getDescription(), event.getType(), event.getSubtypes(), event.getSource(),
             event.getBody(), event.getImage_id(), event.getThumbnail_id(), event.getExternal_url(), event.getAuthor()));
@@ -78,8 +78,8 @@ public class EventsConsumerImpl extends BaseConsumer implements EventsConsumer {
 
     if (response.getStatus() == Status.OK.getStatusCode()) {
       SourcesDTO sourcesDTO = new SourcesDTO();
-      Sources sources = response.readEntity(Sources.class);
-      for (Source source : sources.getSources()) {
+      SourcesModel sources = response.readEntity(SourcesModel.class);
+      for (SourceModel source : sources.getSources()) {
         sourcesDTO
             .add(new SourceDTO(source.getId(), source.getDisplayName(), source.getDescription(), source.getImage()));
 
@@ -101,9 +101,9 @@ public class EventsConsumerImpl extends BaseConsumer implements EventsConsumer {
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (response.getStatus() == Status.OK.getStatusCode()) {
-      Types types = response.readEntity(Types.class);
+      TypesModel types = response.readEntity(TypesModel.class);
       TypesDTO typesDTO = new TypesDTO();
-      for (Type type : types.getTypes()) {
+      for (TypeModel type : types.getTypes()) {
         typesDTO.addType(new TypeDTO(type.getType(), type.getSubTypes()));
       }
       return typesDTO;
