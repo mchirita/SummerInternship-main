@@ -6,18 +6,19 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
-import org.iqu.slaveservices.entities.Event;
-import org.iqu.slaveservices.rest.consumer.Type;
-import org.iqu.slaveservices.rest.consumer.Types;
+import org.iqu.webapp.entities.Authors;
+import org.iqu.webapp.entities.ErrorMessage;
+import org.iqu.webapp.entities.Event;
+import org.iqu.webapp.entities.Events;
+import org.iqu.webapp.entities.Source;
+import org.iqu.webapp.entities.Sources;
+import org.iqu.webapp.entities.Type;
+import org.iqu.webapp.entities.Types;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
-import org.iqu.webapp.rest.entites.Authors;
-import org.iqu.webapp.rest.entites.ErrorMessage;
-import org.iqu.webapp.rest.entites.Events;
-import org.iqu.webapp.rest.entites.Source;
-import org.iqu.webapp.rest.entites.Sources;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.EventDTO;
@@ -52,13 +53,12 @@ public class EventsEndpoint {
     AuthorsDTO retrieveAuthors = eventsService.retrieveAuthors();
     Authors authors = new Authors(retrieveAuthors.getAuthors());
     if (authors.isEmpty()) {
-      int status = 404;
-      LOGGER.error("Authors not found");
       ErrorMessage errorMessage = new ErrorMessage("Could not fetch authors, please try again later.");
-      return Response.status(status).entity(errorMessage).build();
+      LOGGER.error(errorMessage.getMessage());
+      return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
     }
 
-    return Response.status(200).entity(authors).build();
+    return Response.ok().entity(authors).build();
 
   }
 
@@ -83,14 +83,11 @@ public class EventsEndpoint {
           eventDTO.getExternal_url(), eventDTO.getAuthor()));
     }
     if (startDate == null) {
-      return Response.status(200).entity(events).build();
+      ErrorMessage errorMessage = new ErrorMessage("Start Date Not Found.");
+      LOGGER.error(errorMessage.getMessage());
+      return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
     } else {
-      return Response.ok("[{\"date\":1432911176, " + "\"id\":\"012031\", "
-          + "\"title\":\"Cookiecliker is the new hit\", " + "\"subtitle\":\"A new game is out there\", "
-          + "\"description\":\"A new addicting game has been created.\", " + "\"type\": \"concert\", "
-          + "\"subtypes\":[\"rock\",\"rap\"], " + "\"source\":\"cnn\", " + "\"body\":\"Lorem ipsum dolor...\", "
-          + "\"image_id\":\"012032\", " + "\"thumbnail_id\":\"012033\", "
-          + "\"external_url\":\"http://www.cnn.com/article1\", " + "\"location\": \"Sibiu\"}]").build();
+      return Response.ok().entity(events).build();
     }
   }
   // TO DO : implement filter of data
@@ -103,20 +100,18 @@ public class EventsEndpoint {
   @CORSResponse
   @Produces(MediaType.APPLICATION_JSON)
   public Response retrieveSource() {
-    int status;
-    status = 0;
     SourcesDTO retrieveSources = eventsService.retrieveSources();
     Sources sources = new Sources();
     for (SourceDTO sourceDTO : retrieveSources.getSources()) {
-      sources.addSource(new Source(sourceDTO.getId(), sourceDTO.getDisplayName(), sourceDTO.getDescription()));
+      sources.addSource(
+          new Source(sourceDTO.getId(), sourceDTO.getDisplayName(), sourceDTO.getDescription(), sourceDTO.getImage()));
     }
     if (!sources.isEmpty()) {
-      status = 200;
-      return Response.status(status).entity(sources).build();
+      return Response.status(Status.OK).entity(sources).build();
     } else {
-      status = 404;
       ErrorMessage errorMessage = new ErrorMessage("Could not fetch sources, please try again later.");
-      return Response.status(status).entity(errorMessage).build();
+      LOGGER.error(errorMessage.getMessage());
+      return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
     }
   }
 
@@ -135,12 +130,12 @@ public class EventsEndpoint {
       types.addType(new Type(type.getType(), type.getSubTypes()));
     }
     if (types.isEmpty()) {
-      int status = 404;
       ErrorMessage errorMessage = new ErrorMessage("Could not fetch categories, please try again later.");
-      return Response.status(status).entity(errorMessage).build();
+      LOGGER.error(errorMessage.getMessage());
+      return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
     }
 
-    return Response.status(200).entity(types).build();
+    return Response.status(Status.OK).entity(types).build();
 
   }
 }

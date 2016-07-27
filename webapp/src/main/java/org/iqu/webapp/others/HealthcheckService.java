@@ -8,7 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.iqu.slaveservices.entities.Client;
+import org.iqu.slaveservices.rest.consumer.models.ClientModel;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
 
@@ -31,7 +31,7 @@ public class HealthcheckService {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getHealth() {
 
-    List<Client> heathCheck = healthCheckService.heathCheck();
+    List<ClientModel> heathCheck = healthCheckService.heathCheck();
     if (heathCheck.isEmpty()) {
       Response.ok("[{\"Error\"}");
     }
