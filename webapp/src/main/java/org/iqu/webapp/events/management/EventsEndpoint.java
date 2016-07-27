@@ -83,14 +83,11 @@ public class EventsEndpoint {
           eventDTO.getExternal_url(), eventDTO.getAuthor()));
     }
     if (startDate == null) {
-      return Response.ok().entity(events).build();
+      ErrorMessage errorMessage = new ErrorMessage("Start Date Not Found.");
+      LOGGER.error(errorMessage.getMessage());
+      return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
     } else {
-      return Response.ok("[{\"date\":1432911176, " + "\"id\":\"012031\", "
-          + "\"title\":\"Cookiecliker is the new hit\", " + "\"subtitle\":\"A new game is out there\", "
-          + "\"description\":\"A new addicting game has been created.\", " + "\"type\": \"concert\", "
-          + "\"subtypes\":[\"rock\",\"rap\"], " + "\"source\":\"cnn\", " + "\"body\":\"Lorem ipsum dolor...\", "
-          + "\"image_id\":\"012032\", " + "\"thumbnail_id\":\"012033\", "
-          + "\"external_url\":\"http://www.cnn.com/article1\", " + "\"location\": \"Sibiu\"}]").build();
+      return Response.ok().entity(events).build();
     }
   }
   // TO DO : implement filter of data
