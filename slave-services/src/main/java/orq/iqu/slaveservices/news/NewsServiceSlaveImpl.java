@@ -45,7 +45,6 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
   @Override
   public NewsDTO retrieveNews(String startDate, String endDate, String categories, String about, String sourceId,
       String author, String location) {
-    // TODO get news from db.
     return newsConsumerInstance.retrieveNews(new ServiceInfo("localhost", "8080",
         "web-crawler/news?startDate=" + startDate + "&endaDate=" + endDate + "&categories=" + categories + "&about="
             + about + "&sourceId=" + sourceId + "&author=" + author + "&location=" + location));
