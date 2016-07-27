@@ -40,8 +40,6 @@ public class ImageService {
     ImageDTO imageDTO = retrieveImageService.getImage(imageId);
     Image image = new Image(imageDTO.getLink());
 
-    System.out.println(image);
-
     if (image.getLink() == null) {
       LOGGER.error("Image not found!");
       ErrorMessage errorMessage = new ErrorMessage("Image not found!");

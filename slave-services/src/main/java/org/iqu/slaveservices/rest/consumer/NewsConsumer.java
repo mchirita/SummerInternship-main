@@ -9,11 +9,11 @@ import orq.iqu.slaveservices.dto.SourcesDTO;
 
 public interface NewsConsumer {
 
-  public NewsDTO retrieveNews(ServiceInfo serviceInfo);
+  NewsDTO retrieveNews(ServiceInfo serviceInfo);
 
-  public AuthorsDTO retrieveAuthors(ServiceInfo serviceInfo);
+  AuthorsDTO retrieveAuthors(ServiceInfo serviceInfo);
 
-  public CategoriesDTO retrieveCategories(ServiceInfo serviceInfo);
+  CategoriesDTO retrieveCategories(ServiceInfo serviceInfo);
 
-  public SourcesDTO retrieveSources(ServiceInfo serviceInfo);
+  SourcesDTO retrieveSources(ServiceInfo serviceInfo);
 }

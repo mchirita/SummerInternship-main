@@ -4,6 +4,6 @@ import orq.iqu.slaveservices.dto.ImageDTO;
 
 public interface ImageServiceSlave {
 
-  public ImageDTO getImage(String imageId);
+  ImageDTO getImage(String imageId);
 
 }
