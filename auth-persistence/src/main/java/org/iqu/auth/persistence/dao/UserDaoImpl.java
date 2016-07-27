@@ -25,12 +25,16 @@ public class UserDaoImpl implements UserDao {
 		this.connection = connection;
 	}
 
+	/**
+	 * Insert users in database.
+	 * 
+	 */
 	@Override
 	public void insertUser(UserDto user) throws AuthPersistenceException {
+
 		StringBuilder query = new StringBuilder();
 		query.append("INSERT INTO ").append(TABLENAME).append(" VALUES(?,?,?,?,?,?,?)");
 
-		// query = "INSERT INTO " + TABLENAME + " VALUES(?,?,?,?,?,?,?)";
 		try {
 			PreparedStatement ps = connection.prepareStatement(query.toString());
 			ps.setString(1, user.getUserName());
@@ -47,32 +51,39 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+	/**
+	 * Update password in database
+	 */
 	@Override
 	public void updatePassword(ChangePasswordDetailesDto changePasswordDetailes, String userName) {
-		// String query;
+
 		StringBuilder query = new StringBuilder();
 		query.append("UPDATE ").append(TABLENAME).append(" SET password=? WHERE   username = ?");
-		// query = "UPDATE " + TABLENAME + " SET password=? WHERE username = ?";
+
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
 			preparedStatement.setString(1, changePasswordDetailes.getNewPassword());
 			preparedStatement.setString(2, userName);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 		}
-
 	}
-	
+
+	/**
+	 * Search for the user with the specified email.
+	 * 
+	 * @param email
+	 * @return user name corresponding with the the specified email.
+	 */
 	@Override
 	public String findUser(String email) throws AuthPersistenceException {
-		// String query = "SELECT username FROM " + TABLENAME + " WHERE email=? ";
+
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT username FROM ").append(TABLENAME).append(" WHERE email=?");
-
 		PreparedStatement preparedStatement;
 		String response = "";
+
 		try {
 			preparedStatement = connection.prepareStatement(query.toString());
 			preparedStatement.setString(1, email);
@@ -86,14 +97,15 @@ public class UserDaoImpl implements UserDao {
 		return response;
 	}
 
+	/**
+	 * ckeck for user credentials in database
+	 */
 	@Override
 	public boolean findUserCredentials(UserCredentialsDto userCredentials) {
+
 		boolean response = false;
 		StringBuilder query = new StringBuilder();
-
 		query.append("SELECT username, password FROM ").append(TABLENAME).append(" WHERE username=?  AND password=?");
-		// String query = "SELECT username, password FROM " + TABLENAME + " WHERE
-		// username=? AND password=? ";
 
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(query.toString());

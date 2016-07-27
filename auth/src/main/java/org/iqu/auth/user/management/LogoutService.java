@@ -24,27 +24,17 @@ public class LogoutService {
 	@CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response logout(@PathParam("token") String token) {
-		System.out.println("loguot:");
 
-		TokenManager tm = TokenManager.getInstance();
+		TokenManager tokenManager = TokenManager.getInstance();
 		ErrorMessage errorMessage;
-		if (!tm.tokenValidator(token)) {
+		if ((!tokenManager.tokenValidator(token))) {
 			errorMessage = new ErrorMessage("Session already expired.");
+			tokenManager.removeTokenWithToken(token);
 			return Response.status(Status.UNAUTHORIZED).entity(errorMessage).build();
 		} else {
-
-			tm.printUserMap();
-			tm.printTokenMap();
-			System.out.println("----------------------");
-			tm.removeToken(token);
-			tm.printUserMap();
-			tm.printTokenMap();
+			tokenManager.removeTokenWithToken(token);
+			return Response.status(Status.OK).build();
 		}
-		return Response.status(Status.OK).build();
-		/*
-		 * TODO: Check if the token is valid and active. If it is, mark it as
-		 * unactive and return home page. If it's not, return matching error code.
-		 */
 	}
 
 }

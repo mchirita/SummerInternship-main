@@ -44,7 +44,6 @@ public class CreateUserService {
 		} catch (AuthPersistenceException e) {
 			errorMessage = new ErrorMessage(e.getMessage());
 			return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
-
 		}
 		return Response.status(Status.OK).entity(userNameMessage).build();
 

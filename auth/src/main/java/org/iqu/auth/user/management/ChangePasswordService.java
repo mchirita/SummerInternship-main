@@ -34,37 +34,21 @@ public class ChangePasswordService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response changePassword(ChangePasswordDetailes passwordDetailes) {
-		System.out.println("changepassword");
-
+		
 		ErrorMessage errorMessage;
 		String resetToken = passwordDetailes.getResetToken();
 		TokenManager tokenManager = TokenManager.getInstance();
 
-		if (!tokenManager.containsResetTokenForToken(passwordDetailes.getResetToken())) {
-			tokenManager.printResetTokenMap();
-			errorMessage = new ErrorMessage("Could not change password. Invalid session.");
-			return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
-		}
 		if (!tokenManager.resetTokenValidatorForToken(resetToken)) {
-			System.out.println("inainte de remove");
-			tokenManager.printResetTokenMap();
 			tokenManager.removeResetTokenWithToken(resetToken);
-			System.out.println("dupa remove");
-			tokenManager.printResetTokenMap();
 			errorMessage = new ErrorMessage("Could not change password. Invalid session.");
 			return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
-		}
-		else {
+		} else {
 			Convertor convertor = new Convertor();
 			ChangePasswordDetailesDto changePasswordDto = convertor.convertToChangePasswordDetailesDto(passwordDetailes);
 			UserDaoImpl daoUser = DaoFactory.getInstance().getUserDao();
 			String userName = tokenManager.getUserWithResetToken(resetToken);
 			daoUser.updatePassword(changePasswordDto, userName);
-			System.out.println("inainte de remove");
-			tokenManager.printResetTokenMap();
-			tokenManager.removeResetTokenWithToken(resetToken);
-			System.out.println("dupa remove");
-			tokenManager.printResetTokenMap();
 			return Response.status(Status.OK).build();
 		}
 	}

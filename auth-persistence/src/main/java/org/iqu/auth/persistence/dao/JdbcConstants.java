@@ -1,6 +1,7 @@
 package org.iqu.auth.persistence.dao;
 
 /**
+ * Use for database connection.
  * 
  * @author Mitroi Stefan-Daniel
  *

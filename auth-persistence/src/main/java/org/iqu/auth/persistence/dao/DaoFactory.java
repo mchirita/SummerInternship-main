@@ -3,6 +3,7 @@ package org.iqu.auth.persistence.dao;
 import java.sql.Connection;
 
 /**
+ * Create Dao objects.
  * 
  * @author Mitroi Stefan-Daniel
  *
@@ -12,7 +13,6 @@ public class DaoFactory {
 	private static DaoFactory instance = new DaoFactory();
 	private static Connection connection;
 	private static UserDaoImpl user;
-
 
 	public static DaoFactory getInstance() {
 

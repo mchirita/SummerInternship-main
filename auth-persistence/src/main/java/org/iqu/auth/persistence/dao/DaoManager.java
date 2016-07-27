@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import org.apache.commons.dbcp.BasicDataSource;
 
 /**
+ * Manages database connection.
  * 
  * @author Mitroi Stefan-Daniel
  *
@@ -22,7 +23,7 @@ public class DaoManager {
 	}
 
 	public Connection getConnection() {
-		
+
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName(DRIVER);
 		dataSource.setUrl(URL);

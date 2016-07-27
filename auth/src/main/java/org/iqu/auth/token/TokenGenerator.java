@@ -1,7 +1,6 @@
 package org.iqu.auth.token;
 
 import java.util.UUID;
-import org.iqu.auth.entities.User;
 
 /**
  * 

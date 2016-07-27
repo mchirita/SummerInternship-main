@@ -7,7 +7,7 @@ package org.iqu.auth.persistence.dto;
  */
 
 public class UserDto {
-	
+
 	private String userName;
 	private String password;
 	private String firstName;
@@ -16,9 +16,8 @@ public class UserDto {
 	private String country;
 	private int age;
 
+	public UserDto(UserDto user) {
 
-	public UserDto(UserDto user){
-		
 		this.userName = user.getUserName();
 		this.password = user.getPassword();
 		this.firstName = user.getFirstName();
@@ -30,7 +29,7 @@ public class UserDto {
 
 	public UserDto(String userName, String password, String firstName, String lastName, String email, String country,
 			int age) {
-		
+
 		this.userName = userName;
 		this.password = password;
 		this.firstName = firstName;
@@ -101,5 +100,5 @@ public class UserDto {
 		return "UserDto [userName=" + userName + ", password=" + password + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", email=" + email + ", country=" + country + ", age=" + age + "]";
 	}
-	
+
 }

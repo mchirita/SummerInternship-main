@@ -15,10 +15,9 @@ public interface UserDao {
 	public void insertUser(UserDto user) throws AuthPersistenceException;
 
 	public String findUser(String email) throws AuthPersistenceException;
-	
+
 	public boolean findUserCredentials(UserCredentialsDto uc);
 
 	public void updatePassword(ChangePasswordDetailesDto cpddto, String userName);
 
-//	public String getUserPassword(String userName) throws AuthPersistenceException;
 }

@@ -34,7 +34,6 @@ public class ResetPasswordService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response resetPassword(@QueryParam("email") String toEmail) {
-		System.out.println("resetpassword");
 		EmailSender emailSender;
 		TokenManager tokenManager = TokenManager.getInstance();
 		String resetToken = "";
@@ -42,32 +41,13 @@ public class ResetPasswordService {
 		UserDaoImpl daoUser = DaoFactory.getInstance().getUserDao();
 		ErrorMessage errorMessage;
 
-		tokenManager.printResetTokenMap();
-
 		try {
 			userName = daoUser.findUser(toEmail);
-			if ((tokenManager.containsResetTokenForUserName(userName))
-					&& (tokenManager.resetTokenValidatorForUser(userName))) {
-				return Response.status(Status.OK).build();
-			}
-				if((tokenManager.containsResetTokenForUserName(userName))
-						&& (!tokenManager.resetTokenValidatorForUser(userName))){
-					System.out.println("token invalid");
-					tokenManager.printUserResetTokenMap();
-					tokenManager.printResetTokenMap();
-					System.out.println("---------");
-					tokenManager.removeResetTokenWithUserName(userName);
-					emailSender = new EmailSender();
-					resetToken = emailSender.sendMail(userName, toEmail);
-					tokenManager.generateResetToken(userName, resetToken);
-					tokenManager.printUserResetTokenMap();
-					tokenManager.printResetTokenMap();
-				}
-			 else {
+			if ((!tokenManager.resetTokenValidatorForUser(userName))) {
+				tokenManager.removeResetTokenWithUserName(userName);
 				emailSender = new EmailSender();
 				resetToken = emailSender.sendMail(userName, toEmail);
 				tokenManager.generateResetToken(userName, resetToken);
-				tokenManager.printResetTokenMap();
 			}
 
 		} catch (AuthPersistenceException e) {
@@ -77,7 +57,6 @@ public class ResetPasswordService {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 		return Response.status(Status.OK).build();
-
 	}
-	
+
 }

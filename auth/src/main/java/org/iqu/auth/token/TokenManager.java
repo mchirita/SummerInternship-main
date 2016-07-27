@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.iqu.auth.entities.TokenInfo;
-import org.iqu.auth.entities.User;
 
 /**
  * 
@@ -37,9 +36,9 @@ public class TokenManager {
 	}
 
 	public String generateToken(String userName) {
-		LocalDateTime tokenValidityPeriod = LocalDateTime.now().plusMinutes(1);
+
 		String token = tokenGenerator.generateToken(userName);
-		TokenInfo tokenInfo = new TokenInfo(userName, token, tokenValidityPeriod);
+		TokenInfo tokenInfo = new TokenInfo(userName, token, LocalDateTime.now().plusMinutes(1));
 		tokenMap.put(token, tokenInfo);
 		userMap.put(userName, tokenInfo);
 		return token;
@@ -73,8 +72,10 @@ public class TokenManager {
 	 */
 	public boolean tokenValidatorForUser(String userName) {
 		boolean isValid = false;
-		if (userMap.get(userName).getvalidUntil().isAfter(LocalDateTime.now())) {
-			isValid = true;
+		if (userMap.containsKey(userName)) {
+			if (userMap.get(userName).getvalidUntil().isAfter(LocalDateTime.now())) {
+				isValid = true;
+			}
 		}
 		return isValid;
 	}
@@ -97,14 +98,32 @@ public class TokenManager {
 		return tokenMap.get(token).getUserName();
 	}
 
-	public void removeToken(String token) {
-		String userName = tokenMap.remove(token).getUserName();
+	public void removeTokenWithToken(String token) {
+		String userName;
+		TokenInfo tokenInfo = tokenMap.remove(token);
+		if (tokenInfo == null) {
+			userName = "";
+		} else {
+			userName = tokenInfo.getUserName();
+		}
 		userMap.remove(userName);
+
+	}
+
+	public void removeTokenWithUserName(String userName) {
+		String token;
+		TokenInfo tokenInfo = userMap.remove(userName);
+		if (tokenInfo == null) {
+			token = "";
+		} else {
+			token = tokenInfo.getToken();
+		}
+		tokenMap.remove(token);
 	}
 
 	public TokenInfo generateResetToken(String userName, String generateToken) {
-		LocalDateTime reserTokenVAlidityPeriod = LocalDateTime.now().plusMinutes(1);
-		TokenInfo token = new TokenInfo(userName, generateToken, reserTokenVAlidityPeriod);
+
+		TokenInfo token = new TokenInfo(userName, generateToken, LocalDateTime.now().plusMinutes(1));
 		resetTokenMap.put(generateToken, token);
 		userResetTokenMap.put(userName, token);
 		return token;
@@ -128,8 +147,10 @@ public class TokenManager {
 	 */
 	public boolean resetTokenValidatorForToken(String resetToken) {
 		boolean isValid = false;
-		if (resetTokenMap.get(resetToken).getvalidUntil().isAfter(LocalDateTime.now())) {
-			isValid = true;
+		if (resetTokenMap.containsKey(resetToken)) {
+			if (resetTokenMap.get(resetToken).getvalidUntil().isAfter(LocalDateTime.now())) {
+				isValid = true;
+			}
 		}
 		return isValid;
 	}
@@ -156,43 +177,24 @@ public class TokenManager {
 	}
 
 	public void removeResetTokenWithToken(String resetToken) {
-		String userName = resetTokenMap.remove(resetToken).getUserName();
+		TokenInfo tokeInfo = resetTokenMap.remove(resetToken);
+		String userName;
+		if (tokeInfo == null) {
+			userName = "";
+		} else {
+			userName = tokeInfo.getUserName();
+		}
 		userResetTokenMap.remove(userName);
 	}
 
 	public void removeResetTokenWithUserName(String userName) {
-		String token = userResetTokenMap.remove(userName).getToken();
+		TokenInfo tokenInfo = userResetTokenMap.remove(userName);
+		String token;
+		if (tokenInfo == null) {
+			token = "";
+		} else {
+			token = tokenInfo.getToken();
+		}
 		resetTokenMap.remove(token);
-
 	}
-
-	public void printUserMap() {
-		System.out.println("UserMap");
-		for (String key : userMap.keySet()) {
-			System.out.println(key + " " + userMap.get(key));
-		}
-	}
-
-	public void printTokenMap() {
-		System.out.println("TokenMap");
-		for (String key : tokenMap.keySet()) {
-			System.out.println(key + " " + tokenMap.get(key));
-		}
-	}
-
-	public void printResetTokenMap() {
-		System.out.println("ResetTokenMap");
-		for (String key : resetTokenMap.keySet()) {
-			System.out.println(key + " " + resetTokenMap.get(key));
-		}
-	}
-
-	public void printUserResetTokenMap() {
-		System.out.println("ResetTokenMap");
-		for (String key : userResetTokenMap.keySet()) {
-			System.out.println(key + " " + userResetTokenMap.get(key));
-		}
-	}
-
-	// TO DO : implement resetTokenVAlidator() for resetTokenUserMap
 }

@@ -33,10 +33,8 @@ public class AuthenticateService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response authenticateUser(UserCredentials userCredentials) {
 
-
 		String userName = "";
 		String userToken = "";
-		// String invalidPasswordMessage = "invalid password";
 
 		ErrorMessage errorMessage;
 		TokenMessage tokenMessage;
@@ -48,29 +46,21 @@ public class AuthenticateService {
 		userName = userCredentialsDto.getUserName();
 
 		if (userDao.findUserCredentials(userCredentialsDto)) {
-			if ((!tokenManager.containUser(userName) || (!tokenManager.tokenValidatorForUser(userName)))) {
-				System.out.println("1");
+			if ((!tokenManager.tokenValidatorForUser(userName))) {
+				tokenManager.removeTokenWithUserName(userName);
 				userToken = tokenManager.generateToken(userName);
-				tokenManager.printTokenMap();
-				tokenManager.printUserMap();
-		
 				tokenMessage = new TokenMessage(userToken);
 				return Response.status(Status.OK).entity(tokenMessage).build();
-			} else {
-				System.out.println("2");
+			}
+
+			else {
 				tokenMessage = new TokenMessage(tokenManager.getTokenForUser(userName));
-				tokenManager.printTokenMap();
-				tokenManager.printUserMap();
-				
 				return Response.status(Status.OK).entity(tokenMessage).build();
 			}
 		} else {
-			errorMessage = new ErrorMessage("invalidPasswordMessage");
-			tokenManager.printTokenMap();
-			tokenManager.printUserMap();
+			errorMessage = new ErrorMessage("Invalid password.");
 			return Response.status(Status.UNAUTHORIZED).entity(errorMessage).build();
 		}
-		
 
 	}
 }

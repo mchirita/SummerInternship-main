@@ -15,12 +15,10 @@ public class UserCredentialsDto {
 		this.password = userCredentials.getPassword();
 	}
 
-	
 	public UserCredentialsDto(String userName, String password) {
 		this.userName = userName;
 		this.password = password;
 	}
-
 
 	public String getUserName() {
 		return userName;
@@ -38,5 +36,4 @@ public class UserCredentialsDto {
 		this.password = password;
 	}
 
-	
 }
