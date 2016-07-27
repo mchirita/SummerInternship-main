@@ -29,7 +29,7 @@ public class CheckSessionValidityService {
 	@CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response checkSessionValidity(@PathParam("token") String token) {
-System.out.println("checksession");
+	
 		TokenManager tokenManager = TokenManager.getInstance();
 		String userToken = tokenManager.getToken(token);
 		ErrorMessage errorMessage;

@@ -18,6 +18,6 @@ public interface UserDao {
 
 	public boolean findUserCredentials(UserCredentialsDto uc);
 
-	public void updatePassword(ChangePasswordDetailesDto cpddto, String userName);
+	public void updatePassword(ChangePasswordDetailesDto cpddto, String userName)throws AuthPersistenceException;
 
 }

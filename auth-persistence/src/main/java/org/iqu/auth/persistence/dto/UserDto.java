@@ -5,7 +5,6 @@ package org.iqu.auth.persistence.dto;
  * @author Mitroi Stefan-Daniel
  *
  */
-
 public class UserDto {
 
 	private String userName;

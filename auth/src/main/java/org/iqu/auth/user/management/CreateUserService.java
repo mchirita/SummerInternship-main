@@ -16,6 +16,7 @@ import org.iqu.auth.persistence.dao.DaoFactory;
 import org.iqu.auth.persistence.dao.UserDaoImpl;
 import org.iqu.auth.persistence.dto.UserDto;
 import org.iqu.auth.persistence.exception.AuthPersistenceException;
+import org.iqu.auth.persistence.exception.DataBaseConnectionException;
 import org.iqu.auth.service.Convertor;
 
 /**
@@ -35,15 +36,20 @@ public class CreateUserService {
 
 		Convertor convertor = new Convertor();
 		UserDto userDto = convertor.convertToUserDto(user);
-		UserDaoImpl userDao = DaoFactory.getInstance().getUserDao();
+
 		ErrorMessage errorMessage;
 		UserNameMessage userNameMessage = new UserNameMessage(userDto.getUserName());
 
 		try {
+			UserDaoImpl userDao = DaoFactory.getInstance().getUserDao();
 			userDao.insertUser(userDto);
 		} catch (AuthPersistenceException e) {
+
 			errorMessage = new ErrorMessage(e.getMessage());
 			return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
+
+		} catch (DataBaseConnectionException e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 		return Response.status(Status.OK).entity(userNameMessage).build();
 

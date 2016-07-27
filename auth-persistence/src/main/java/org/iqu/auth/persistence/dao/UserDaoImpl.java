@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
 import org.iqu.auth.persistence.dto.ChangePasswordDetailesDto;
 import org.iqu.auth.persistence.dto.UserCredentialsDto;
 import org.iqu.auth.persistence.dto.UserDto;
@@ -17,7 +18,8 @@ import static org.iqu.auth.persistence.dao.JdbcConstants.*;
  *
  */
 public class UserDaoImpl implements UserDao {
-
+	
+	private static final Logger LOGGER = Logger.getLogger(DaoManager.class);
 	private Connection connection;
 
 	public UserDaoImpl(Connection connection) {
@@ -53,9 +55,10 @@ public class UserDaoImpl implements UserDao {
 
 	/**
 	 * Update password in database
+	 * @throws AuthPersistenceException 
 	 */
 	@Override
-	public void updatePassword(ChangePasswordDetailesDto changePasswordDetailes, String userName) {
+	public void updatePassword(ChangePasswordDetailesDto changePasswordDetailes, String userName) throws AuthPersistenceException {
 
 		StringBuilder query = new StringBuilder();
 		query.append("UPDATE ").append(TABLENAME).append(" SET password=? WHERE   username = ?");
@@ -66,7 +69,8 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(2, userName);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error("update password problem",e);
+			throw new AuthPersistenceException("update password problem");
 		}
 	}
 

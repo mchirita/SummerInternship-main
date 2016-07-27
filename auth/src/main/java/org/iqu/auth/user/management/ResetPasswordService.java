@@ -12,10 +12,12 @@ import javax.ws.rs.core.Response.Status;
 import org.iqu.auth.entities.ErrorMessage;
 import org.iqu.auth.exception.ConfigurationException;
 import org.iqu.auth.filter.CORSResponse;
+import org.iqu.auth.filter.Secured;
 import org.iqu.auth.passwordreset.EmailSender;
 import org.iqu.auth.persistence.dao.DaoFactory;
 import org.iqu.auth.persistence.dao.UserDaoImpl;
 import org.iqu.auth.persistence.exception.AuthPersistenceException;
+import org.iqu.auth.persistence.exception.DataBaseConnectionException;
 import org.iqu.auth.token.TokenManager;
 
 /**
@@ -31,17 +33,20 @@ public class ResetPasswordService {
 
 	@POST
 	@CORSResponse
+	@Secured
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response resetPassword(@QueryParam("email") String toEmail) {
+
 		EmailSender emailSender;
 		TokenManager tokenManager = TokenManager.getInstance();
 		String resetToken = "";
 		String userName = "";
-		UserDaoImpl daoUser = DaoFactory.getInstance().getUserDao();
+
 		ErrorMessage errorMessage;
 
 		try {
+			UserDaoImpl daoUser = DaoFactory.getInstance().getUserDao();
 			userName = daoUser.findUser(toEmail);
 			if ((!tokenManager.resetTokenValidatorForUser(userName))) {
 				tokenManager.removeResetTokenWithUserName(userName);
@@ -55,6 +60,8 @@ public class ResetPasswordService {
 			return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
 		} catch (ConfigurationException e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		} catch (DataBaseConnectionException e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 		return Response.status(Status.OK).build();
 	}
