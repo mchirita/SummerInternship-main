@@ -42,8 +42,8 @@ public class EventsServiceSlaveImpl implements EventsServiceSlave {
       String author, String location) {
     return ConsumerFactory.getEventsConsumerInstance()
         .retrieveEvents(new ServiceInfo("localhost", "8080",
-            "web-crawler/events?startDate=" + startDate + "&endDate=" + endDate + "&type=" + type + "subtype=" + subtype
-                + "&sourceId=" + sourceId + "&author=" + author + "&location=" + location));
+            "web-crawler/events?startDate=" + startDate + "&endDate=" + endDate + "&type=" + type + "&subtype="
+                + subtype + "&sourceId=" + sourceId + "&author=" + author + "&location=" + location));
   }
 
   /**
