@@ -12,7 +12,8 @@ public class ImageServiceSlaveImpl implements ImageServiceSlave {
 
   @Override
   public ImageDTO getImage(String imageId) {
-    return imageConsumerInstance.retrieveImage(new ServiceInfo("localhost", "8080", "web-crawler/images/" + imageId));
+    return imageConsumerInstance
+        .retrieveImage(new ServiceInfo("localhost", "8080", "web-crawler/images/{$" + imageId + "}"));
   }
 
 }

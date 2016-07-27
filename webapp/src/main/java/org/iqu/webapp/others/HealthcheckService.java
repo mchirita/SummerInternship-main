@@ -7,6 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.iqu.slaveservices.entities.Client;
 import org.iqu.webapp.factory.ServiceFactory;
@@ -33,9 +34,11 @@ public class HealthcheckService {
 
     List<Client> heathCheck = healthCheckService.heathCheck();
     if (heathCheck.isEmpty()) {
-      Response.ok("[{\"Error\"}");
+      org.iqu.webapp.rest.entites.ErrorMessage errorMessage = new org.iqu.webapp.rest.entites.ErrorMessage("Error.");
+      return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
     }
-    return Response.status(200).entity(heathCheck).build();
+
+    return Response.status(Status.OK).entity(heathCheck).build();
 
   }
 
