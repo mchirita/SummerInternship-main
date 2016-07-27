@@ -16,21 +16,22 @@ public interface EventsServiceSlave {
   /**
    * This method is used to return a set of authors.
    */
-  public AuthorsDTO retrieveAuthors();
+  AuthorsDTO retrieveAuthors();
 
   /**
    * This method is used to return a set of events.
    */
+  EventsDTO retrieveEvents(String startDate, String endDate, String type, String subtype, String sourceId,
+      String author, String location);
+
   /**
    * This method is used to return a set of sources.
    */
-  public SourcesDTO retrieveSources();
+  SourcesDTO retrieveSources();
 
   /**
    * This method is used to return a set of service types.
    */
-  public TypesDTO retrieveTypes();
+  TypesDTO retrieveTypes();
 
-  EventsDTO retrieveEvents(String startDate, String endDate, String type, String subtype, String sourceId,
-      String author, String location);
 }

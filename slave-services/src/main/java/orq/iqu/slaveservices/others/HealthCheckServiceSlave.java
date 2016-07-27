@@ -6,5 +6,5 @@ import org.iqu.slaveservices.rest.consumer.models.ClientModel;
 
 public interface HealthCheckServiceSlave {
 
-	public List<ClientModel> heathCheck();
+  List<ClientModel> heathCheck();
 }

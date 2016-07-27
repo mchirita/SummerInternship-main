@@ -1,7 +1,6 @@
 package orq.iqu.slaveservices.events;
 
 import org.iqu.coreservices.config.ServiceInfo;
-import org.iqu.slaveservices.rest.consumer.EventsConsumer;
 import org.iqu.slaveservices.rest.consumer.factory.ConsumerFactory;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
@@ -17,16 +16,13 @@ import orq.iqu.slaveservices.dto.TypesDTO;
  */
 public class EventsServiceSlaveImpl implements EventsServiceSlave {
 
-  private EventsConsumer eventsConsumerInstance = ConsumerFactory.getEventsConsumerInstance();
-
   /**
    * This method is used to return a set of authors.
    */
   @Override
   public AuthorsDTO retrieveAuthors() {
-
-    return eventsConsumerInstance.retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/events/"));
-
+    return ConsumerFactory.getEventsConsumerInstance()
+        .retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/events/"));
   }
 
   /**
@@ -34,9 +30,8 @@ public class EventsServiceSlaveImpl implements EventsServiceSlave {
    */
   @Override
   public TypesDTO retrieveTypes() {
-
-    return eventsConsumerInstance.retrieveTypes(new ServiceInfo("localhost", "8080", "web-crawler/events/"));
-
+    return ConsumerFactory.getEventsConsumerInstance()
+        .retrieveTypes(new ServiceInfo("localhost", "8080", "web-crawler/events/"));
   }
 
   /**
@@ -45,9 +40,10 @@ public class EventsServiceSlaveImpl implements EventsServiceSlave {
   @Override
   public EventsDTO retrieveEvents(String startDate, String endDate, String type, String subtype, String sourceId,
       String author, String location) {
-    return eventsConsumerInstance.retrieveEvents(new ServiceInfo("localhost", "8080",
-        "web-crawler/events?startDate=" + startDate + "&endDate=" + endDate + "&type=" + type + "subtype=" + subtype
-            + "&sourceId=" + sourceId + "&author=" + author + "&location=" + location));
+    return ConsumerFactory.getEventsConsumerInstance()
+        .retrieveEvents(new ServiceInfo("localhost", "8080",
+            "web-crawler/events?startDate=" + startDate + "&endDate=" + endDate + "&type=" + type + "subtype=" + subtype
+                + "&sourceId=" + sourceId + "&author=" + author + "&location=" + location));
   }
 
   /**
@@ -55,7 +51,8 @@ public class EventsServiceSlaveImpl implements EventsServiceSlave {
    */
   @Override
   public SourcesDTO retrieveSources() {
-    return eventsConsumerInstance.retrieveSources(new ServiceInfo("localhost", "8080", "web-crawler/events/"));
+    return ConsumerFactory.getEventsConsumerInstance()
+        .retrieveSources(new ServiceInfo("localhost", "8080", "web-crawler/events/"));
   }
 
 }

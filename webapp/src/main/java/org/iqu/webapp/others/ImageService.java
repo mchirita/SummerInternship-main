@@ -6,10 +6,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import org.apache.log4j.Logger;
+import org.iqu.webapp.entities.ErrorMessage;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
+import org.iqu.webapp.rest.entites.Image;
 
+import orq.iqu.slaveservices.dto.ImageDTO;
 import orq.iqu.slaveservices.others.ImageServiceSlave;
 
 /**
@@ -24,6 +29,7 @@ import orq.iqu.slaveservices.others.ImageServiceSlave;
 @Path("/images/{imageId}")
 public class ImageService {
 
+  private static final Logger LOGGER = Logger.getLogger(ImageService.class);
   private ImageServiceSlave retrieveImageService = ServiceFactory.getimageServiceInstance();
 
   @GET
@@ -31,9 +37,18 @@ public class ImageService {
   @Produces(MediaType.APPLICATION_JSON)
   public Response retrieveImage(@PathParam("imageId") String imageId) {
 
-    return Response
-        .ok("{\"link\" : \"http://www.iquestgroup.com/en/wp-content/blogs.dir/5/files/2016/06/iQuest-logo.png\"}")
-        .build();
+    ImageDTO imageDTO = retrieveImageService.getImage(imageId);
+    Image image = new Image(imageDTO.getLink());
+
+    if (image.getLink() == null) {
+      LOGGER.error("Image not found!");
+      ErrorMessage errorMessage = new ErrorMessage("Image not found!");
+
+      return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
+    }
+
+    return Response.status(Status.OK).entity(image).build();
+
   }
 
 }
