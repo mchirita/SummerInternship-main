@@ -13,24 +13,24 @@ import orq.iqu.slaveservices.dto.TypesDTO;
  */
 public interface EventsServiceSlave {
 
-	/**
-	 * This method is used to return a set of authors.
-	 */
-	public AuthorsDTO retrieveAuthors();
+  /**
+   * This method is used to return a set of authors.
+   */
+  public AuthorsDTO retrieveAuthors();
 
-	/**
-	 * This method is used to return a set of events.
-	 */
-	public EventsDTO retrieveEvents(String startDate, String endDate, String type, String subType, String sourceId,
-			String author, String location);
+  /**
+   * This method is used to return a set of events.
+   */
+  /**
+   * This method is used to return a set of sources.
+   */
+  public SourcesDTO retrieveSources();
 
-	/**
-	 * This method is used to return a set of sources.
-	 */
-	public SourcesDTO retrieveSources();
+  /**
+   * This method is used to return a set of service types.
+   */
+  public TypesDTO retrieveTypes();
 
-	/**
-	 * This method is used to return a set of service types.
-	 */
-	public TypesDTO retrieveTypes();
+  EventsDTO retrieveEvents(String startDate, String endDate, String type, String subtype, String sourceId,
+      String author, String location);
 }

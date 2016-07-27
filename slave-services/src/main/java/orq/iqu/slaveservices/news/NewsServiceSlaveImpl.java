@@ -17,44 +17,46 @@ import orq.iqu.slaveservices.dto.SourcesDTO;
  */
 public class NewsServiceSlaveImpl implements NewsServiceSlave {
 
-	private NewsConsumer newsConsumerInstance = ConsumerFactory.getNewsConsumerInstance();
+  private NewsConsumer newsConsumerInstance = ConsumerFactory.getNewsConsumerInstance();
 
-	/**
-	 * This method is used to return a set of authors.
-	 */
-	@Override
-	public AuthorsDTO retrieveAuthors() {
+  /**
+   * This method is used to return a set of authors.
+   */
+  @Override
+  public AuthorsDTO retrieveAuthors() {
 
-		return newsConsumerInstance.retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
+    return newsConsumerInstance.retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
 
-	}
+  }
 
-	/**
-	 * This method is used to return a set of categories.
-	 */
-	@Override
-	public CategoriesDTO retrieveCategories() {
+  /**
+   * This method is used to return a set of categories.
+   */
+  @Override
+  public CategoriesDTO retrieveCategories() {
 
-		return newsConsumerInstance.retrieveCategories(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
+    return newsConsumerInstance.retrieveCategories(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
 
-	}
+  }
 
-	/**
-	 * This method is used to return a set of news.
-	 */
-	@Override
-	public NewsDTO retrieveNews(String startDate, String endDate, String categories, String about, String sourceId,
-			String author, String location) {
-		// TODO get news from db.
-		return newsConsumerInstance.retrieveNews(new ServiceInfo("localhost", "8080", "web-crawler/"));
-	}
+  /**
+   * This method is used to return a set of news.
+   */
+  @Override
+  public NewsDTO retrieveNews(String startDate, String endDate, String categories, String about, String sourceId,
+      String author, String location) {
+    // TODO get news from db.
+    return newsConsumerInstance.retrieveNews(new ServiceInfo("localhost", "8080",
+        "web-crawler/news?startDate=" + startDate + "&endaDate=" + endDate + "&categories=" + categories + "&about="
+            + about + "&sourceId=" + sourceId + "&author=" + author + "&location=" + location));
+  }
 
-	/**
-	 * This method is used to return a set of sources.
-	 */
-	@Override
-	public SourcesDTO retrieveSources() {
-		return newsConsumerInstance.retrieveSources(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
-	}
+  /**
+   * This method is used to return a set of sources.
+   */
+  @Override
+  public SourcesDTO retrieveSources() {
+    return newsConsumerInstance.retrieveSources(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
+  }
 
 }
