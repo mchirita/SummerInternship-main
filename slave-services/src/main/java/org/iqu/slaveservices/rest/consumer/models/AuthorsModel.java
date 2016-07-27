@@ -1,4 +1,4 @@
-package org.iqu.slaveservices.rest.consumer;
+package org.iqu.slaveservices.rest.consumer.models;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,15 +16,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-class Authors {
+public class AuthorsModel {
 
 	private Set<String> authors = new HashSet<String>();
 
-	public Authors() {
+	public AuthorsModel() {
 
 	}
 
-	public Authors(Set<String> authors) {
+	public AuthorsModel(Set<String> authors) {
 		super();
 		this.authors = authors;
 	}
@@ -45,7 +45,7 @@ class Authors {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Authors other = (Authors) obj;
+		AuthorsModel other = (AuthorsModel) obj;
 		if (authors == null) {
 			if (other.authors != null)
 				return false;

@@ -1,4 +1,4 @@
-package org.iqu.webapp.rest.entites;
+package org.iqu.slaveservices.rest.consumer.models;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,13 +10,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Sources {
-	private Set<Source> sources = new HashSet<Source>();
+public class SourcesModel {
+	private Set<SourceModel> sources = new HashSet<SourceModel>();
 
-	public Sources() {
+	public SourcesModel() {
 	}
 
-	public Sources(Set<Source> sources) {
+	public SourcesModel(Set<SourceModel> sources) {
 		super();
 		this.sources = sources;
 	}
@@ -37,7 +37,7 @@ public class Sources {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Sources other = (Sources) obj;
+		SourcesModel other = (SourcesModel) obj;
 		if (sources == null) {
 			if (other.sources != null)
 				return false;
@@ -47,15 +47,15 @@ public class Sources {
 	}
 
 	@XmlElement
-	public Set<Source> getSources() {
+	public Set<SourceModel> getSources() {
 		return sources;
 	}
 
-	public void setSources(Set<Source> sources) {
+	public void setSources(Set<SourceModel> sources) {
 		this.sources = sources;
 	}
 
-	public boolean addSource(Source source) {
+	public boolean addSource(SourceModel source) {
 		return sources.add(source);
 	}
 

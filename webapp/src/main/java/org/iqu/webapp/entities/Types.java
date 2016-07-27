@@ -1,4 +1,4 @@
-package org.iqu.webapp.rest.entites;
+package org.iqu.webapp.entities;
 
 import java.util.HashSet;
 import java.util.Set;

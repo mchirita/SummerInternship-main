@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 import org.iqu.coreservices.config.ServiceInfo;
+import org.iqu.slaveservices.rest.consumer.impl.NewsConsumerImpl;
 
 import orq.iqu.slaveservices.dto.ImageDTO;
 

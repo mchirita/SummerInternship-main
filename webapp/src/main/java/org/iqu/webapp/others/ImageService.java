@@ -9,9 +9,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
+import org.iqu.webapp.entities.ErrorMessage;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
-import org.iqu.webapp.rest.entites.ErrorMessage;
 import org.iqu.webapp.rest.entites.Image;
 
 import orq.iqu.slaveservices.dto.ImageDTO;

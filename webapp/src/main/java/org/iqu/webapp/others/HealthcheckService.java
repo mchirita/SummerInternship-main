@@ -9,7 +9,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.iqu.slaveservices.entities.Client;
+import org.iqu.slaveservices.rest.consumer.models.ClientModel;
+import org.iqu.webapp.entities.ErrorMessage;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
 
@@ -32,9 +33,9 @@ public class HealthcheckService {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getHealth() {
 
-    List<Client> heathCheck = healthCheckService.heathCheck();
+    List<ClientModel> heathCheck = healthCheckService.heathCheck();
     if (heathCheck.isEmpty()) {
-      org.iqu.webapp.rest.entites.ErrorMessage errorMessage = new org.iqu.webapp.rest.entites.ErrorMessage("Error.");
+      ErrorMessage errorMessage = new ErrorMessage("Error.");
       return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
     }
 

@@ -1,13 +1,13 @@
 package org.iqu.slaveservices.rest.consumer.factory;
 
 import org.iqu.slaveservices.rest.consumer.EventsConsumer;
-import org.iqu.slaveservices.rest.consumer.EventsConsumerImpl;
 import org.iqu.slaveservices.rest.consumer.HealthCheckConsumer;
-import org.iqu.slaveservices.rest.consumer.HealthCheckConsumerImpl;
 import org.iqu.slaveservices.rest.consumer.ImageConsumer;
 import org.iqu.slaveservices.rest.consumer.ImageConsumerImpl;
 import org.iqu.slaveservices.rest.consumer.NewsConsumer;
-import org.iqu.slaveservices.rest.consumer.NewsConsumerImpl;
+import org.iqu.slaveservices.rest.consumer.impl.EventsConsumerImpl;
+import org.iqu.slaveservices.rest.consumer.impl.HealthCheckConsumerImpl;
+import org.iqu.slaveservices.rest.consumer.impl.NewsConsumerImpl;
 
 /**
  * ConsumerFactory - Class that provides the same instance of a class for all

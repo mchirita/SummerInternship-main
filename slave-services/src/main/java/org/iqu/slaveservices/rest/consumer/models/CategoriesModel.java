@@ -1,11 +1,10 @@
-package org.iqu.slaveservices.rest.consumer;
+package org.iqu.slaveservices.rest.consumer.models;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -16,14 +15,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-class Categories {
+public class CategoriesModel {
 
 	private Set<String> categories = new HashSet<String>();
 
-	public Categories() {
+	public CategoriesModel() {
 	}
 
-	public Categories(Set<String> categories) {
+	public CategoriesModel(Set<String> categories) {
 		super();
 		this.categories = categories;
 	}
@@ -44,7 +43,7 @@ class Categories {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categories other = (Categories) obj;
+		CategoriesModel other = (CategoriesModel) obj;
 		if (categories == null) {
 			if (other.categories != null)
 				return false;
@@ -53,7 +52,6 @@ class Categories {
 		return true;
 	}
 
-	@XmlElement
 	public Set<String> getCategories() {
 		return categories;
 	}

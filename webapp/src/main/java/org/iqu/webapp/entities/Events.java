@@ -1,28 +1,25 @@
-package org.iqu.webapp.rest.entites;
+package org.iqu.webapp.entities;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import org.iqu.slaveservices.entities.Event;
-
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+/**
+ * Class that implements a set of Events
+ * 
+ * @author iQuest
+ *
+ */
 public class Events {
 
   private Set<Event> events = new HashSet<Event>();
 
-  public Events() {
-
-  }
-
   public Events(Set<Event> events) {
     super();
     this.events = events;
+  }
+
+  public Events() {
+    // TODO Auto-generated constructor stub
   }
 
   public void addEvent(Event event) {
@@ -33,7 +30,6 @@ public class Events {
     events.remove(event);
   }
 
-  @XmlElement
   public Set<Event> getEvents() {
     return events;
   }

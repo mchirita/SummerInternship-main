@@ -1,15 +1,26 @@
-package orq.iqu.slaveservices.dto;
+package org.iqu.slaveservices.rest.consumer.models;
 
-public class SourceDTO {
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ * 
+ * @author Razvan Rosu
+ *
+ */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+public class SourceModel {
   private String id;
   private String displayName;
   private String description;
   private String image;
 
-  public SourceDTO() {
+  public SourceModel() {
   }
 
-  public SourceDTO(String id, String displayName, String description, String image) {
+  public SourceModel(String id, String displayName, String description, String image) {
     this.id = id;
     this.displayName = displayName;
     this.description = description;
@@ -73,7 +84,7 @@ public class SourceDTO {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    SourceDTO other = (SourceDTO) obj;
+    SourceModel other = (SourceModel) obj;
     if (description == null) {
       if (other.description != null)
         return false;
