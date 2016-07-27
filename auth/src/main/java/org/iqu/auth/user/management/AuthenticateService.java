@@ -12,6 +12,7 @@ import org.iqu.auth.entities.ErrorMessage;
 import org.iqu.auth.entities.TokenMessage;
 import org.iqu.auth.entities.UserCredentials;
 import org.iqu.auth.filter.CORSResponse;
+import org.iqu.auth.filter.Secured;
 import org.iqu.auth.persistence.dao.DaoFactory;
 import org.iqu.auth.persistence.dao.UserDaoImpl;
 import org.iqu.auth.persistence.dto.UserCredentialsDto;
@@ -28,11 +29,12 @@ import org.iqu.auth.token.TokenManager;
 public class AuthenticateService {
 
 	@POST
+	@Secured
 	@CORSResponse
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response authenticateUser(UserCredentials userCredentials) {
-
+		System.out.println("auth");
 		String userName = "";
 		String userToken = "";
 

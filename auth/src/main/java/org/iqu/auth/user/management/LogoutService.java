@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response.Status;
 import org.iqu.auth.token.TokenManager;
 import org.iqu.auth.entities.ErrorMessage;
 import org.iqu.auth.filter.CORSResponse;
+import org.iqu.auth.filter.Secured;
 
 /**
  * Invalidates a user session and logs out.
@@ -21,6 +22,7 @@ import org.iqu.auth.filter.CORSResponse;
 public class LogoutService {
 
 	@DELETE
+	@Secured
 	@CORSResponse
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response logout(@PathParam("token") String token) {
