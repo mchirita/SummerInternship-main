@@ -5,7 +5,7 @@ public class PropertiesConstants {
 	public static final String EMAIL = "email";
 	public static final String PORT = "port";
 	public static final String PASSWORD = "password";
-	public static final String PATH = "C:/Users/iQuest/Desktop/GITHUBv2/GITHUBv2/GITHUB/auth/iqu/email-config/email.properties";
+	public static final String PATH = "auth/iqu/email-config/email.properties";
 	public static final String SMTP_USER = "mail.smtp.user";
 	public static final String SMTP_HOST = "mail.smtp.host";
 	public static final String SMTP_PORT = "mail.smtp.port";
