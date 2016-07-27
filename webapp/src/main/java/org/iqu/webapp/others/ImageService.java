@@ -6,6 +6,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 import org.iqu.webapp.factory.ServiceFactory;
@@ -41,22 +42,15 @@ public class ImageService {
 
     System.out.println(image);
 
-    int status = 0;
     if (image.getLink() == null) {
-      status = 404;
       LOGGER.error("Image not found!");
       ErrorMessage errorMessage = new ErrorMessage("Image not found!");
 
-      return Response.status(status).entity(errorMessage).build();
+      return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
     }
 
-    status = 200;
-    return Response.status(status).entity(image).build();
+    return Response.status(Status.OK).entity(image).build();
 
-    // return Response
-    // .ok("{\"link\" :
-    // \"http://www.iquestgroup.com/en/wp-content/blogs.dir/5/files/2016/06/iQuest-logo.png\"}")
-    // .build();
   }
 
 }

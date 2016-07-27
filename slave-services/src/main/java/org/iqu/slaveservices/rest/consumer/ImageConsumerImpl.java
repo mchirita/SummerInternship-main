@@ -6,6 +6,7 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 import org.iqu.coreservices.config.ServiceInfo;
@@ -28,11 +29,11 @@ public class ImageConsumerImpl implements ImageConsumer {
     Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
     Response response = invocationBuilder.get();
 
-    if (response.getStatus() == 200) {
+    if (response.getStatus() == Status.OK.getStatusCode()) {
       Image image = response.readEntity(Image.class);
       return new ImageDTO(image.getLink());
     }
-    if (response.getStatus() == 404) {
+    if (response.getStatus() == Status.NOT_FOUND.getStatusCode()) {
       LOGGER.error("Authors not found!");
     }
     return new ImageDTO();
