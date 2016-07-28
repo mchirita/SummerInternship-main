@@ -38,7 +38,7 @@ public class TokenManager {
   public String generateToken(String userName) {
 
     String token = tokenGenerator.generateToken(userName);
-    TokenInfo tokenInfo = new TokenInfo(userName, token, LocalDateTime.now().plusMinutes(2));
+    TokenInfo tokenInfo = new TokenInfo(userName, token, LocalDateTime.now().plusDays(1));
     tokenMap.put(token, tokenInfo);
     userMap.put(userName, tokenInfo);
     return token;
@@ -123,7 +123,7 @@ public class TokenManager {
 
   public TokenInfo generateResetToken(String userName, String generateToken) {
 
-    TokenInfo token = new TokenInfo(userName, generateToken, LocalDateTime.now().plusMinutes(2));
+    TokenInfo token = new TokenInfo(userName, generateToken, LocalDateTime.now().plusMinutes(30));
     resetTokenMap.put(generateToken, token);
     userResetTokenMap.put(userName, token);
     return token;
