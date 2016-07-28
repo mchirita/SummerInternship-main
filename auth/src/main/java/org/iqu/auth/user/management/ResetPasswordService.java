@@ -52,7 +52,6 @@ public class ResetPasswordService {
         tokenManager.removeResetTokenWithUserName(userName);
         emailSender = new EmailSender();
         resetToken = emailSender.sendMail(userName, toEmail);
-        System.out.println("resettoken" + resetToken);
         tokenManager.generateResetToken(userName, resetToken);
       }
 

@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response.Status;
 import org.iqu.auth.entities.ErrorMessage;
 import org.iqu.auth.entities.User;
 import org.iqu.auth.entities.UserNameMessage;
+import org.iqu.auth.exception.RequestBodyException;
 import org.iqu.auth.filter.CORSResponse;
 import org.iqu.auth.persistence.dao.DaoFactory;
 import org.iqu.auth.persistence.dao.UserDaoImpl;
@@ -35,20 +36,23 @@ public class CreateUserService {
   public Response createUser(User user) {
 
     Convertor convertor = new Convertor();
-    UserDto userDto = convertor.convertToUserDto(user);
-
+    UserDto userDto;
+    UserNameMessage userNameMessage;
     ErrorMessage errorMessage;
-    UserNameMessage userNameMessage = new UserNameMessage(userDto.getUserName());
 
     try {
+      userDto = convertor.convertToUserDto(user);
+      userNameMessage = new UserNameMessage(userDto.getUserName());
+
       UserDaoImpl userDao = DaoFactory.getInstance().getUserDao();
       userDao.insertUser(userDto);
     } catch (AuthPersistenceException e) {
-
       errorMessage = new ErrorMessage(e.getMessage());
       return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
 
     } catch (DataBaseConnectionException e) {
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+    } catch (RequestBodyException e) {
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
     return Response.status(Status.OK).entity(userNameMessage).build();

@@ -7,28 +7,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.iqu.auth.persistence.dao.JdbcConstants;
+import static org.iqu.auth.persistence.dao.JdbcConstants.*;
 
 public class JdbcPropertiesLoader {
 
   private static final Logger LOGGER = Logger.getLogger(JdbcPropertiesLoader.class);
   private String userName;
   private String password;
+  private Properties readProps;
+
+  public JdbcPropertiesLoader() {
+    readProps = new Properties();
+  }
 
   public void loadDataBaseProperties() {
-
-    try (InputStream fis = new FileInputStream(JdbcConstants.PATH);
-        InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
-        BufferedReader br = new BufferedReader(isr);) {
-      userName = br.readLine();
-      password = br.readLine();
+    try (FileInputStream input = new FileInputStream(PATH)) {
+      readProps.load(input);
+      userName = readProps.getProperty("username");
+      password = readProps.getProperty("password");
     } catch (FileNotFoundException e) {
-      LOGGER.error("file not found", e);
+      LOGGER.error("File not found", e);
     } catch (IOException e) {
-      LOGGER.error("wrong data", e);
-      ;
+      LOGGER.error("Wrong data", e);
     }
   }
 

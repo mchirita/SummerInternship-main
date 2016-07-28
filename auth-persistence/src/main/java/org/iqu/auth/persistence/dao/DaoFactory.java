@@ -11,7 +11,7 @@ import org.iqu.auth.persistence.exception.DataBaseConnectionException;
  */
 public class DaoFactory {
 
-  private volatile static DaoFactory instance;;
+  private volatile static DaoFactory instance;
   private static Connection connection;
   private static UserDaoImpl user;
 
@@ -31,10 +31,8 @@ public class DaoFactory {
 
     if (user == null) {
       user = new UserDaoImpl(connection);
-      return user;
-    } else {
-      return user;
     }
+    return user;
   }
 
   private DaoFactory() throws DataBaseConnectionException {

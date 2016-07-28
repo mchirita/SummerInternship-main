@@ -48,7 +48,7 @@ public class UserDaoImpl implements UserDao {
       ps.setInt(7, user.getAge());
       ps.executeUpdate();
     } catch (SQLException e) {
-      throw new AuthPersistenceException("Duplicate user name or email");
+      throw new AuthPersistenceException("Duplicate user name or email", e);
     }
 
   }
@@ -72,7 +72,7 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
       LOGGER.error("Update password problem", e);
-      throw new AuthPersistenceException("Update password problem");
+      throw new AuthPersistenceException("Update password problem", e);
     }
   }
 
@@ -99,7 +99,7 @@ public class UserDaoImpl implements UserDao {
 
     } catch (SQLException e) {
       LOGGER.error("Email not found.", e);
-      throw new AuthPersistenceException("Email not found.");
+      throw new AuthPersistenceException("Email not found.", e);
     }
     return response;
   }
@@ -125,7 +125,7 @@ public class UserDaoImpl implements UserDao {
       }
     } catch (SQLException e) {
       LOGGER.error("User credentials not found.", e);
-      throw new AuthPersistenceException("User credentials not found.");
+      throw new AuthPersistenceException("User credentials not found.", e);
     }
     return response;
   }

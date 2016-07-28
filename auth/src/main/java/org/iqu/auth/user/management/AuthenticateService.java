@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response.Status;
 import org.iqu.auth.entities.ErrorMessage;
 import org.iqu.auth.entities.TokenMessage;
 import org.iqu.auth.entities.UserCredentials;
+import org.iqu.auth.exception.RequestBodyException;
 import org.iqu.auth.filter.CORSResponse;
 import org.iqu.auth.persistence.dao.DaoFactory;
 import org.iqu.auth.persistence.dao.UserDaoImpl;
@@ -41,11 +42,12 @@ public class AuthenticateService {
     TokenMessage tokenMessage;
     TokenManager tokenManager = TokenManager.getInstance();
     Convertor convertor = new Convertor();
-    UserCredentialsDto userCredentialsDto = convertor.convertToUserCredentialsDto(userCredentials);
+    UserCredentialsDto userCredentialsDto;
     UserDaoImpl userDao;
 
     try {
       userDao = DaoFactory.getInstance().getUserDao();
+      userCredentialsDto = convertor.convertToUserCredentialsDto(userCredentials);
       userName = userCredentialsDto.getUserName();
 
       if (userDao.findUserCredentials(userCredentialsDto)) {
@@ -66,6 +68,8 @@ public class AuthenticateService {
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 
     } catch (AuthPersistenceException e) {
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+    } catch (RequestBodyException e) {
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
 

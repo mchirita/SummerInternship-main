@@ -9,4 +9,9 @@ public class AuthPersistenceException extends Exception {
   public AuthPersistenceException(String message) {
     super(message);
   }
+  
+  public AuthPersistenceException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
 }

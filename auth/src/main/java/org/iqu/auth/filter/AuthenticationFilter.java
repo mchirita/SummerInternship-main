@@ -10,6 +10,7 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.Provider;
 
 /**
@@ -25,19 +26,25 @@ import javax.ws.rs.ext.Provider;
 @Priority(Priorities.AUTHENTICATION)
 @Secured
 public class AuthenticationFilter implements ContainerRequestFilter {
+  public static final String CHECKSESSIONVALIDITYPATH = "/auth/authenticate/";
 
   @Override
   public void filter(ContainerRequestContext requestContext) {
     Client client = ClientBuilder.newClient();
-
-    WebTarget webTarget = client
-        .target("http://localhost:8080/auth/authenticate/" + requestContext.getCookies().get("token").getValue());
-
+    WebTarget webTarget = client.target(buildTarget(requestContext).toString());
     Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
     Response response = invocationBuilder.get();
-    if (response.getStatus() != Response.Status.OK.getStatusCode()) {
+    if (response.getStatus() != Status.OK.getStatusCode()) {
       requestContext.abortWith(response);
     }
+  }
 
+  private StringBuilder buildTarget(ContainerRequestContext requestContext) {
+    StringBuilder target = new StringBuilder();
+    target.append(requestContext.getUriInfo().getAbsolutePath().getScheme()).append("://")
+        .append(requestContext.getUriInfo().getRequestUri().getHost()).append(":")
+        .append(requestContext.getUriInfo().getRequestUri().getPort()).append(CHECKSESSIONVALIDITYPATH)
+        .append(requestContext.getCookies().get("token").getValue());
+    return target;
   }
 }

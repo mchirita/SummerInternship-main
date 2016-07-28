@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.iqu.auth.entities.ChangePasswordDetailes;
 import org.iqu.auth.entities.ErrorMessage;
+import org.iqu.auth.exception.RequestBodyException;
 import org.iqu.auth.filter.CORSResponse;
 import org.iqu.auth.filter.Secured;
 import org.iqu.auth.persistence.dao.DaoFactory;
@@ -49,9 +50,11 @@ public class ChangePasswordService {
       return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
     } else {
       Convertor convertor = new Convertor();
-      ChangePasswordDetailesDto changePasswordDto = convertor.convertToChangePasswordDetailesDto(passwordDetailes);
+      ChangePasswordDetailesDto changePasswordDto;
+                                               
       UserDaoImpl daoUser;
       try {
+        changePasswordDto = convertor.convertToChangePasswordDetailesDto(passwordDetailes);
         daoUser = DaoFactory.getInstance().getUserDao();
         String userName = tokenManager.getUserWithResetToken(resetToken);
         daoUser.updatePassword(changePasswordDto, userName);
@@ -59,6 +62,8 @@ public class ChangePasswordService {
       } catch (DataBaseConnectionException e) {
         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
       } catch (AuthPersistenceException e) {
+        return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+      } catch (RequestBodyException e) {
         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
       }
 
