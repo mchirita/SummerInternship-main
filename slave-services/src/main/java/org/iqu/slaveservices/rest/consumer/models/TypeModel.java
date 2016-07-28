@@ -1,7 +1,7 @@
 package org.iqu.slaveservices.rest.consumer.models;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -17,13 +17,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class TypeModel {
 
   private String type;
-  private Set<String> subtypes = new HashSet<String>();
+  private List<String> subtypes = new ArrayList<String>();
 
   public TypeModel() {
 
   }
 
-  public TypeModel(String nameOfType, Set<String> subtypes) {
+  public TypeModel(String nameOfType, List<String> subtypes) {
     super();
     this.type = nameOfType;
     this.subtypes = subtypes;
@@ -37,11 +37,11 @@ public class TypeModel {
     this.type = nameOfType;
   }
 
-  public Set<String> getSubTypes() {
+  public List<String> getSubTypes() {
     return subtypes;
   }
 
-  public void setSubTypes(Set<String> subtypes) {
+  public void setSubTypes(List<String> subtypes) {
     this.subtypes = subtypes;
   }
 

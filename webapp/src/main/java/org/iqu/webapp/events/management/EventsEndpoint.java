@@ -70,10 +70,10 @@ public class EventsEndpoint {
   @CORSResponse
   @Produces(MediaType.APPLICATION_JSON)
   public Response retriveEvents(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
-      @QueryParam("type") String type, @QueryParam("subType") String subType, @QueryParam("sourceId") String sourceId,
+      @QueryParam("type") String type, @QueryParam("subtype") String subtype, @QueryParam("sourceId") String sourceId,
       @QueryParam("author") String author, @QueryParam("location") String location) {
 
-    EventsDTO retrieveEvents = eventsService.retrieveEvents(startDate, endDate, type, subType, sourceId, author,
+    EventsDTO retrieveEvents = eventsService.retrieveEvents(startDate, endDate, type, subtype, sourceId, author,
         location);
     Events events = new Events();
     for (EventDTO eventDTO : retrieveEvents.getEvents()) {

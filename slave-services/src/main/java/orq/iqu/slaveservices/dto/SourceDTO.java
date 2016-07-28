@@ -1,7 +1,7 @@
 package orq.iqu.slaveservices.dto;
 
 public class SourceDTO {
-  private String id;
+  private int id;
   private String displayName;
   private String description;
   private String image;
@@ -9,7 +9,7 @@ public class SourceDTO {
   public SourceDTO() {
   }
 
-  public SourceDTO(String id, String displayName, String description, String image) {
+  public SourceDTO(int id, String displayName, String description, String image) {
     this.id = id;
     this.displayName = displayName;
     this.description = description;
@@ -24,11 +24,11 @@ public class SourceDTO {
     this.image = image;
   }
 
-  public String getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(int id) {
     this.id = id;
   }
 
@@ -49,18 +49,12 @@ public class SourceDTO {
   }
 
   @Override
-  public String toString() {
-    return "Source [id=" + id + ", displayName=" + displayName + ", description=" + description + ", image=" + image
-        + "]";
-  }
-
-  @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((description == null) ? 0 : description.hashCode());
     result = prime * result + ((displayName == null) ? 0 : displayName.hashCode());
-    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + id;
     result = prime * result + ((image == null) ? 0 : image.hashCode());
     return result;
   }
@@ -84,10 +78,7 @@ public class SourceDTO {
         return false;
     } else if (!displayName.equals(other.displayName))
       return false;
-    if (id == null) {
-      if (other.id != null)
-        return false;
-    } else if (!id.equals(other.id))
+    if (id != other.id)
       return false;
     if (image == null) {
       if (other.image != null)
