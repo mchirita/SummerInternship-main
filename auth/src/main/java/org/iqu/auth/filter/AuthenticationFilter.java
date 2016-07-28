@@ -35,7 +35,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
     Response response = invocationBuilder.get();
-    if (response.getStatus() != 200) {
+    if (response.getStatus() != Response.Status.OK.getStatusCode()) {
       requestContext.abortWith(response);
     }
 

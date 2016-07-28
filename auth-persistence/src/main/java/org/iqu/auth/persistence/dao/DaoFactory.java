@@ -1,7 +1,6 @@
 package org.iqu.auth.persistence.dao;
 
 import java.sql.Connection;
-
 import org.iqu.auth.persistence.exception.DataBaseConnectionException;
 
 /**
@@ -12,17 +11,20 @@ import org.iqu.auth.persistence.exception.DataBaseConnectionException;
  */
 public class DaoFactory {
 
-  private static DaoFactory instance;;
+  private volatile static DaoFactory instance;;
   private static Connection connection;
   private static UserDaoImpl user;
 
   public static DaoFactory getInstance() throws DataBaseConnectionException {
     if (instance == null) {
-      instance = new DaoFactory();
-      return instance;
-    } else {
-      return instance;
+      synchronized (DaoFactory.class) {
+        if (instance == null) {
+          instance = new DaoFactory();
+        }
+      }
     }
+    return instance;
+
   }
 
   public UserDaoImpl getUserDao() {
