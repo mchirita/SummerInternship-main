@@ -11,7 +11,6 @@ public class ResponseFilter implements ContainerResponseFilter {
 
   @Override
   public void filter(ContainerRequestContext arg0, ContainerResponseContext arg1) throws IOException {
-    arg1.getHeaders().add("Access-Control-Allow-Origin", "*");
   }
 
 }

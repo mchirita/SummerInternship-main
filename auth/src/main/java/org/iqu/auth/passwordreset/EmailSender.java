@@ -21,43 +21,43 @@ import org.iqu.auth.token.TokenGenerator;
  */
 public class EmailSender {
 
-	private Authenticator auth;
-	private Properties props;
-	private PropertiesLoader propsLoader;
-	private TokenGenerator tokenGenerator;
-	private String messageText;
-	private String messageSubject;
-	private static final Logger LOGGER = Logger.getLogger(EmailSender.class);
+  private Authenticator auth;
+  private Properties props;
+  private PropertiesLoader propsLoader;
+  private TokenGenerator tokenGenerator;
+  private String messageText;
+  private String messageSubject;
+  private static final Logger LOGGER = Logger.getLogger(EmailSender.class);
 
-	public EmailSender() {
+  public EmailSender() {
 
-		propsLoader = new PropertiesLoader();
-		tokenGenerator = new TokenGenerator();
-	}
+    propsLoader = new PropertiesLoader();
+    tokenGenerator = new TokenGenerator();
+  }
 
-	public String sendMail(String userName, String toEmail) throws ConfigurationException {
+  public String sendMail(String userName, String toEmail) throws ConfigurationException {
 
-		try {
-			props = propsLoader.loadProperties();
-		}  catch (ConfigurationException e) {
-			LOGGER.error("can't load properties", e);
-			throw new ConfigurationException("interanl problem");
-		}
-		auth = new SMTPAuthenticator(props.getProperty(SMTP_USER), props.getProperty(SMTP_PASSWORD));
-		Session session = Session.getInstance(props, auth);
-		messageText = tokenGenerator.generateToken(userName);
-		messageSubject = "ResetPasswordCode";
-		MimeMessage msg = new MimeMessage(session);
+    try {
+      props = propsLoader.loadProperties();
+    } catch (ConfigurationException e) {
+      LOGGER.error("can't load properties", e);
+      throw new ConfigurationException("interanl problem");
+    }
+    auth = new SMTPAuthenticator(props.getProperty(SMTP_USER), props.getProperty(SMTP_PASSWORD));
+    Session session = Session.getInstance(props, auth);
+    messageText = tokenGenerator.generateToken(userName);
+    messageSubject = "ResetPasswordCode";
+    MimeMessage msg = new MimeMessage(session);
 
-		try {
-			msg.setText(messageText);
-			msg.setSubject(messageSubject);
-			msg.setFrom(new InternetAddress(props.getProperty(SMTP_USER)));
-			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-			Transport.send(msg);
-		} catch (Exception mex) {
-			LOGGER.error("email not sent", mex);
-		}
-		return messageText;
-	}
+    try {
+      msg.setText(messageText);
+      msg.setSubject(messageSubject);
+      msg.setFrom(new InternetAddress(props.getProperty(SMTP_USER)));
+      msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+      Transport.send(msg);
+    } catch (Exception mex) {
+      LOGGER.error("email not sent", mex);
+    }
+    return messageText;
+  }
 }

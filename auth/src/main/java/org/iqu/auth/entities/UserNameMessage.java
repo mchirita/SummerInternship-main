@@ -7,23 +7,23 @@ package org.iqu.auth.entities;
  */
 public class UserNameMessage {
 
-	private String userName;
+  private String userName;
 
-	public UserNameMessage() {
+  public UserNameMessage() {
 
-	}
+  }
 
-	public UserNameMessage(String userName) {
+  public UserNameMessage(String userName) {
 
-		this.userName = userName;
-	}
+    this.userName = userName;
+  }
 
-	public String getUserName() {
-		return userName;
-	}
+  public String getUserName() {
+    return userName;
+  }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
 }

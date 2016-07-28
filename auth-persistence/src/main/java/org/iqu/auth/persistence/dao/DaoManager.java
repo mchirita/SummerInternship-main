@@ -19,41 +19,41 @@ import org.iqu.auth.persistence.service.JdbcPropertiesLoader;
  */
 public class DaoManager {
 
-	private static final Logger LOGGER = Logger.getLogger(DaoManager.class);
-	private static DaoManager instance = new DaoManager();
-	private Connection connection;
+  private static final Logger LOGGER = Logger.getLogger(DaoManager.class);
+  private static DaoManager instance = new DaoManager();
+  private Connection connection;
 
-	public static DaoManager getInstace() {
-		return instance;
-	}
+  public static DaoManager getInstace() {
+    return instance;
+  }
 
-	public Connection getConnection() throws DataBaseConnectionException {
-		JdbcPropertiesLoader loader = new JdbcPropertiesLoader();
-		loader.loadDataBaseProperties();
-	
-		BasicDataSource dataSource = new BasicDataSource();
-		dataSource.setDriverClassName(DRIVER);
-		dataSource.setUrl(URL);
-		dataSource.setUsername(loader.getUserName());
-		dataSource.setPassword(loader.getPssword());
-		try {
-			connection = dataSource.getConnection();
-		} catch (SQLException e) {
-			LOGGER.error("database connection problem", e);
-			throw new DataBaseConnectionException("database connection problem");
-		}
-		return connection;
-	}
+  public Connection getConnection() throws DataBaseConnectionException {
+    JdbcPropertiesLoader loader = new JdbcPropertiesLoader();
+    loader.loadDataBaseProperties();
 
-	public void closeConnection() {
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+    BasicDataSource dataSource = new BasicDataSource();
+    dataSource.setDriverClassName(DRIVER);
+    dataSource.setUrl(URL);
+    dataSource.setUsername(loader.getUserName());
+    dataSource.setPassword(loader.getPssword());
+    try {
+      connection = dataSource.getConnection();
+    } catch (SQLException e) {
+      LOGGER.error("database connection problem", e);
+      throw new DataBaseConnectionException("database connection problem");
+    }
+    return connection;
+  }
 
-	private DaoManager() {
+  public void closeConnection() {
+    try {
+      connection.close();
+    } catch (SQLException e) {
+      LOGGER.error(e.getMessage(), e);
+    }
+  }
 
-	}
+  private DaoManager() {
+
+  }
 }

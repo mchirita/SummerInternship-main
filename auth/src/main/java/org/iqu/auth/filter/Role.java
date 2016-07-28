@@ -9,6 +9,6 @@ package org.iqu.auth.filter;
  *
  */
 public enum Role {
-	ROLE1, ROLE2;
+  ROLE1, ROLE2;
 
 }

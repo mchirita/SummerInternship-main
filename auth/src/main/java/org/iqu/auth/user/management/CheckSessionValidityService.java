@@ -25,26 +25,26 @@ import org.iqu.auth.filter.CORSResponse;
 @Path("/authenticate/{token}")
 public class CheckSessionValidityService {
 
-	@GET
-	@CORSResponse
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response checkSessionValidity(@PathParam("token") String token) {
-	
-		TokenManager tokenManager = TokenManager.getInstance();
-		String userToken = tokenManager.getToken(token);
-		ErrorMessage errorMessage;
-		UserNameMessage userNameMessage;
+  @GET
+  @CORSResponse
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response checkSessionValidity(@PathParam("token") String token) {
 
-		if ("".equals(userToken)) {
-			errorMessage = new ErrorMessage("user does not exist.");
-			return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
-		} else if (!tokenManager.tokenValidator(token)) {
-			errorMessage = new ErrorMessage("Session expired.");
-			tokenManager.removeTokenWithToken(token);
-			return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
-		} else {
-			userNameMessage = new UserNameMessage(userToken);
-			return Response.status(Status.OK).entity(userNameMessage).build();
-		}
-	}
+    TokenManager tokenManager = TokenManager.getInstance();
+    String userToken = tokenManager.getToken(token);
+    ErrorMessage errorMessage;
+    UserNameMessage userNameMessage;
+
+    if ("".equals(userToken)) {
+      errorMessage = new ErrorMessage("user does not exist.");
+      return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
+    } else if (!tokenManager.tokenValidator(token)) {
+      errorMessage = new ErrorMessage("Session expired.");
+      tokenManager.removeTokenWithToken(token);
+      return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
+    } else {
+      userNameMessage = new UserNameMessage(userToken);
+      return Response.status(Status.OK).entity(userNameMessage).build();
+    }
+  }
 }

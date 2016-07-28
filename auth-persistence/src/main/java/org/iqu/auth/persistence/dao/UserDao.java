@@ -12,12 +12,12 @@ import org.iqu.auth.persistence.exception.AuthPersistenceException;
  */
 public interface UserDao {
 
-	public void insertUser(UserDto user) throws AuthPersistenceException;
+  public void insertUser(UserDto user) throws AuthPersistenceException;
 
-	public String findUser(String email) throws AuthPersistenceException;
+  public String findUser(String email) throws AuthPersistenceException;
 
-	public boolean findUserCredentials(UserCredentialsDto uc);
+  public boolean findUserCredentials(UserCredentialsDto uc) throws AuthPersistenceException;
 
-	public void updatePassword(ChangePasswordDetailesDto cpddto, String userName)throws AuthPersistenceException;
+  public void updatePassword(ChangePasswordDetailesDto cpddto, String userName) throws AuthPersistenceException;
 
 }

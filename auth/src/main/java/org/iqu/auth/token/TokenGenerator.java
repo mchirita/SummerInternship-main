@@ -13,10 +13,10 @@ import java.util.UUID;
  */
 public class TokenGenerator {
 
-	public String generateToken(String userName) {
-		String token = "";
-		UUID uuid = UUID.randomUUID();
-		token = userName + uuid.toString();
-		return token;
-	}
+  public String generateToken(String userName) {
+    String token = "";
+    UUID uuid = UUID.randomUUID();
+    token = userName + uuid.toString();
+    return token;
+  }
 }

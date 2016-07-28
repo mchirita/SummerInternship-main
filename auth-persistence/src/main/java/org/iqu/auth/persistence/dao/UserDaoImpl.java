@@ -18,111 +18,116 @@ import static org.iqu.auth.persistence.dao.JdbcConstants.*;
  *
  */
 public class UserDaoImpl implements UserDao {
-	
-	private static final Logger LOGGER = Logger.getLogger(DaoManager.class);
-	private Connection connection;
 
-	public UserDaoImpl(Connection connection) {
+  private static final Logger LOGGER = Logger.getLogger(DaoManager.class);
+  private Connection connection;
 
-		this.connection = connection;
-	}
+  public UserDaoImpl(Connection connection) {
 
-	/**
-	 * Insert users in database.
-	 * 
-	 */
-	@Override
-	public void insertUser(UserDto user) throws AuthPersistenceException {
+    this.connection = connection;
+  }
 
-		StringBuilder query = new StringBuilder();
-		query.append("INSERT INTO ").append(TABLENAME).append(" VALUES(?,?,?,?,?,?,?)");
+  /**
+   * Insert users in database.
+   * 
+   */
+  @Override
+  public void insertUser(UserDto user) throws AuthPersistenceException {
 
-		try {
-			PreparedStatement ps = connection.prepareStatement(query.toString());
-			ps.setString(1, user.getUserName());
-			ps.setString(2, user.getFirstName());
-			ps.setString(3, user.getLastName());
-			ps.setString(4, user.getPassword());
-			ps.setString(5, user.getEmail());
-			ps.setString(6, user.getCountry());
-			ps.setInt(7, user.getAge());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			throw new AuthPersistenceException("Duplicate user name or email");
-		}
+    StringBuilder query = new StringBuilder();
+    query.append("INSERT INTO ").append(TABLENAME).append(" VALUES(?,?,?,?,?,?,?)");
 
-	}
+    try {
+      PreparedStatement ps = connection.prepareStatement(query.toString());
+      ps.setString(1, user.getUserName());
+      ps.setString(2, user.getFirstName());
+      ps.setString(3, user.getLastName());
+      ps.setString(4, user.getPassword());
+      ps.setString(5, user.getEmail());
+      ps.setString(6, user.getCountry());
+      ps.setInt(7, user.getAge());
+      ps.executeUpdate();
+    } catch (SQLException e) {
+      throw new AuthPersistenceException("Duplicate user name or email");
+    }
 
-	/**
-	 * Update password in database
-	 * @throws AuthPersistenceException 
-	 */
-	@Override
-	public void updatePassword(ChangePasswordDetailesDto changePasswordDetailes, String userName) throws AuthPersistenceException {
+  }
 
-		StringBuilder query = new StringBuilder();
-		query.append("UPDATE ").append(TABLENAME).append(" SET password=? WHERE   username = ?");
+  /**
+   * Update password in database
+   * 
+   * @throws AuthPersistenceException
+   */
+  @Override
+  public void updatePassword(ChangePasswordDetailesDto changePasswordDetailes, String userName)
+      throws AuthPersistenceException {
 
-		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
-			preparedStatement.setString(1, changePasswordDetailes.getNewPassword());
-			preparedStatement.setString(2, userName);
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			LOGGER.error("update password problem",e);
-			throw new AuthPersistenceException("update password problem");
-		}
-	}
+    StringBuilder query = new StringBuilder();
+    query.append("UPDATE ").append(TABLENAME).append(" SET password=? WHERE   username = ?");
 
-	/**
-	 * Search for the user with the specified email.
-	 * 
-	 * @param email
-	 * @return user name corresponding with the the specified email.
-	 */
-	@Override
-	public String findUser(String email) throws AuthPersistenceException {
+    try {
+      PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
+      preparedStatement.setString(1, changePasswordDetailes.getNewPassword());
+      preparedStatement.setString(2, userName);
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      LOGGER.error("Update password problem", e);
+      throw new AuthPersistenceException("Update password problem");
+    }
+  }
 
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT username FROM ").append(TABLENAME).append(" WHERE email=?");
-		PreparedStatement preparedStatement;
-		String response = "";
+  /**
+   * Search for the user with the specified email.
+   * 
+   * @param email
+   * @return user name corresponding with the the specified email.
+   */
+  @Override
+  public String findUser(String email) throws AuthPersistenceException {
 
-		try {
-			preparedStatement = connection.prepareStatement(query.toString());
-			preparedStatement.setString(1, email);
-			ResultSet result = preparedStatement.executeQuery();
-			result.next();
-			response = result.getString(1);
+    StringBuilder query = new StringBuilder();
+    query.append("SELECT username FROM ").append(TABLENAME).append(" WHERE email=?");
+    PreparedStatement preparedStatement;
+    String response = "";
 
-		} catch (SQLException e) {
-			throw new AuthPersistenceException("Email not found.");
-		}
-		return response;
-	}
+    try {
+      preparedStatement = connection.prepareStatement(query.toString());
+      preparedStatement.setString(1, email);
+      ResultSet result = preparedStatement.executeQuery();
+      result.next();
+      response = result.getString(1);
 
-	/**
-	 * ckeck for user credentials in database
-	 */
-	@Override
-	public boolean findUserCredentials(UserCredentialsDto userCredentials) {
+    } catch (SQLException e) {
+      LOGGER.error("Email not found.", e);
+      throw new AuthPersistenceException("Email not found.");
+    }
+    return response;
+  }
 
-		boolean response = false;
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT username, password FROM ").append(TABLENAME).append(" WHERE username=?  AND password=?");
+  /**
+   * ckeck for user credentials in database
+   * 
+   */
+  @Override
+  public boolean findUserCredentials(UserCredentialsDto userCredentials) throws AuthPersistenceException {
 
-		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
-			preparedStatement.setString(1, userCredentials.getUserName());
-			preparedStatement.setString(2, userCredentials.getPassword());
-			ResultSet result = preparedStatement.executeQuery();
-			if (result.isBeforeFirst()) {
-				response = true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return response;
-	}
+    boolean response = false;
+    StringBuilder query = new StringBuilder();
+    query.append("SELECT username, password FROM ").append(TABLENAME).append(" WHERE username=?  AND password=?");
+
+    try {
+      PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
+      preparedStatement.setString(1, userCredentials.getUserName());
+      preparedStatement.setString(2, userCredentials.getPassword());
+      ResultSet result = preparedStatement.executeQuery();
+      if (result.isBeforeFirst()) {
+        response = true;
+      }
+    } catch (SQLException e) {
+      LOGGER.error("User credentials not found.", e);
+      throw new AuthPersistenceException("User credentials not found.");
+    }
+    return response;
+  }
 
 }

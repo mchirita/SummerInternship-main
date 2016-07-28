@@ -28,31 +28,31 @@ import org.iqu.auth.service.Convertor;
 @Path("/users")
 public class CreateUserService {
 
-	@POST
-	@CORSResponse
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response createUser(User user) {
+  @POST
+  @CORSResponse
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response createUser(User user) {
 
-		Convertor convertor = new Convertor();
-		UserDto userDto = convertor.convertToUserDto(user);
+    Convertor convertor = new Convertor();
+    UserDto userDto = convertor.convertToUserDto(user);
 
-		ErrorMessage errorMessage;
-		UserNameMessage userNameMessage = new UserNameMessage(userDto.getUserName());
+    ErrorMessage errorMessage;
+    UserNameMessage userNameMessage = new UserNameMessage(userDto.getUserName());
 
-		try {
-			UserDaoImpl userDao = DaoFactory.getInstance().getUserDao();
-			userDao.insertUser(userDto);
-		} catch (AuthPersistenceException e) {
+    try {
+      UserDaoImpl userDao = DaoFactory.getInstance().getUserDao();
+      userDao.insertUser(userDto);
+    } catch (AuthPersistenceException e) {
 
-			errorMessage = new ErrorMessage(e.getMessage());
-			return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
+      errorMessage = new ErrorMessage(e.getMessage());
+      return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
 
-		} catch (DataBaseConnectionException e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-		}
-		return Response.status(Status.OK).entity(userNameMessage).build();
+    } catch (DataBaseConnectionException e) {
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+    }
+    return Response.status(Status.OK).entity(userNameMessage).build();
 
-	}
+  }
 
 }

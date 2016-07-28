@@ -7,6 +7,10 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
+
+
+
+
 /**
  * ConfigServiceProps - Class used to configure service properties.
  * 
@@ -14,7 +18,6 @@ import java.util.Set;
  *
  */
 public class ConfigServiceProps {
-
 	private static final String PROPERTY_URL = "url";
 	private static final String PROPERTY_PORT = "port";
 	private static final String PROPERTY_HOSTNAME = "hostname";

@@ -32,36 +32,36 @@ import org.iqu.auth.token.TokenManager;
 @Path("/users/password")
 public class ChangePasswordService {
 
-	@POST
-	@CORSResponse
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@Secured
-	public Response changePassword(ChangePasswordDetailes passwordDetailes) {
+  @POST
+  @CORSResponse
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Secured
+  public Response changePassword(ChangePasswordDetailes passwordDetailes) {
 
-		ErrorMessage errorMessage;
-		String resetToken = passwordDetailes.getResetToken();
-		TokenManager tokenManager = TokenManager.getInstance();
+    ErrorMessage errorMessage;
+    String resetToken = passwordDetailes.getResetToken();
+    TokenManager tokenManager = TokenManager.getInstance();
 
-		if (!tokenManager.resetTokenValidatorForToken(resetToken)) {
-			tokenManager.removeResetTokenWithToken(resetToken);
-			errorMessage = new ErrorMessage("Could not change password. Invalid session.");
-			return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
-		} else {
-			Convertor convertor = new Convertor();
-			ChangePasswordDetailesDto changePasswordDto = convertor.convertToChangePasswordDetailesDto(passwordDetailes);
-			UserDaoImpl daoUser;
-			try {
-				daoUser = DaoFactory.getInstance().getUserDao();
-				String userName = tokenManager.getUserWithResetToken(resetToken);
-				daoUser.updatePassword(changePasswordDto, userName);
-				return Response.status(Status.OK).build();
-			} catch (DataBaseConnectionException e) {
-				return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-			} catch (AuthPersistenceException e) {
-				return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-			}
+    if (!tokenManager.resetTokenValidatorForToken(resetToken)) {
+      tokenManager.removeResetTokenWithToken(resetToken);
+      errorMessage = new ErrorMessage("Could not change password. Invalid session.");
+      return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
+    } else {
+      Convertor convertor = new Convertor();
+      ChangePasswordDetailesDto changePasswordDto = convertor.convertToChangePasswordDetailesDto(passwordDetailes);
+      UserDaoImpl daoUser;
+      try {
+        daoUser = DaoFactory.getInstance().getUserDao();
+        String userName = tokenManager.getUserWithResetToken(resetToken);
+        daoUser.updatePassword(changePasswordDto, userName);
+        return Response.status(Status.OK).build();
+      } catch (DataBaseConnectionException e) {
+        return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+      } catch (AuthPersistenceException e) {
+        return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+      }
 
-		}
-	}
+    }
+  }
 }

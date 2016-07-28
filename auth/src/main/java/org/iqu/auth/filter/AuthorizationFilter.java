@@ -20,12 +20,12 @@ import javax.ws.rs.ext.Provider;
 @Priority(Priorities.AUTHORIZATION)
 public class AuthorizationFilter implements ContainerRequestFilter {
 
-	@Override
-	public void filter(ContainerRequestContext requestContext)  {
+  @Override
+  public void filter(ContainerRequestContext requestContext) {
 
-	}
+  }
 
-	private void checkPermissions(List<Role> allowedRoles)  {
+  private void checkPermissions(List<Role> allowedRoles) {
 
-	}
+  }
 }

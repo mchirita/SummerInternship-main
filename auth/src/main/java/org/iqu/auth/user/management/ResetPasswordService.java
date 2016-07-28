@@ -31,39 +31,40 @@ import org.iqu.auth.token.TokenManager;
 @Path("/users/password-reset")
 public class ResetPasswordService {
 
-	@POST
-	@CORSResponse
-	@Secured
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response resetPassword(@QueryParam("email") String toEmail) {
+  @POST
+  @CORSResponse
+  @Secured
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response resetPassword(@QueryParam("email") String toEmail) {
 
-		EmailSender emailSender;
-		TokenManager tokenManager = TokenManager.getInstance();
-		String resetToken = "";
-		String userName = "";
+    EmailSender emailSender;
+    TokenManager tokenManager = TokenManager.getInstance();
+    String resetToken = "";
+    String userName = "";
 
-		ErrorMessage errorMessage;
+    ErrorMessage errorMessage;
 
-		try {
-			UserDaoImpl daoUser = DaoFactory.getInstance().getUserDao();
-			userName = daoUser.findUser(toEmail);
-			if ((!tokenManager.resetTokenValidatorForUser(userName))) {
-				tokenManager.removeResetTokenWithUserName(userName);
-				emailSender = new EmailSender();
-				resetToken = emailSender.sendMail(userName, toEmail);
-				tokenManager.generateResetToken(userName, resetToken);
-			}
+    try {
+      UserDaoImpl daoUser = DaoFactory.getInstance().getUserDao();
+      userName = daoUser.findUser(toEmail);
+      if ((!tokenManager.resetTokenValidatorForUser(userName))) {
+        tokenManager.removeResetTokenWithUserName(userName);
+        emailSender = new EmailSender();
+        resetToken = emailSender.sendMail(userName, toEmail);
+        System.out.println("resettoken" + resetToken);
+        tokenManager.generateResetToken(userName, resetToken);
+      }
 
-		} catch (AuthPersistenceException e) {
-			errorMessage = new ErrorMessage(e.getMessage());
-			return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
-		} catch (ConfigurationException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-		} catch (DataBaseConnectionException e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-		}
-		return Response.status(Status.OK).build();
-	}
+    } catch (AuthPersistenceException e) {
+      errorMessage = new ErrorMessage(e.getMessage());
+      return Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
+    } catch (ConfigurationException e) {
+      return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+    } catch (DataBaseConnectionException e) {
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+    }
+    return Response.status(Status.OK).build();
+  }
 
 }

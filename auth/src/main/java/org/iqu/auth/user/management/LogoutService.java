@@ -21,22 +21,22 @@ import org.iqu.auth.filter.Secured;
 @Path("/authenticate/{token}")
 public class LogoutService {
 
-	@DELETE
-	@Secured
-	@CORSResponse
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response logout(@PathParam("token") String token) {
+  @DELETE
+  @Secured
+  @CORSResponse
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response logout(@PathParam("token") String token) {
 
-		TokenManager tokenManager = TokenManager.getInstance();
-		ErrorMessage errorMessage;
-		if ((!tokenManager.tokenValidator(token))) {
-			errorMessage = new ErrorMessage("Session already expired.");
-			tokenManager.removeTokenWithToken(token);
-			return Response.status(Status.UNAUTHORIZED).entity(errorMessage).build();
-		} else {
-			tokenManager.removeTokenWithToken(token);
-			return Response.status(Status.OK).build();
-		}
-	}
+    TokenManager tokenManager = TokenManager.getInstance();
+    ErrorMessage errorMessage;
+    if ((!tokenManager.tokenValidator(token))) {
+      errorMessage = new ErrorMessage("Session already expired.");
+      tokenManager.removeTokenWithToken(token);
+      return Response.status(Status.UNAUTHORIZED).entity(errorMessage).build();
+    } else {
+      tokenManager.removeTokenWithToken(token);
+      return Response.status(Status.OK).build();
+    }
+  }
 
 }

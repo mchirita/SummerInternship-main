@@ -15,6 +15,7 @@ import org.iqu.auth.filter.CORSResponse;
 import org.iqu.auth.persistence.dao.DaoFactory;
 import org.iqu.auth.persistence.dao.UserDaoImpl;
 import org.iqu.auth.persistence.dto.UserCredentialsDto;
+import org.iqu.auth.persistence.exception.AuthPersistenceException;
 import org.iqu.auth.persistence.exception.DataBaseConnectionException;
 import org.iqu.auth.service.Convertor;
 import org.iqu.auth.token.TokenManager;
@@ -28,46 +29,45 @@ import org.iqu.auth.token.TokenManager;
 @Path("/authenticate")
 public class AuthenticateService {
 
-	@POST
-	@CORSResponse
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response authenticateUser(UserCredentials userCredentials) {
-		System.out.println("auth");
-		String userName = "";
-		String userToken = "";
+  @POST
+  @CORSResponse
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response authenticateUser(UserCredentials userCredentials) {
 
-		
-		ErrorMessage errorMessage;
-		TokenMessage tokenMessage;
-		TokenManager tokenManager = TokenManager.getInstance();
-		Convertor convertor = new Convertor();
-		UserCredentialsDto userCredentialsDto = convertor.convertToUserCredentialsDto(userCredentials);
-		UserDaoImpl userDao;
-		try {
-			userDao = DaoFactory.getInstance().getUserDao();
-			userName = userCredentialsDto.getUserName();
+    String userName = "";
+    String userToken = "";
+    ErrorMessage errorMessage;
+    TokenMessage tokenMessage;
+    TokenManager tokenManager = TokenManager.getInstance();
+    Convertor convertor = new Convertor();
+    UserCredentialsDto userCredentialsDto = convertor.convertToUserCredentialsDto(userCredentials);
+    UserDaoImpl userDao;
 
-			if (userDao.findUserCredentials(userCredentialsDto)) {
-				if ((!tokenManager.tokenValidatorForUser(userName))) {
-					tokenManager.removeTokenWithUserName(userName);
-					userToken = tokenManager.generateToken(userName);
-					tokenMessage = new TokenMessage(userToken);
-					return Response.status(Status.OK).entity(tokenMessage).build();
-				}
+    try {
+      userDao = DaoFactory.getInstance().getUserDao();
+      userName = userCredentialsDto.getUserName();
 
-				else {
-					tokenMessage = new TokenMessage(tokenManager.getTokenForUser(userName));
-					return Response.status(Status.OK).entity(tokenMessage).build();
-				}
-			} else {
-				errorMessage = new ErrorMessage("Invalid password.");
-				return Response.status(Status.UNAUTHORIZED).entity(errorMessage).build();
-			}
-		} catch (DataBaseConnectionException e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+      if (userDao.findUserCredentials(userCredentialsDto)) {
+        if ((!tokenManager.tokenValidatorForUser(userName))) {
+          tokenManager.removeTokenWithUserName(userName);
+          userToken = tokenManager.generateToken(userName);
+          tokenMessage = new TokenMessage(userToken);
+          return Response.status(Status.OK).entity(tokenMessage).build();
+        } else {
+          tokenMessage = new TokenMessage(tokenManager.getTokenForUser(userName));
+          return Response.status(Status.OK).entity(tokenMessage).build();
+        }
+      } else {
+        errorMessage = new ErrorMessage("Invalid password.");
+        return Response.status(Status.UNAUTHORIZED).entity(errorMessage).build();
+      }
+    } catch (DataBaseConnectionException e) {
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 
-		}
+    } catch (AuthPersistenceException e) {
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+    }
 
-	}
+  }
 }

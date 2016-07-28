@@ -12,39 +12,40 @@ import org.apache.log4j.Logger;
 import org.iqu.auth.persistence.dao.JdbcConstants;
 
 public class JdbcPropertiesLoader {
-	
-	private static final Logger LOGGER = Logger.getLogger(JdbcPropertiesLoader.class);
-	private String userName;
-	private String password;
 
-	public void loadDataBaseProperties() {
+  private static final Logger LOGGER = Logger.getLogger(JdbcPropertiesLoader.class);
+  private String userName;
+  private String password;
 
-		try (InputStream fis = new FileInputStream(JdbcConstants.PATH);
-				InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
-				BufferedReader br = new BufferedReader(isr);) {
-			userName = br.readLine();
-			password = br.readLine();
-		} catch (FileNotFoundException e) {
-			LOGGER.error("file not found",e);
-		} catch (IOException e) {
-			LOGGER.error("wrong data",e);;
-		}
-	}
+  public void loadDataBaseProperties() {
 
-	public String getUserName() {
-		return userName;
-	}
+    try (InputStream fis = new FileInputStream(JdbcConstants.PATH);
+        InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+        BufferedReader br = new BufferedReader(isr);) {
+      userName = br.readLine();
+      password = br.readLine();
+    } catch (FileNotFoundException e) {
+      LOGGER.error("file not found", e);
+    } catch (IOException e) {
+      LOGGER.error("wrong data", e);
+      ;
+    }
+  }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+  public String getUserName() {
+    return userName;
+  }
 
-	public String getPssword() {
-		return password;
-	}
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-	public void setPssword(String pssword) {
-		this.password = pssword;
-	}
+  public String getPssword() {
+    return password;
+  }
+
+  public void setPssword(String pssword) {
+    this.password = pssword;
+  }
 
 }
