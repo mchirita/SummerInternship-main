@@ -1,37 +1,37 @@
 package orq.iqu.slaveservices.dto;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TypeDTO {
 
-	private String type;
-	private Set<String> subtypes = new HashSet<String>();
+  private String type;
+  private List<String> subtypes = new ArrayList<String>();
 
-	public TypeDTO() {
+  public TypeDTO() {
 
-	}
+  }
 
-	public TypeDTO(String nameOfType, Set<String> subtypes) {
-		super();
-		this.type = nameOfType;
-		this.subtypes = subtypes;
-	}
+  public TypeDTO(String nameOfType, List<String> subtypes) {
+    super();
+    this.type = nameOfType;
+    this.subtypes = subtypes;
+  }
 
-	public String getType() {
-		return type;
-	}
+  public String getType() {
+    return type;
+  }
 
-	public void setNameOfType(String nameOfType) {
-		this.type = nameOfType;
-	}
+  public void setNameOfType(String nameOfType) {
+    this.type = nameOfType;
+  }
 
-	public Set<String> getSubTypes() {
-		return subtypes;
-	}
+  public List<String> getSubTypes() {
+    return subtypes;
+  }
 
-	public void setSubTypes(Set<String> subtypes) {
-		this.subtypes = subtypes;
-	}
+  public void setSubTypes(List<String> subtypes) {
+    this.subtypes = subtypes;
+  }
 
 }
