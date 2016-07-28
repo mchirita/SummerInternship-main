@@ -1,55 +1,77 @@
 package org.iqu.auth.user.management;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import org.iqu.auth.entities.ErrorMessage;
+import org.iqu.auth.entities.TokenMessage;
 import org.iqu.auth.entities.UserCredentials;
+import org.iqu.auth.exception.RequestBodyException;
 import org.iqu.auth.filter.CORSResponse;
+import org.iqu.auth.persistence.dao.DaoFactory;
+import org.iqu.auth.persistence.dao.UserDaoImpl;
+import org.iqu.auth.persistence.dto.UserCredentialsDto;
+import org.iqu.auth.persistence.exception.AuthPersistenceException;
+import org.iqu.auth.persistence.exception.DataBaseConnectionException;
+import org.iqu.auth.service.Convertor;
+import org.iqu.auth.token.TokenManager;
 
 /**
+ * Service that authenticates the user and responds back with a token
  * 
- * @author Beniamin Savu Service that authenticates the user and responds back
- *         with a token
+ * @author Beniamin Savu
  *
  */
 @Path("/authenticate")
 public class AuthenticateService {
-  private SecureRandom random = new SecureRandom();
 
   @POST
   @CORSResponse
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response authenticateUser(UserCredentials userCredentials) {
-    String response = "";
+
+    String userName = "";
+    String userToken = "";
+    ErrorMessage errorMessage;
+    TokenMessage tokenMessage;
+    TokenManager tokenManager = TokenManager.getInstance();
+    Convertor convertor = new Convertor();
+    UserCredentialsDto userCredentialsDto;
+    UserDaoImpl userDao;
+
     try {
-      // TO DO check user credentials validity
-      authenticate(userCredentials.getUsername(), userCredentials.getPassword());
-      String token = issueToken();
+      userDao = DaoFactory.getInstance().getUserDao();
+      userCredentialsDto = convertor.convertToUserCredentialsDto(userCredentials);
+      userName = userCredentialsDto.getUserName();
 
-      response = "{\"token\":" + "\"" + token + "\"}";
+      if (userDao.findUserCredentials(userCredentialsDto)) {
+        if ((!tokenManager.tokenValidatorForUser(userName))) {
+          tokenManager.removeTokenWithUserName(userName);
+          userToken = tokenManager.generateToken(userName);
+          tokenMessage = new TokenMessage(userToken);
+          return Response.status(Status.OK).entity(tokenMessage).build();
+        } else {
+          tokenMessage = new TokenMessage(tokenManager.getTokenForUser(userName));
+          return Response.status(Status.OK).entity(tokenMessage).build();
+        }
+      } else {
+        errorMessage = new ErrorMessage("Invalid password.");
+        return Response.status(Status.UNAUTHORIZED).entity(errorMessage).build();
+      }
+    } catch (DataBaseConnectionException e) {
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 
-      return Response.ok(response).build();
-    } catch (Exception e) {
-      response = "{\"error\": \"Invalid Data\"}";
-      return Response.status(401).entity(response).build();
+    } catch (AuthPersistenceException e) {
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+    } catch (RequestBodyException e) {
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
-  }
 
-  private String issueToken() {
-    return new BigInteger(130, random).toString(32);
-  }
-
-  private void authenticate(String username, String password) throws Exception {
-    if (!(username.equals("johnny") && password.equals("hunter2"))) {
-      throw new Exception();
-    }
   }
 }

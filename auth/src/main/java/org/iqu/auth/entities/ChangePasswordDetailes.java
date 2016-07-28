@@ -5,29 +5,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * 
- * @author Mitroi Stefan
+ * Service that updates the user password in the database
  * 
- *         Service that updates the user password in the database
+ * @author Cristi Badoi
+ * 
  *
  */
 public class ChangePasswordDetailes {
-	private String resetToken;
-	private String newPassword;
+  private String resetToken;
+  private String newPassword;
 
-	@JsonCreator
-	public ChangePasswordDetailes(@JsonProperty("resetToken") String resetToken,
-			@JsonProperty("newPassword") String newPassword) {
-		this.resetToken = resetToken;
-		this.newPassword = newPassword;
-	}
+  @JsonCreator
+  public ChangePasswordDetailes(@JsonProperty("resetToken") String resetToken,
+      @JsonProperty("newPassword") String newPassword) {
+    this.resetToken = resetToken;
+    this.newPassword = newPassword;
+  }
 
-	public String getResetToken() {
-		return resetToken;
-	}
+  public String getResetToken() {
+    return resetToken;
+  }
 
-	public String getNewPassword() {
-		return newPassword;
-	}
-
-	// TO DO : change password and token in database
+  public String getNewPassword() {
+    return newPassword;
+  }
 }
