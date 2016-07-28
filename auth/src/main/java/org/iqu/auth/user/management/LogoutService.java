@@ -4,7 +4,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
-
+import org.iqu.auth.token.TokenManager;
 import org.iqu.auth.filter.CORSResponse;
 
 /**
@@ -15,16 +15,26 @@ import org.iqu.auth.filter.CORSResponse;
 @Path("/authenticate/{token}")
 public class LogoutService {
 
-  @DELETE
-  @CORSResponse
-  public Response logout(@PathParam("token") String token) {
+	@DELETE
+	@CORSResponse
+	public Response logout(@PathParam("token") String token) {
 
-    /*
-     * TODO: Check if the token is valid and active. If it is, mark it as
-     * unactive and return home page. If it's not, return matching error code.
-     */
+		String response = "";
+		int status;
+		TokenManager tm = TokenManager.getInstance();
 
-    return Response.status(200).build();
-  }
+		if (!tm.tokenValidator(token)) {
+			status = 440;
+			response = "{\"error\" : \"Session already expired.\"}";
+		} else {
+			tm.removeToken(token);
+			status = 200;
+		}
+		return Response.status(status).entity(response).build();
+		/*
+		 * TODO: Check if the token is valid and active. If it is, mark it as
+		 * unactive and return home page. If it's not, return matching error code.
+		 */
+	}
 
 }
