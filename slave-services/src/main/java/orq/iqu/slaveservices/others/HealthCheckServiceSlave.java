@@ -1,10 +1,10 @@
 package orq.iqu.slaveservices.others;
 
-import java.util.List;
+import java.util.Set;
 
-import org.iqu.slaveservices.rest.consumer.models.ClientModel;
+import orq.iqu.slaveservices.dto.ClientDTO;
 
 public interface HealthCheckServiceSlave {
 
-  List<ClientModel> heathCheck();
+  Set<ClientDTO> heathCheck();
 }

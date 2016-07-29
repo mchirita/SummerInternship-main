@@ -28,11 +28,13 @@ import orq.iqu.slaveservices.dto.TypesDTO;
 
 public class EventsConsumerImpl extends BaseConsumer implements EventsConsumer {
 
+  private static final String API_PATH = "events";
+
   @Override
   public AuthorsDTO retrieveAuthors(ServiceInfo serviceInfo) {
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client.target(buildTarget(serviceInfo)).path("authors");
+    WebTarget webTarget = client.target(buildTarget(serviceInfo, API_PATH)).path("authors");
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (response.getStatus() == Status.OK.getStatusCode()) {
@@ -46,10 +48,10 @@ public class EventsConsumerImpl extends BaseConsumer implements EventsConsumer {
   }
 
   @Override
-  public EventsDTO retrieveEvents(ServiceInfo serviceInfo) {
+  public EventsDTO retrieveEvents(ServiceInfo serviceInfo, String urlQueryParam) {
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client.target(buildTarget(serviceInfo));
+    WebTarget webTarget = client.target(buildTarget(serviceInfo, API_PATH) + urlQueryParam);
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (response.getStatus() == Status.OK.getStatusCode()) {
@@ -73,7 +75,7 @@ public class EventsConsumerImpl extends BaseConsumer implements EventsConsumer {
   public SourcesDTO retrieveSources(ServiceInfo serviceInfo) {
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client.target(buildTarget(serviceInfo)).path("sources");
+    WebTarget webTarget = client.target(buildTarget(serviceInfo, API_PATH)).path("sources");
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (response.getStatus() == Status.OK.getStatusCode()) {
@@ -97,7 +99,7 @@ public class EventsConsumerImpl extends BaseConsumer implements EventsConsumer {
   public TypesDTO retrieveTypes(ServiceInfo serviceInfo) {
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client.target(buildTarget(serviceInfo)).path("types");
+    WebTarget webTarget = client.target(buildTarget(serviceInfo, API_PATH)).path("types");
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (response.getStatus() == Status.OK.getStatusCode()) {

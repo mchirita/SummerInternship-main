@@ -1,5 +1,6 @@
 package orq.iqu.slaveservices.news;
 
+import org.iqu.coreservices.config.ConfigServicesManager;
 import org.iqu.coreservices.config.ServiceInfo;
 import org.iqu.slaveservices.rest.consumer.factory.ConsumerFactory;
 
@@ -16,14 +17,19 @@ import orq.iqu.slaveservices.dto.SourcesDTO;
  */
 public class NewsServiceSlaveImpl implements NewsServiceSlave {
 
+  private ConfigServicesManager configServicesManager = ConfigServicesManager.getInstance();
+
   /**
    * This method is used to return a set of authors.
    */
   @Override
   public AuthorsDTO retrieveAuthors() {
-    return ConsumerFactory.getNewsConsumerInstance()
-        .retrieveAuthors(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
-
+    AuthorsDTO authorsDTO = new AuthorsDTO();
+    for (ServiceInfo serviceInfo : configServicesManager.getSlaveApps()) {
+      AuthorsDTO dto = ConsumerFactory.getNewsConsumerInstance().retrieveAuthors(serviceInfo);
+      authorsDTO.getAuthors().addAll(dto.getAuthors());
+    }
+    return authorsDTO;
   }
 
   /**
@@ -31,10 +37,12 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
    */
   @Override
   public CategoriesDTO retrieveCategories() {
-
-    return ConsumerFactory.getNewsConsumerInstance()
-        .retrieveCategories(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
-
+    CategoriesDTO categoriesDTO = new CategoriesDTO();
+    for (ServiceInfo serviceInfo : configServicesManager.getSlaveApps()) {
+      CategoriesDTO dto = ConsumerFactory.getNewsConsumerInstance().retrieveCategories(serviceInfo);
+      categoriesDTO.getCategories().addAll(dto.getCategories());
+    }
+    return categoriesDTO;
   }
 
   /**
@@ -43,10 +51,15 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
   @Override
   public NewsDTO retrieveNews(String startDate, String endDate, String categories, String about, String sourceId,
       String author, String location) {
-    return ConsumerFactory.getNewsConsumerInstance()
-        .retrieveNews(new ServiceInfo("localhost", "8080",
-            "web-crawler/news?startDate=" + startDate + "&endaDate=" + endDate + "&categories=" + categories + "&about="
-                + about + "&sourceId=" + sourceId + "&author=" + author + "&location=" + location));
+
+    NewsDTO newsDTO = new NewsDTO();
+    for (ServiceInfo serviceInfo : configServicesManager.getSlaveApps()) {
+      NewsDTO dto = ConsumerFactory.getNewsConsumerInstance().retrieveNews(serviceInfo,
+          "?startDate=" + startDate + "&endaDate=" + endDate + "&categories=" + categories + "&about=" + about
+              + "&sourceId=" + sourceId + "&author=" + author + "&location=" + location);
+      newsDTO.getNews().addAll(dto.getNews());
+    }
+    return newsDTO;
   }
 
   /**
@@ -54,10 +67,13 @@ public class NewsServiceSlaveImpl implements NewsServiceSlave {
    */
   @Override
   public SourcesDTO retrieveSources() {
+    SourcesDTO sourcesDTO = new SourcesDTO();
+    for (ServiceInfo serviceInfo : configServicesManager.getSlaveApps()) {
+      SourcesDTO dto = ConsumerFactory.getNewsConsumerInstance().retrieveSources(serviceInfo);
+      sourcesDTO.getSources().addAll(dto.getSources());
+    }
 
-    return ConsumerFactory.getNewsConsumerInstance()
-        .retrieveSources(new ServiceInfo("localhost", "8080", "web-crawler/news/"));
-
+    return sourcesDTO;
   }
 
 }

@@ -9,12 +9,12 @@ import orq.iqu.slaveservices.dto.TypesDTO;
 
 public interface EventsConsumer {
 
-	EventsDTO retrieveEvents(ServiceInfo serviceInfo);
+  EventsDTO retrieveEvents(ServiceInfo serviceInfo, String urlQueryParam);
 
-	AuthorsDTO retrieveAuthors(ServiceInfo serviceInfo);
+  AuthorsDTO retrieveAuthors(ServiceInfo serviceInfo);
 
-	TypesDTO retrieveTypes(ServiceInfo serviceInfo);
+  TypesDTO retrieveTypes(ServiceInfo serviceInfo);
 
-	SourcesDTO retrieveSources(ServiceInfo serviceInfo);
+  SourcesDTO retrieveSources(ServiceInfo serviceInfo);
 
 }

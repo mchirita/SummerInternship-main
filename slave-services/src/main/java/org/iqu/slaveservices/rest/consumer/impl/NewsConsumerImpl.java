@@ -28,13 +28,14 @@ import orq.iqu.slaveservices.dto.SourcesDTO;
 public class NewsConsumerImpl extends BaseConsumer implements NewsConsumer {
 
   private static final Logger LOGGER = Logger.getLogger(NewsConsumerImpl.class);
+  private static final String API_PATH = "news";
 
   @Override
-  public NewsDTO retrieveNews(ServiceInfo serviceInfo) {
+  public NewsDTO retrieveNews(ServiceInfo serviceInfo, String urlQueryParam) {
 
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client.target(buildTarget(serviceInfo));
+    WebTarget webTarget = client.target(buildTarget(serviceInfo, API_PATH) + urlQueryParam);
 
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
@@ -60,7 +61,7 @@ public class NewsConsumerImpl extends BaseConsumer implements NewsConsumer {
 
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client.target(buildTarget(serviceInfo)).path("authors");
+    WebTarget webTarget = client.target(buildTarget(serviceInfo, API_PATH)).path("authors");
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (response.getStatus() == Status.OK.getStatusCode()) {
@@ -78,7 +79,7 @@ public class NewsConsumerImpl extends BaseConsumer implements NewsConsumer {
 
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client.target(buildTarget(serviceInfo)).path("categories");
+    WebTarget webTarget = client.target(buildTarget(serviceInfo, API_PATH)).path("categories");
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (response.getStatus() == Status.OK.getStatusCode()) {
@@ -96,7 +97,7 @@ public class NewsConsumerImpl extends BaseConsumer implements NewsConsumer {
 
     Client client = ClientBuilder.newClient();
 
-    WebTarget webTarget = client.target(buildTarget(serviceInfo)).path("sources");
+    WebTarget webTarget = client.target(buildTarget(serviceInfo, API_PATH)).path("sources");
 
     Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 
