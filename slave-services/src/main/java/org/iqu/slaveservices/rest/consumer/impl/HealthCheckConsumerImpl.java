@@ -33,17 +33,13 @@ public class HealthCheckConsumerImpl extends BaseConsumer implements HealthCheck
     for (ServiceInfo service : servicesInfo) {
 
       webTarget = client.target(buildTarget(service, PING_PATH));
-      System.out.println(buildTarget(service, PING_PATH));
+
       invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
       response = invocationBuilder.head();
-      System.out.println(response);
+
       if (response.getStatus() == Status.OK.getStatusCode()) {
-        System.out.println("activ");
-        System.out.println(service.getHostname() + service.getPort() + service.getLocation());
         clientDTO = new ClientDTO(service.getHostname(), service.getPort(), service.getLocation(), true);
       } else {
-        System.out.println("!!!activ");
-        System.out.println(service.getHostname() + service.getPort() + service.getLocation());
         clientDTO = new ClientDTO(service.getHostname(), service.getPort(), service.getLocation(), false);
       }
       clientList.add(clientDTO);
