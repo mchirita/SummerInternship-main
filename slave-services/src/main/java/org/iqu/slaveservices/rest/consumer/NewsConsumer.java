@@ -9,7 +9,7 @@ import orq.iqu.slaveservices.dto.SourcesDTO;
 
 public interface NewsConsumer {
 
-  NewsDTO retrieveNews(ServiceInfo serviceInfo);
+  NewsDTO retrieveNews(ServiceInfo serviceInfo, String urlQueryParam);
 
   AuthorsDTO retrieveAuthors(ServiceInfo serviceInfo);
 

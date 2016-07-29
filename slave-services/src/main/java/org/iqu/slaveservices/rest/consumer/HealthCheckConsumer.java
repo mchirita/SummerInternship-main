@@ -1,11 +1,12 @@
 package org.iqu.slaveservices.rest.consumer;
 
-import java.util.List;
+import java.util.Set;
 
 import org.iqu.coreservices.config.ServiceInfo;
-import org.iqu.slaveservices.rest.consumer.models.ClientModel;
+
+import orq.iqu.slaveservices.dto.ClientDTO;
 
 public interface HealthCheckConsumer {
 
-	List<ClientModel> getHealth(ServiceInfo serviceInfo);
+  Set<ClientDTO> getHealth(Set<ServiceInfo> servicesInfo);
 }

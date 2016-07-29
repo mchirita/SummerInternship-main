@@ -6,6 +6,6 @@ import orq.iqu.slaveservices.dto.ImageDTO;
 
 public interface ImageConsumer {
 
-  ImageDTO retrieveImage(ServiceInfo serviceInfo);
+  ImageDTO retrieveImage(ServiceInfo serviceInfo, String imageId);
 
 }

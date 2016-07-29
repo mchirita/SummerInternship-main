@@ -1,22 +1,23 @@
 package orq.iqu.slaveservices.others;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.iqu.slaveservices.rest.consumer.models.ClientModel;
+import org.iqu.coreservices.config.ConfigServicesManager;
+import org.iqu.slaveservices.rest.consumer.factory.ConsumerFactory;
+
+import orq.iqu.slaveservices.dto.ClientDTO;
 
 public class HealthCheckServiceSlaveImpl implements HealthCheckServiceSlave {
+  private ConfigServicesManager configServicesManager = ConfigServicesManager.getInstance();
 
-	@Override
-	public List<ClientModel> heathCheck() {
+  @Override
+  public Set<ClientDTO> heathCheck() {
+    Set<ClientDTO> clientDTOSet = new HashSet<ClientDTO>();
 
-		List<ClientModel> clients = new ArrayList<ClientModel>();
-		ClientModel client = new ClientModel("capp1.iquestgroup.com", 8080, "Cluj", true);
-		ClientModel client1 = new ClientModel("capp2.iquestgroup.com", 8080, "Craiova", false);
-		clients.add(client);
-		clients.add(client1);
+    clientDTOSet = ConsumerFactory.getHealthCheckConsumerInstance().getHealth(configServicesManager.getSlaveApps());
 
-		return clients;
-	}
+    return clientDTOSet;
+  }
 
 }

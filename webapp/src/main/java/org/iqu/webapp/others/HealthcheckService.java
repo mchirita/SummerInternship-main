@@ -1,6 +1,7 @@
 package org.iqu.webapp.others;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,11 +10,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.iqu.slaveservices.rest.consumer.models.ClientModel;
+import org.iqu.webapp.entities.Client;
 import org.iqu.webapp.entities.ErrorMessage;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
 
+import orq.iqu.slaveservices.dto.ClientDTO;
 import orq.iqu.slaveservices.others.HealthCheckServiceSlave;
 
 /**
@@ -33,13 +35,19 @@ public class HealthcheckService {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getHealth() {
 
-    List<ClientModel> heathCheck = healthCheckService.heathCheck();
-    if (heathCheck.isEmpty()) {
+    Set<ClientDTO> clientDTOSet = healthCheckService.heathCheck();
+    Set<Client> clients = new HashSet<Client>();
+
+    for (ClientDTO clientDTO : clientDTOSet) {
+      clients.add(new Client(clientDTO.getHost(), clientDTO.getPort(), clientDTO.getLocation(), clientDTO.isActive()));
+    }
+
+    if (clients.isEmpty()) {
       ErrorMessage errorMessage = new ErrorMessage("Error.");
       return Response.status(Status.NOT_FOUND).entity(errorMessage).build();
     }
 
-    return Response.status(Status.OK).entity(heathCheck).build();
+    return Response.status(Status.OK).entity(clients).build();
 
   }
 

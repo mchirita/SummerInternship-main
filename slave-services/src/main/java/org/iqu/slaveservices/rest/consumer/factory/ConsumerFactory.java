@@ -3,10 +3,10 @@ package org.iqu.slaveservices.rest.consumer.factory;
 import org.iqu.slaveservices.rest.consumer.EventsConsumer;
 import org.iqu.slaveservices.rest.consumer.HealthCheckConsumer;
 import org.iqu.slaveservices.rest.consumer.ImageConsumer;
-import org.iqu.slaveservices.rest.consumer.ImageConsumerImpl;
 import org.iqu.slaveservices.rest.consumer.NewsConsumer;
 import org.iqu.slaveservices.rest.consumer.impl.EventsConsumerImpl;
 import org.iqu.slaveservices.rest.consumer.impl.HealthCheckConsumerImpl;
+import org.iqu.slaveservices.rest.consumer.impl.ImageConsumerImpl;
 import org.iqu.slaveservices.rest.consumer.impl.NewsConsumerImpl;
 
 /**
