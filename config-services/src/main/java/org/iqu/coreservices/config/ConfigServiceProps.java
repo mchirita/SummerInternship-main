@@ -65,4 +65,5 @@ public class ConfigServiceProps {
     }
     return appServices;
   }
+
 }
