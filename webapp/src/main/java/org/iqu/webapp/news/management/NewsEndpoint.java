@@ -18,6 +18,7 @@ import org.iqu.webapp.entities.Source;
 import org.iqu.webapp.entities.Sources;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
+import org.iqu.webapp.filter.Secured;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.CategoriesDTO;
@@ -44,6 +45,7 @@ public class NewsEndpoint {
    */
   @Path("/authors")
   @GET
+  @Secured
   @CORSResponse
   @Produces(MediaType.APPLICATION_JSON)
   public Response retrieveAuthors() {
@@ -64,6 +66,7 @@ public class NewsEndpoint {
    */
   @Path("/categories")
   @GET
+  @Secured
   @CORSResponse
   @Produces(MediaType.APPLICATION_JSON)
   public Response retriveCategories() {
@@ -83,6 +86,7 @@ public class NewsEndpoint {
    */
   @Path("/")
   @GET
+  @Secured
   @CORSResponse
   @Produces(MediaType.APPLICATION_JSON)
   public Response getNews(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
@@ -110,6 +114,7 @@ public class NewsEndpoint {
    */
   @Path("/sources")
   @GET
+  @Secured
   @CORSResponse
   @Produces(MediaType.APPLICATION_JSON)
   public Response retriveSources() {
