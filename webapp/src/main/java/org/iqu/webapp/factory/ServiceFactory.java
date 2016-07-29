@@ -35,7 +35,7 @@ public class ServiceFactory {
    * This method is used to ensure the return of the same instance of
    * ServiceFactory for all threads.
    */
-  public static synchronized ServiceFactory getInstance() {
+  public static ServiceFactory getInstance() {
     if (instance == null) {
       synchronized (ServiceFactory.class) {
         if (instance == null) {
@@ -51,7 +51,7 @@ public class ServiceFactory {
    * This method is used to ensure the return of the same instance of
    * EventsServiceSlave for all threads.
    */
-  public static synchronized EventsServiceSlave getEventsServiceInstance() {
+  public static EventsServiceSlave getEventsServiceInstance() {
     if (eventsServiceInstance == null) {
       synchronized (ServiceFactory.class) {
         if (eventsServiceInstance == null) {
@@ -66,7 +66,7 @@ public class ServiceFactory {
    * This method is used to ensure the return of the same instance of
    * NewsServiceSlave for all threads.
    */
-  public static synchronized NewsServiceSlave getNewsServiceInstance() {
+  public static NewsServiceSlave getNewsServiceInstance() {
     if (newsServiceInstance == null) {
       synchronized (ServiceFactory.class) {
         if (newsServiceInstance == null) {
@@ -81,7 +81,7 @@ public class ServiceFactory {
    * This method is used to ensure the return of the same instance of
    * HealthCheckServiceSlave for all threads.
    */
-  public static synchronized HealthCheckServiceSlave getOtherServiceInstance() {
+  public static HealthCheckServiceSlave getOtherServiceInstance() {
     if (healthCheckServiceInstance == null) {
       synchronized (ServiceFactory.class) {
         if (healthCheckServiceInstance == null) {
@@ -96,7 +96,7 @@ public class ServiceFactory {
    * This method is used to ensure the return of the same instance of
    * LocationServiceSlave for all threads.
    */
-  public static synchronized LocationServiceSlave getLocationServiceInstance() {
+  public static LocationServiceSlave getLocationServiceInstance() {
     if (locationServiceInstance == null) {
       synchronized (ServiceFactory.class) {
         if (locationServiceInstance == null) {
@@ -111,7 +111,7 @@ public class ServiceFactory {
    * This method is used to ensure the return of the same instance of
    * ImageServiceSlave for all threads.
    */
-  public static synchronized ImageServiceSlave getimageServiceInstance() {
+  public static ImageServiceSlave getimageServiceInstance() {
     if (imageServiceInstance == null) {
       synchronized (ServiceFactory.class) {
         if (imageServiceInstance == null) {

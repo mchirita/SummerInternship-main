@@ -27,7 +27,7 @@ public class ConsumerFactory {
    * This method is used to ensure the return of the same instance of
    * NewsConsumer for all threads.
    */
-  public static synchronized NewsConsumer getNewsConsumerInstance() {
+  public static NewsConsumer getNewsConsumerInstance() {
     if (newsConsumerInstance == null) {
       synchronized (ConsumerFactory.class) {
         if (newsConsumerInstance == null) {
@@ -42,7 +42,7 @@ public class ConsumerFactory {
    * This method is used to ensure the return of the same instance of
    * EventsConsumer for all threads.
    */
-  public static synchronized EventsConsumer getEventsConsumerInstance() {
+  public static EventsConsumer getEventsConsumerInstance() {
     if (newsConsumerInstance == null) {
       synchronized (ConsumerFactory.class) {
         if (eventsConsumerInstance == null) {
@@ -57,7 +57,7 @@ public class ConsumerFactory {
    * This method is used to ensure the return of the same instance of
    * EventsConsumer for all threads.
    */
-  public static synchronized HealthCheckConsumer getHealthCheckConsumerInstance() {
+  public static HealthCheckConsumer getHealthCheckConsumerInstance() {
     if (healthCheckConsumerInstance == null) {
       synchronized (ConsumerFactory.class) {
         if (healthCheckConsumerInstance == null) {
@@ -68,7 +68,7 @@ public class ConsumerFactory {
     return healthCheckConsumerInstance;
   }
 
-  public static synchronized ImageConsumer getImageConsumerInstance() {
+  public static ImageConsumer getImageConsumerInstance() {
     if (imageConsumerInstance == null) {
       synchronized (ConsumerFactory.class) {
         if (imageConsumerInstance == null) {
