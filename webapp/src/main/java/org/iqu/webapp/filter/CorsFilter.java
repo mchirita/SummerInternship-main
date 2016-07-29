@@ -20,7 +20,6 @@ public class CorsFilter implements Filter {
   @Override
   public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
       throws IOException, ServletException {
-  	System.out.println("webb app filter");
     HttpServletResponse servletResponse = (HttpServletResponse) arg1;
     servletResponse.addHeader("Access-Control-Allow-Origin", "*");
     servletResponse.addHeader("Access-Control-Allow-Headers", "content-type");

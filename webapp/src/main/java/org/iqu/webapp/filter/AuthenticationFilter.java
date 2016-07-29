@@ -31,7 +31,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
   @Override
   public void filter(ContainerRequestContext requestContext) {
     Client client = ClientBuilder.newClient();
-    System.out.println("filtru");
     WebTarget webTarget = client.target(buildTarget(requestContext).toString());
     Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
     Response response = invocationBuilder.get();
