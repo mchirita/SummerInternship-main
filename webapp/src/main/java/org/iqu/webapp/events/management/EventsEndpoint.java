@@ -19,6 +19,7 @@ import org.iqu.webapp.entities.Type;
 import org.iqu.webapp.entities.Types;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
+import org.iqu.webapp.filter.Secured;
 
 import orq.iqu.slaveservices.dto.AuthorsDTO;
 import orq.iqu.slaveservices.dto.EventDTO;
@@ -46,6 +47,7 @@ public class EventsEndpoint {
    */
   @Path("/authors")
   @GET
+  @Secured
   @CORSResponse
   @Produces(MediaType.APPLICATION_JSON)
   public Response retrieveAuthors() {
@@ -67,6 +69,7 @@ public class EventsEndpoint {
    */
   @Path("/")
   @GET
+  @Secured
   @CORSResponse
   @Produces(MediaType.APPLICATION_JSON)
   public Response retriveEvents(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate,
@@ -97,6 +100,7 @@ public class EventsEndpoint {
    */
   @Path("/sources")
   @GET
+  @Secured
   @CORSResponse
   @Produces(MediaType.APPLICATION_JSON)
   public Response retrieveSource() {
@@ -120,6 +124,7 @@ public class EventsEndpoint {
    */
   @Path("/types")
   @GET
+  @Secured
   @CORSResponse
   @Produces(MediaType.APPLICATION_JSON)
   public Response retriveTypes() {

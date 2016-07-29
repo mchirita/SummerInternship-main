@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.iqu.webapp.entities.ErrorMessage;
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
+import org.iqu.webapp.filter.Secured;
 import org.iqu.webapp.rest.entites.Image;
 
 import orq.iqu.slaveservices.dto.ImageDTO;
@@ -33,6 +34,7 @@ public class ImageService {
   private ImageServiceSlave retrieveImageService = ServiceFactory.getimageServiceInstance();
 
   @GET
+  @Secured
   @CORSResponse
   @Produces(MediaType.APPLICATION_JSON)
   public Response retrieveImage(@PathParam("imageId") String imageId) {

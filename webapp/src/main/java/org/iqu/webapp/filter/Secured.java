@@ -1,4 +1,4 @@
-package org.iqu.auth.filter;
+package org.iqu.webapp.filter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -19,6 +19,6 @@ import javax.ws.rs.NameBinding;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE, ElementType.METHOD })
 public @interface Secured {
-  Role[] value() default {};
+
 
 }

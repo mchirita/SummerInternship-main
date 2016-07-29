@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 
 import org.iqu.webapp.factory.ServiceFactory;
 import org.iqu.webapp.filter.CORSResponse;
+import org.iqu.webapp.filter.Secured;
 
 import orq.iqu.slaveservices.others.LocationServiceSlave;
 
@@ -18,6 +19,7 @@ public class LocationService {
 
   @GET
   @CORSResponse
+  @Secured
   @Produces(MediaType.APPLICATION_JSON)
   public Response getLocations() {
 
