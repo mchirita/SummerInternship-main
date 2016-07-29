@@ -57,7 +57,7 @@ public class EventsServiceSlaveImpl implements EventsServiceSlave {
     EventsDTO eventsDTO = new EventsDTO();
     for (ServiceInfo serviceInfo : configServicesManager.getSlaveApps()) {
       EventsDTO dto = ConsumerFactory.getEventsConsumerInstance().retrieveEvents(serviceInfo,
-          "?startDate=" + startDate + "&endDate=" + endDate + "&type=" + type + "subtype=" + subtype + "&sourceId="
+          "?startDate=" + startDate + "&endDate=" + endDate + "&type=" + type + "&subtype=" + subtype + "&sourceId="
               + sourceId + "&author=" + author + "&location=" + location);
       eventsDTO.getEvents().addAll(dto.getEvents());
     }
